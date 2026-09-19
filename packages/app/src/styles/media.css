@@ -1,0 +1,253 @@
+/* W6a Paste & media: external embeds, tweet cards, link cards, media player pane, local-images modals. */
+
+/* ---- External embeds: YouTube / Vimeo ---------------------------------------- */
+.vault-external-embed.mod-youtube,
+.vault-external-embed.mod-vimeo {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  margin: var(--size-4-2) 0;
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  background-color: var(--background-secondary);
+}
+.vault-external-embed.mod-youtube > iframe,
+.vault-external-embed.mod-vimeo > iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.markdown-source-view.is-live-preview .vault-external-embed { cursor: default; }
+
+.vault-embed-open-player {
+  position: absolute;
+  top: var(--size-4-2);
+  right: var(--size-4-2);
+  z-index: 2;
+  padding: var(--size-4-1);
+  border-radius: var(--radius-s);
+  color: var(--text-on-accent);
+  background-color: rgba(0, 0, 0, 0.55);
+  opacity: 0;
+  transition: opacity 120ms ease;
+}
+.vault-external-embed:hover > .vault-embed-open-player,
+.vault-embed-open-player:focus-visible { opacity: 1; }
+.vault-embed-open-player:hover { background-color: rgba(0, 0, 0, 0.75); color: var(--text-on-accent); }
+.vault-external-embed.mod-audio,
+.vault-external-embed.mod-video { position: relative; display: block; margin: var(--size-4-2) 0; }
+.vault-external-embed.mod-audio audio { width: 100%; }
+.vault-external-embed.mod-video video { max-width: 100%; border-radius: var(--radius-m); }
+.vault-external-embed.mod-pdf { display: block; }
+.vault-external-embed.mod-pdf iframe { width: 100%; min-height: 480px; border: 1px solid var(--background-modifier-border); border-radius: var(--radius-m); }
+
+/* Click to load */
+.vault-external-embed.is-deferred { aspect-ratio: auto; min-height: 120px; display: flex; }
+.vault-external-embed.mod-youtube.is-deferred,
+.vault-external-embed.mod-vimeo.is-deferred { aspect-ratio: 16 / 9; }
+.vault-external-embed > button.vault-embed-load-button {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-4-1);
+  width: 100%;
+  height: auto;
+  min-height: 120px;
+  margin: 0;
+  padding: var(--size-4-4);
+  border: 1px dashed var(--background-modifier-border-hover);
+  border-radius: var(--radius-m);
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  font-size: var(--font-ui-medium);
+  box-shadow: none;
+  white-space: normal;
+  cursor: pointer;
+}
+.vault-external-embed > button.vault-embed-load-button:hover { background-color: var(--background-modifier-hover); }
+.vault-embed-load-icon svg { width: 28px; height: 28px; color: var(--text-muted); }
+.vault-embed-load-host { color: var(--text-faint); font-size: var(--font-ui-smaller); word-break: break-all; }
+
+/* ---- Tweets ---------------------------------------------------------------------- */
+.vault-tweet-embed { display: block; margin: var(--size-4-2) 0; max-width: 550px; }
+.vault-tweet-card {
+  display: block;
+  padding: var(--size-4-3) var(--size-4-4);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-l);
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  text-decoration: none;
+}
+.vault-tweet-embed a.vault-tweet-card,
+.vault-tweet-embed a.vault-tweet-card:hover { color: var(--text-normal); text-decoration: none; }
+.vault-tweet-embed a.vault-tweet-card * { text-decoration: none; }
+a.vault-tweet-card:hover { border-color: var(--background-modifier-border-hover); background-color: var(--background-primary-alt); text-decoration: none; }
+.vault-tweet-head { display: flex; align-items: center; gap: var(--size-4-2); font-weight: var(--font-semibold); margin-bottom: var(--size-4-2); }
+.vault-tweet-icon { display: inline-flex; color: var(--text-muted); }
+.vault-tweet-icon svg { width: 16px; height: 16px; }
+.vault-tweet-body blockquote.twitter-tweet { margin: 0; padding: 0; border: 0; }
+.vault-tweet-body p { margin: 0 0 var(--size-4-2); }
+.vault-tweet-body { color: var(--text-normal); line-height: var(--line-height-normal); }
+.vault-tweet-fallback .vault-tweet-body { color: var(--text-muted); }
+.vault-tweet-url { margin-top: var(--size-4-1); color: var(--text-faint); font-size: var(--font-ui-smaller); word-break: break-all; }
+.vault-tweet-link { display: inline-block; margin-top: var(--size-4-1); font-size: var(--font-ui-small); }
+
+/* ---- Link cards (Auto Card Link's classes) ------------------------------------ */
+.block-language-cardlink,
+.block-language-embed { position: relative; }
+.auto-card-link-container {
+  position: relative;
+  margin: var(--size-4-2) 0;
+  container-type: inline-size;
+}
+.auto-card-link-card {
+  display: flex;
+  height: 116px;
+  overflow: hidden;
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background-color: var(--background-primary);
+  color: var(--text-normal);
+  text-decoration: none;
+  transition: background-color 120ms ease, border-color 120ms ease;
+}
+.auto-card-link-container a.auto-card-link-card,
+.auto-card-link-container a.auto-card-link-card:hover { color: var(--text-normal); text-decoration: none; }
+.auto-card-link-container a.auto-card-link-card * { text-decoration: none; }
+.auto-card-link-card:hover { background-color: var(--background-primary-alt); border-color: var(--background-modifier-border-hover); }
+.auto-card-link-main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--size-4-1);
+  padding: var(--size-4-3) var(--size-4-4);
+}
+.auto-card-link-title {
+  font-weight: var(--font-semibold);
+  font-size: var(--font-ui-medium);
+  line-height: 1.3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.auto-card-link-description {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  line-height: 1.35;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.auto-card-link-host { display: flex; align-items: center; gap: var(--size-4-1); color: var(--text-faint); font-size: var(--font-ui-smaller); min-width: 0; }
+.auto-card-link-host span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.auto-card-link-favicon { width: 14px; height: 14px; flex: none; border-radius: 2px; margin: 0; }
+.auto-card-link-thumbnail { flex: none; width: 30%; max-width: 232px; height: 100%; object-fit: cover; margin: 0; border-left: 1px solid var(--background-modifier-border); }
+.auto-card-link-copy-url {
+  position: absolute;
+  top: var(--size-4-1);
+  right: var(--size-4-1);
+  opacity: 0;
+  background-color: var(--background-primary);
+}
+.auto-card-link-container:hover .auto-card-link-copy-url,
+.auto-card-link-copy-url:focus-visible { opacity: 1; }
+.auto-card-link-error-container { padding: var(--size-4-2) var(--size-4-3); border-radius: var(--radius-s); background-color: rgba(var(--color-red-rgb), 0.1); color: var(--text-error); font-size: var(--font-ui-small); }
+@container (max-width: 420px) {
+  .auto-card-link-thumbnail { display: none; }
+}
+
+/* ---- Media player pane ------------------------------------------------------- */
+.workspace-leaf-content[data-type="media-player"] > .view-content.vault-media-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--background-primary);
+}
+.vault-media-view:focus { outline: none; }
+.vault-media-stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000;
+}
+.theme-light .vault-media-stage:not([data-kind]) { background-color: var(--background-secondary); }
+.vault-media-stage.mod-audio { flex: 0 0 auto; padding: var(--size-4-6, 24px) var(--size-4-4); background-color: var(--background-secondary); }
+.vault-media-empty { max-width: 32ch; padding: var(--size-4-4); color: var(--text-muted); text-align: center; font-size: var(--font-ui-small); }
+.theme-dark .vault-media-stage:not([data-kind]) .vault-media-empty { color: var(--text-faint); }
+.vault-media-player-frame,
+.vault-media-player-html { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+.vault-media-player-frame > iframe { width: 100%; height: 100%; max-height: 100%; aspect-ratio: 16 / 9; border: 0; }
+.vault-media-player-html > video { width: 100%; height: 100%; max-height: 100%; object-fit: contain; background: #000; }
+.vault-media-player-html > audio { width: 100%; }
+.vault-media-stage.mod-audio .vault-media-player-html { height: auto; }
+.vault-media-controls {
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-4-1);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-bottom: 1px solid var(--background-modifier-border);
+  background-color: var(--background-primary);
+}
+.vault-media-button { padding: var(--size-4-1) var(--size-4-2); }
+.vault-media-button.mod-play { color: var(--interactive-accent); }
+.vault-media-time { margin-left: var(--size-4-2); font-variant-numeric: tabular-nums; font-size: var(--font-ui-small); color: var(--text-muted); white-space: nowrap; }
+.vault-media-spacer { flex: 1; }
+.vault-media-rate {
+  min-width: 3.2em;
+  padding: 2px var(--size-4-1);
+  border-radius: var(--radius-s);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-size: var(--font-ui-small);
+  color: var(--text-normal);
+  cursor: pointer;
+}
+.vault-media-rate:hover { background-color: var(--background-modifier-hover); }
+.vault-media-button.mod-timestamp { margin-left: var(--size-4-2); }
+
+/* ---- Local images ------------------------------------------------------------- */
+.vault-local-images-progress progress { width: 100%; height: 8px; accent-color: var(--interactive-accent); }
+.vault-local-images-progress-label { margin-top: var(--size-4-2); color: var(--text-muted); font-size: var(--font-ui-small); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vault-local-images-table-wrap { max-height: 50vh; overflow: auto; }
+.vault-local-images-table { width: 100%; border-collapse: collapse; font-size: var(--font-ui-small); }
+.vault-local-images-table th,
+.vault-local-images-table td { padding: var(--size-4-1) var(--size-4-2); border-bottom: 1px solid var(--background-modifier-border); text-align: left; vertical-align: top; }
+.vault-local-images-url { max-width: 260px; word-break: break-all; color: var(--text-muted); }
+.vault-standing-aside { padding: var(--size-4-2) 0; color: var(--text-accent); }
+
+/* ---- Click to load: link-card images and canvas web pages ------------------------ */
+.auto-card-link-load-images {
+  position: absolute;
+  bottom: var(--size-4-1);
+  right: var(--size-4-1);
+  background-color: var(--background-primary);
+  color: var(--text-faint);
+}
+.auto-card-link-load-images:hover { color: var(--text-normal); }
+.canvas-link.is-deferred .vault-canvas-link-load {
+  position: relative;
+  z-index: 1;
+  /* One click loads the page, even while the card is not selected (unselected canvas content ignores the pointer). */
+  pointer-events: auto;
+  align-self: flex-start;
+  margin-top: var(--size-4-2);
+  font-size: var(--font-ui-small);
+  cursor: pointer;
+}

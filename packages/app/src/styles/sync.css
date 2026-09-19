@@ -1,0 +1,451 @@
+/* Sync (core plugin `opensync`). Colours only through theme variables. */
+
+/* ---- status bar ------------------------------------------------------------ */
+.status-bar-item.vault-sync-status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-4-1, 4px);
+  cursor: var(--cursor, default);
+}
+.vault-sync-status-icon {
+  display: inline-flex;
+  --icon-size: var(--icon-xs, 14px);
+}
+.vault-sync-status-icon svg {
+  width: var(--icon-size);
+  height: var(--icon-size);
+}
+.vault-sync-status.mod-syncing .vault-sync-status-icon svg,
+.vault-sync-spinner svg {
+  animation: vault-sync-spin 1.2s linear infinite;
+}
+.vault-sync-status.mod-error .vault-sync-status-icon,
+.vault-sync-status-row.mod-error .vault-sync-status-panel-icon {
+  color: var(--text-error);
+}
+.vault-sync-status.mod-warning .vault-sync-status-icon,
+.vault-sync-status.mod-offline .vault-sync-status-icon,
+.vault-sync-status-row.mod-warning .vault-sync-status-panel-icon,
+.vault-sync-status-row.mod-offline .vault-sync-status-panel-icon {
+  color: var(--text-warning, var(--color-orange));
+}
+.vault-sync-status.mod-synced .vault-sync-status-icon,
+.vault-sync-status-row.mod-synced .vault-sync-status-panel-icon {
+  color: var(--text-success, var(--color-green));
+}
+@keyframes vault-sync-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vault-sync-status.mod-syncing .vault-sync-status-icon svg,
+  .vault-sync-spinner svg {
+    animation: none;
+  }
+}
+
+/* ---- file explorer badges ---------------------------------------------------- */
+.nav-file-title.vault-sync-pending,
+.nav-file-title.vault-sync-conflict {
+  position: relative;
+}
+.nav-file-title.vault-sync-pending::after,
+.nav-file-title.vault-sync-conflict::after {
+  content: "";
+  flex: 0 0 auto;
+  width: 6px;
+  height: 6px;
+  margin-inline-start: var(--size-4-2, 8px);
+  align-self: center;
+  border-radius: 50%;
+  background-color: var(--text-faint);
+}
+.nav-file-title.vault-sync-conflict::after {
+  width: 7px;
+  height: 7px;
+  background-color: var(--text-warning, var(--color-orange));
+}
+
+/* ---- settings -------------------------------------------------------------------- */
+.vault-sync-intro {
+  display: flex;
+  gap: var(--size-4-3, 12px);
+  align-items: flex-start;
+  padding: var(--size-4-3, 12px) 0 var(--size-4-4, 16px);
+}
+.vault-sync-intro-icon {
+  display: flex;
+  padding: var(--size-4-2, 8px);
+  border-radius: var(--radius-m, 8px);
+  background-color: var(--background-modifier-hover);
+  color: var(--interactive-accent);
+  --icon-size: var(--icon-l, 24px);
+}
+.vault-sync-intro-title {
+  font-weight: var(--font-semibold, 600);
+  margin-bottom: var(--size-2-2, 4px);
+}
+.vault-sync-status-panel {
+  margin: var(--size-4-2, 8px) 0 var(--size-4-4, 16px);
+}
+.vault-sync-status-row {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-3, 12px);
+  padding: var(--size-4-3, 12px) var(--size-4-4, 16px);
+  border: var(--border-width, 1px) solid var(--background-modifier-border);
+  border-radius: var(--radius-m, 8px);
+  background-color: var(--background-secondary);
+}
+.vault-sync-status-panel-icon {
+  display: flex;
+  --icon-size: var(--icon-l, 24px);
+  color: var(--text-muted);
+}
+.vault-sync-status-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.vault-sync-status-title {
+  font-weight: var(--font-semibold, 600);
+}
+.vault-sync-status-actions {
+  display: flex;
+  gap: var(--size-4-2, 8px);
+  flex-wrap: wrap;
+}
+.vault-sync-callout {
+  margin: var(--size-4-2, 8px) 0 var(--size-4-3, 12px);
+  padding: var(--size-4-3, 12px) var(--size-4-4, 16px);
+  border-radius: var(--radius-m, 8px);
+  border-inline-start: 3px solid var(--interactive-accent);
+  background-color: var(--background-modifier-hover);
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+}
+.vault-sync-callout.mod-warning,
+.vault-sync-callout.mod-offline,
+.vault-sync-callout.mod-quota,
+.vault-sync-callout.mod-not-admitted {
+  border-inline-start-color: var(--text-warning, var(--color-orange));
+}
+.vault-sync-callout.mod-error,
+.vault-sync-callout.mod-locked-out {
+  border-inline-start-color: var(--text-error);
+}
+.vault-sync-callout-actions {
+  display: flex;
+  gap: var(--size-4-2, 8px);
+  flex-wrap: wrap;
+  margin-top: var(--size-4-2, 8px);
+}
+.vault-sync-devices {
+  padding: 0 0 var(--size-4-2, 8px);
+}
+.vault-sync-device {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2, 8px);
+  padding: var(--size-4-1, 4px) 0;
+  font-size: var(--font-ui-small);
+}
+.vault-sync-device-icon {
+  display: flex;
+  color: var(--text-muted);
+  --icon-size: var(--icon-s, 16px);
+}
+.vault-sync-device-meta {
+  color: var(--text-muted);
+}
+.vault-sync-device-meta::before {
+  content: "·";
+  margin-inline-end: var(--size-4-2, 8px);
+}
+
+/* ---- modals ------------------------------------------------------------------------ */
+.modal.vault-sync-modal {
+  --modal-width: min(620px, 100vw - 32px);
+  --modal-max-width: 620px;
+}
+.vault-sync-modal .modal-content p {
+  margin-top: 0;
+  line-height: 1.5;
+}
+.vault-sync-modal-status {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2, 8px);
+  min-height: 1.5em;
+  margin: var(--size-4-2, 8px) 0;
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+.vault-sync-modal-status.mod-error {
+  color: var(--text-error);
+}
+.vault-sync-spinner {
+  display: inline-flex;
+  --icon-size: var(--icon-s, 16px);
+}
+.vault-sync-server-address {
+  min-width: 14em;
+}
+.vault-sync-pair {
+  display: flex;
+  gap: var(--size-4-5, 20px);
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.vault-sync-qr {
+  flex: 0 0 auto;
+  /* The canvas paints its own light quiet zone, so the code reads in every theme. */
+  border-radius: var(--radius-m, 8px);
+  overflow: hidden;
+  line-height: 0;
+}
+.vault-sync-pair-side {
+  flex: 1 1 220px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2, 8px);
+}
+.vault-sync-pair-step {
+  line-height: 1.5;
+}
+.vault-sync-code {
+  font-family: var(--font-monospace);
+  font-size: 1.9em;
+  font-weight: var(--font-semibold, 600);
+  letter-spacing: 0.08em;
+  color: var(--text-normal);
+  user-select: all;
+}
+.vault-sync-pair-server {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  word-break: break-all;
+}
+.vault-sync-copy-link {
+  align-self: flex-start;
+}
+.vault-sync-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--size-4-2, 8px);
+  padding: var(--size-4-6, 24px) 0;
+  color: var(--text-normal);
+}
+.vault-sync-done-icon {
+  display: flex;
+  color: var(--text-success, var(--color-green));
+  --icon-size: var(--icon-xl, 32px);
+}
+.vault-sync-kit-frame {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border: 0;
+  visibility: hidden;
+}
+.vault-sync-kit-input {
+  width: 100%;
+  font-family: var(--font-monospace);
+}
+.vault-sync-file-list {
+  max-height: 50vh;
+  overflow: auto;
+  font-size: var(--font-ui-small);
+}
+.vault-sync-file-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--size-4-3, 12px);
+  padding: var(--size-2-2, 4px) 0;
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+.vault-sync-file-size {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.vault-sync-pre {
+  padding: var(--size-4-2, 8px) var(--size-4-3, 12px);
+  border-radius: var(--radius-s, 4px);
+  background-color: var(--code-background, var(--background-secondary));
+  font-size: var(--font-ui-smaller);
+  overflow-x: auto;
+  white-space: pre;
+}
+.vault-sync-selfhost h4 {
+  margin: var(--size-4-4, 16px) 0 var(--size-4-1, 4px);
+}
+
+/* ---- conflicts ------------------------------------------------------------------------ */
+.modal.vault-sync-conflict-modal {
+  --modal-width: min(1000px, 100vw - 32px);
+  --modal-max-width: 1000px;
+  height: min(720px, 100vh - 64px);
+}
+.vault-sync-conflict-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1 1 auto;
+}
+.vault-sync-conflicts {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) 1fr;
+  gap: 0;
+  flex: 1 1 auto;
+  min-height: 0;
+  border: var(--border-width, 1px) solid var(--background-modifier-border);
+  border-radius: var(--radius-m, 8px);
+  overflow: hidden;
+}
+.vault-sync-conflict-list {
+  overflow: auto;
+  border-inline-end: var(--border-width, 1px) solid var(--background-modifier-border);
+  background-color: var(--background-secondary);
+}
+.vault-sync-conflict-item {
+  padding: var(--size-4-2, 8px) var(--size-4-3, 12px);
+  cursor: var(--cursor, default);
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+.vault-sync-conflict-item:hover {
+  background-color: var(--background-modifier-hover);
+}
+.vault-sync-conflict-item.is-active {
+  background-color: var(--background-modifier-active-hover, var(--background-modifier-hover));
+}
+.vault-sync-conflict-item-name {
+  font-weight: var(--font-medium, 500);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vault-sync-conflict-item-meta {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.vault-sync-conflict-detail {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: var(--size-4-3, 12px);
+  gap: var(--size-4-2, 8px);
+}
+.vault-sync-conflict-title {
+  font-weight: var(--font-semibold, 600);
+  word-break: break-all;
+}
+.vault-sync-diff {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  border: var(--border-width, 1px) solid var(--background-modifier-border);
+  border-radius: var(--radius-s, 4px);
+}
+.vault-sync-conflict-actions {
+  flex-wrap: wrap;
+}
+@media (max-width: 720px) {
+  .vault-sync-conflicts {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(80px, 30%) 1fr;
+  }
+  .vault-sync-conflict-list {
+    border-inline-end: none;
+    border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+  }
+}
+
+/* ---- activity log ------------------------------------------------------------------------ */
+.vault-sync-log {
+  padding: var(--size-4-3, 12px) var(--size-4-4, 16px);
+}
+.vault-sync-log-head {
+  margin-bottom: var(--size-4-3, 12px);
+  font-weight: var(--font-semibold, 600);
+}
+.vault-sync-log-entry {
+  display: flex;
+  gap: var(--size-4-2, 8px);
+  padding: var(--size-4-2, 8px) 0;
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+.vault-sync-log-icon {
+  display: flex;
+  color: var(--text-muted);
+  --icon-size: var(--icon-s, 16px);
+  padding-top: 2px;
+}
+.vault-sync-log-entry.mod-error .vault-sync-log-icon {
+  color: var(--text-error);
+}
+.vault-sync-log-body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.vault-sync-log-time {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.vault-sync-log-paths {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  word-break: break-all;
+}
+
+/* ---- vault chooser --------------------------------------------------------------------------- */
+.vault-starter-sync-form {
+  padding: 0 var(--size-4-3, 12px) var(--size-4-3, 12px);
+  margin-top: calc(-1 * var(--size-4-2, 8px));
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+
+/* Status panel lines: the connection, the last result, what is waiting. */
+.vault-sync-status-lines {
+  display: grid;
+  gap: 2px;
+  margin-top: 2px;
+}
+.vault-sync-status-line {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
+.vault-sync-status-line.mod-ok {
+  color: var(--text-success, var(--color-green));
+}
+.vault-sync-status-line.mod-warn {
+  color: var(--text-warning, var(--color-orange));
+}
+
+/* The account's public identity. Long, so it wraps rather than pushing the row wide. */
+.vault-sync-npub {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-4-1, 4px) var(--size-4-2, 8px);
+  margin-top: var(--size-4-2, 8px);
+}
+.vault-sync-npub-key {
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+  overflow-wrap: anywhere;
+  background-color: var(--background-secondary);
+  border-radius: var(--radius-s, 4px);
+  padding: 2px 6px;
+  user-select: all;
+}
+.vault-sync-npub-copy {
+  flex: none;
+}
+.vault-sync-npub-id {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}

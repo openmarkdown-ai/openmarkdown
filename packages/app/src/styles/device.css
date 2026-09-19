@@ -1,0 +1,476 @@
+/* ======== Device & AI core plugins: ocr, voice, ai-tools, reminders, backup, web panes ======== */
+
+/* ---- shared ---- */
+.vault-device-intro,
+.vault-device-support {
+  padding: var(--size-4-2) 0 var(--size-4-3);
+  line-height: 1.5;
+}
+.vault-device-handled-by {
+  margin-bottom: var(--size-4-3);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-s);
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+.modal.vault-device-progress {
+  width: min(460px, calc(100vw - 32px));
+}
+.vault-device-progress-status {
+  margin-bottom: var(--size-4-2);
+  color: var(--text-normal);
+}
+.vault-device-progress-bar .setting-progress-bar {
+  width: 100%;
+}
+.vault-device-progress.is-indeterminate .setting-progress-bar-inner {
+  width: 30% !important;
+  animation: vault-device-indeterminate 1.2s ease-in-out infinite;
+}
+@keyframes vault-device-indeterminate {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(330%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vault-device-progress.is-indeterminate .setting-progress-bar-inner { animation: none; }
+}
+.vault-device-progress-detail {
+  margin-top: var(--size-4-2);
+  min-height: 1.4em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- ocr ---- */
+.vault-ocr-langs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-1);
+  justify-content: flex-end;
+}
+.vault-ocr-lang-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-4-1);
+  padding: 2px var(--size-4-2);
+  border-radius: var(--radius-s);
+  background: var(--background-modifier-hover);
+  font-size: var(--font-ui-small);
+}
+.vault-ocr-lang-remove {
+  cursor: var(--cursor, pointer);
+  color: var(--text-muted);
+}
+.vault-ocr-lang-remove:hover {
+  color: var(--text-normal);
+}
+
+/* ---- voice ---- */
+.vault-voice-interim {
+  color: var(--text-faint);
+  font-style: italic;
+  pointer-events: none;
+}
+.vault-voice-speaking {
+  background: var(--text-highlight-bg);
+  border-radius: 2px;
+}
+.status-bar-item.vault-voice-status {
+  gap: var(--size-4-1);
+  align-items: center;
+}
+.vault-voice-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-red);
+  animation: vault-voice-pulse 1.4s ease-in-out infinite;
+}
+@keyframes vault-voice-pulse {
+  50% { opacity: 0.35; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vault-voice-dot { animation: none; }
+}
+.vault-voice-button {
+  padding: 0 2px;
+}
+.vault-voice-button svg {
+  width: var(--icon-xs, 14px);
+  height: var(--icon-xs, 14px);
+}
+
+/* ---- ai-tools ---- */
+.modal.vault-ai-modal {
+  width: min(640px, calc(100vw - 32px));
+}
+.vault-ai-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin-bottom: var(--size-4-3);
+}
+.vault-ai-controls textarea {
+  width: 100%;
+  resize: vertical;
+}
+.vault-ai-control-label {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+.vault-ai-output {
+  min-height: 120px;
+  max-height: min(50vh, 420px);
+  overflow: auto;
+  padding: var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary-alt);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: var(--font-ui-medium);
+  line-height: 1.55;
+  user-select: text;
+}
+.vault-ai-output:empty::before {
+  content: "The result appears here.";
+  color: var(--text-faint);
+}
+.vault-ai-output.is-running:empty::before {
+  content: "Working…";
+}
+.vault-ai-output ins {
+  text-decoration: none;
+  background: rgba(var(--color-green-rgb), 0.2);
+  color: var(--text-normal);
+}
+.vault-ai-output del {
+  background: rgba(var(--color-red-rgb), 0.15);
+  color: var(--text-muted);
+}
+.vault-ai-status {
+  margin-top: var(--size-4-2);
+  min-height: 1.4em;
+}
+.vault-ai-error {
+  white-space: normal;
+  color: var(--text-error);
+}
+.vault-ai-remote-warning {
+  margin: var(--size-4-2) 0;
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-s);
+  background: rgba(var(--color-orange-rgb), 0.12);
+  color: var(--text-normal);
+  line-height: 1.5;
+}
+.vault-ai-api-row[data-state="available"] .setting-item-description {
+  color: var(--text-success);
+}
+.vault-ai-api-row[data-state="missing"] .setting-item-description,
+.vault-ai-api-row[data-state="unavailable"] .setting-item-description {
+  color: var(--text-muted);
+}
+
+.view-content.vault-ai-chat {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.vault-ai-chat-context {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-4-1);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-bottom: 1px solid var(--background-modifier-border);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+.vault-ai-chat-context-icon svg {
+  width: 14px;
+  height: 14px;
+}
+.vault-ai-chat-unavailable,
+.vault-ai-chat-remote-warning {
+  flex-basis: 100%;
+  line-height: 1.5;
+}
+.vault-ai-chat-messages {
+  flex: 1;
+  overflow: auto;
+  padding: var(--size-4-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+}
+.vault-ai-chat-message {
+  max-width: 92%;
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-m);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  user-select: text;
+  font-size: var(--font-ui-small);
+}
+.vault-ai-chat-message.mod-user {
+  align-self: flex-end;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+.vault-ai-chat-message.mod-assistant {
+  align-self: flex-start;
+  background: var(--background-secondary-alt, var(--background-modifier-hover));
+  color: var(--text-normal);
+}
+.vault-ai-chat-message.mod-error {
+  align-self: stretch;
+  color: var(--text-error);
+  background: rgba(var(--color-red-rgb), 0.08);
+}
+.vault-ai-chat-message.is-streaming::after {
+  content: "▍";
+  color: var(--text-faint);
+}
+.vault-ai-chat-form {
+  display: flex;
+  gap: var(--size-4-2);
+  /* the floating status bar covers the bottom of the right sidebar */
+  padding: var(--size-4-2) var(--size-4-3) calc(var(--size-4-3) + 28px);
+  border-top: 1px solid var(--background-modifier-border);
+}
+.vault-ai-chat-input {
+  flex: 1;
+  min-width: 0;
+  resize: none;
+  font-size: var(--font-ui-small);
+}
+.vault-ai-chat-send {
+  align-self: flex-end;
+}
+
+/* ---- reminders ---- */
+.vault-reminder-toasts {
+  position: fixed;
+  right: var(--size-4-4);
+  bottom: calc(var(--size-4-8) + var(--size-4-4));
+  z-index: var(--layer-notice);
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+  width: min(340px, calc(100vw - 32px));
+}
+.vault-reminder-toast {
+  padding: var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary);
+  box-shadow: var(--shadow-l);
+  color: var(--text-normal);
+}
+.vault-reminder-toast-head {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+.vault-reminder-toast-icon {
+  display: inline-flex;
+  color: var(--text-accent);
+}
+.vault-reminder-toast-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.vault-reminder-toast-close {
+  margin-left: auto;
+}
+.vault-reminder-toast-title {
+  margin: var(--size-4-1) 0 2px;
+  font-weight: var(--font-semibold, 600);
+  overflow-wrap: anywhere;
+}
+.vault-reminder-toast-file {
+  font-size: var(--font-ui-small);
+  color: var(--text-accent);
+}
+.vault-reminder-toast-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2);
+  margin-top: var(--size-4-3);
+}
+.status-bar-item.vault-reminders-status {
+  gap: var(--size-4-1);
+  align-items: center;
+}
+.vault-reminders-status .status-bar-item-icon svg {
+  width: 14px;
+  height: 14px;
+}
+.vault-reminders-view {
+  padding: var(--size-4-2) 0;
+}
+.vault-reminders-footer {
+  order: 99;
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 var(--size-4-3) var(--size-4-2);
+}
+.vault-reminders-view {
+  display: flex;
+  flex-direction: column;
+}
+.vault-reminders-group + .vault-reminders-group {
+  margin-top: var(--size-4-3);
+}
+.vault-reminders-group-title {
+  padding: var(--size-4-1) var(--size-4-3);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.vault-reminders-group.mod-overdue .vault-reminders-group-title {
+  color: var(--text-error);
+}
+.vault-reminders-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-4-2);
+  margin: 0 var(--size-4-1);
+  padding: var(--size-4-1) var(--size-4-2);
+  border-radius: var(--radius-s);
+  cursor: var(--cursor, pointer);
+}
+.vault-reminders-item:hover,
+.vault-reminders-item:focus-visible {
+  background: var(--background-modifier-hover);
+}
+.vault-reminders-item .task-list-item-checkbox {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+.vault-reminders-item-body {
+  min-width: 0;
+}
+.vault-reminders-item-title {
+  overflow-wrap: anywhere;
+  font-size: var(--font-ui-small);
+}
+.vault-reminders-item-meta {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---- backup ---- */
+.modal.vault-backup-restore {
+  width: min(640px, calc(100vw - 32px));
+}
+.vault-backup-list,
+.vault-backup-files {
+  max-height: min(50vh, 420px);
+  overflow: auto;
+  margin-top: var(--size-4-2);
+}
+.vault-backup-item {
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-s);
+}
+.vault-backup-item:hover,
+.vault-backup-item:focus-visible {
+  background: var(--background-modifier-hover);
+}
+.vault-backup-item-meta {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+  overflow-wrap: anywhere;
+}
+.vault-backup-restore-head {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  margin-bottom: var(--size-4-2);
+}
+.vault-backup-restore-name {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  overflow-wrap: anywhere;
+}
+.vault-backup-file {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  padding: 2px var(--size-4-2);
+  border-bottom: 1px solid var(--background-modifier-border);
+  font-size: var(--font-ui-small);
+}
+.vault-backup-file-path {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vault-backup-file-state {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+}
+.vault-backup-file-state.mod-warning {
+  color: var(--text-warning, var(--color-orange));
+}
+.status-bar-item.vault-backup-status {
+  color: var(--text-muted);
+}
+
+/* ---- web panes ---- */
+.webviewer-message-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--size-4-2);
+}
+.vault-web-panes-intro {
+  padding-bottom: var(--size-4-3);
+  line-height: 1.5;
+}
+.vault-web-pane-settings {
+  margin: var(--size-4-2) 0 var(--size-4-4);
+  padding: 0 var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+}
+.vault-web-pane-settings .setting-item {
+  padding: var(--size-4-2) 0;
+}
+.vault-web-pane-settings .vault-web-pane-head .setting-item-name {
+  font-weight: var(--font-semibold, 600);
+}
+
+/* ---- community plugins: load anyway ---- */
+.vault-load-anyway-note {
+  margin-top: var(--size-4-1);
+}
+
+@media (max-width: 600px) {
+  .vault-reminder-toasts {
+    right: var(--size-4-2);
+    left: var(--size-4-2);
+    width: auto;
+    bottom: calc(var(--size-4-16) + env(safe-area-inset-bottom, 0px));
+  }
+  .vault-backup-file .setting-item-control,
+  .vault-backup-file button {
+    flex-shrink: 0;
+  }
+}

@@ -1,0 +1,100 @@
+/* The account page: layout only. Every colour, size, radius and duration is a
+   token from ../vendor/tokens. The product accent is the suite blue its mark
+   is drawn in (the favicon tile). */
+:root {
+  --accent: var(--blue);
+  --header-height: 52px;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-page);
+  color: var(--text-body);
+  font: var(--type-body);
+}
+
+/* The workspace's own top bar: brand left, account right. 52px, sticky. */
+.om-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+  height: var(--header-height);
+  padding-inline: var(--space-6);
+  background: color-mix(in oklab, var(--bg-page) 82%, transparent);
+  backdrop-filter: var(--blur-panel);
+  -webkit-backdrop-filter: var(--blur-panel);
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.om-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-strong);
+  text-decoration: none;
+  font: var(--weight-medium) var(--text-base) / 1 var(--font-display);
+  letter-spacing: var(--logo-tracking);
+}
+.om-brand-tile { width: 26px; height: 26px; border-radius: var(--radius-md); }
+.om-prefix { color: var(--text-muted); }
+.om-dot { color: var(--accent); }
+
+.om-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  margin-left: auto;
+}
+.om-back {
+  font: var(--type-ui);
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.om-back:hover { color: var(--text-strong); }
+
+.om-account-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-h-sm);
+  height: var(--control-h-sm);
+  border-radius: var(--radius-full);
+  color: var(--text-muted);
+  transition: color var(--duration-fast) var(--ease-standard);
+}
+.om-account-control:hover,
+.om-account-control[aria-current="page"] { color: var(--text-strong); }
+:root[data-signed-in] .om-account-control { color: var(--accent); }
+
+.om-main {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: var(--space-12) var(--space-6) var(--space-16);
+}
+.om-main .om-title {
+  margin: 0 0 var(--space-3);
+  font: var(--type-h1);
+  color: var(--text-strong);
+}
+.om-lede {
+  margin: 0 0 var(--space-8);
+  color: var(--text-muted);
+}
+.om-muted { color: var(--text-muted); margin: 0; }
+
+.om-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.om-signed-in {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.om-signed-in:empty { display: none; }
+openapps-login, openapps-account, openapps-buy, openapps-history { display: block; }

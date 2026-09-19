@@ -1,0 +1,209 @@
+/* Default theme variables. Names follow Obsidian's documented CSS variable
+   contract so community themes can override them; values marked [own] are
+   this app's choices (see docs/research/dom-and-css.md §D). */
+/* 0. "No font" placeholder used as the default of every *-theme / *-override
+      font hook, so an unset hook falls through to the next family. [own mechanism] */
+@font-face { font-family: "oo-unset"; src: local("oo-unset-nonexistent"); unicode-range: U+10FFFF; }
+
+/* 1. Scheme-independent tokens on body (docs guidance: general variables on body) */
+body {
+  --accent-h: 258; --accent-s: 88%; --accent-l: 66%;                                       /* [D] */
+  --direction: 1;                                                                         /* [D] RTL: -1 */
+
+  --size-2-1: 2px; --size-2-2: 4px; --size-2-3: 6px;                                      /* [D] */
+  --size-4-1: 4px; --size-4-2: 8px; --size-4-3: 12px; --size-4-4: 16px; --size-4-5: 20px;  /* [D] */
+  --size-4-6: 24px; --size-4-8: 32px; --size-4-9: 36px; --size-4-12: 48px;                 /* [D] */
+  --size-4-16: 64px; --size-4-18: 72px;                                                    /* [D] */
+  --radius-s: 4px; --radius-m: 8px; --radius-l: 12px; --radius-xl: 16px;                   /* [D] */
+  --border-width: 1px;                                                                     /* [D] */
+  --layer-cover: 5; --layer-sidedock: 10; --layer-status-bar: 15; --layer-popover: 30;     /* [D] */
+  --layer-slides: 45; --layer-modal: 50; --layer-notice: 60; --layer-menu: 65;             /* [D] */
+  --layer-tooltip: 70; --layer-dragged-item: 80;                                           /* [D] */
+  --cursor: default; --cursor-link: pointer;                                               /* [D] */
+
+  /* typography */
+  --font-text-size: 16px;                                                                  /* [D] user setting */
+  --font-smallest: 0.8em; --font-smaller: 0.875em; --font-small: 0.933em;                  /* [D] */
+  --font-ui-smaller: 12px; --font-ui-small: 13px; --font-ui-medium: 15px; --font-ui-large: 20px; /* [D] */
+  --font-thin: 100; --font-extralight: 200; --font-light: 300; --font-normal: 400; --font-medium: 500;
+  --font-semibold: 600; --font-bold: 700; --font-extrabold: 800; --font-black: 900;       /* [D] */
+  --line-height-normal: 1.5; --line-height-tight: 1.3;                                     /* [D] */
+  --font-weight: var(--font-normal);                                                       /* [own] */
+  --bold-modifier: 200;                                                                    /* [own] docs recommend 100–300 */
+  --bold-weight: calc(var(--font-weight) + var(--bold-modifier));                          /* [own] docs: modifier stacks on weight */
+  --bold-color: inherit; --italic-color: inherit;                                          /* [own] */
+  --p-spacing: 1em; --heading-spacing: 2em;                                                /* [own] */
+
+  /* font hooks: theme hook (documented) + user override (clone-defined) */
+  --font-interface-theme: "oo-unset"; --font-text-theme: "oo-unset"; --font-monospace-theme: "oo-unset"; /* [D] names */
+  --font-interface-override: "oo-unset"; --font-text-override: "oo-unset"; --font-monospace-override: "oo-unset"; /* [own] (8 themes read --font-text-override) */
+  --font-default: system-ui, -apple-system, "Segoe UI", Roboto, "Inter", sans-serif;       /* [own] */
+  --font-monospace-default: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Menlo, Consolas, monospace; /* [own] */
+  --font-interface: var(--font-interface-override), var(--font-interface-theme), var(--font-default); /* [own] composition */
+  --font-text: var(--font-text-override), var(--font-text-theme), var(--font-default);                /* [own] */
+  --font-monospace: var(--font-monospace-override), var(--font-monospace-theme), var(--font-monospace-default); /* [own] */
+
+  /* headings (names documented on the Headings page; values [own]) */
+  --h1-size: 1.6em; --h2-size: 1.45em; --h3-size: 1.3em; --h4-size: 1.18em; --h5-size: 1.08em; --h6-size: 1em;
+  --h1-weight: 700; --h2-weight: 650; --h3-weight: 650; --h4-weight: 600; --h5-weight: 600; --h6-weight: 600;
+  --h1-line-height: 1.2; --h2-line-height: 1.25; --h3-line-height: 1.3; --h4-line-height: 1.4; --h5-line-height: 1.5; --h6-line-height: 1.5;
+  --h1-color: inherit; --h2-color: inherit; --h3-color: inherit; --h4-color: inherit; --h5-color: inherit; --h6-color: inherit;
+  --h1-font: inherit; --h2-font: inherit; --h3-font: inherit; --h4-font: inherit; --h5-font: inherit; --h6-font: inherit;
+  --h1-style: normal; --h2-style: normal; --h3-style: normal; --h4-style: normal; --h5-style: normal; --h6-style: normal;
+  --h1-variant: normal; --h2-variant: normal; --h3-variant: normal; --h4-variant: normal; --h5-variant: normal; --h6-variant: normal;
+  --inline-title-size: var(--h1-size); --inline-title-weight: var(--h1-weight); --inline-title-color: var(--h1-color);
+  --inline-title-font: var(--h1-font); --inline-title-line-height: var(--h1-line-height);
+  --inline-title-style: var(--h1-style); --inline-title-variant: var(--h1-variant);
+
+  /* icons */
+  --icon-xs: 14px; --icon-s: 16px; --icon-m: 18px; --icon-l: 18px; --icon-xl: 32px;        /* [D] */
+  --icon-xs-stroke-width: 2px; --icon-s-stroke-width: 2px; --icon-m-stroke-width: 1.75px;  /* [D] */
+  --icon-l-stroke-width: 1.75px; --icon-xl-stroke-width: 1.25px;                           /* [D] */
+  --icon-size: var(--icon-m); --icon-stroke: var(--icon-m-stroke-width);                   /* [own] */
+  --icon-color: var(--text-muted); --icon-color-hover: var(--text-normal);                 /* [own] */
+  --icon-color-active: var(--text-accent); --icon-color-focused: var(--text-normal);       /* [own] */
+  --icon-opacity: 0.85; --icon-opacity-hover: 1; --icon-opacity-active: 1;                 /* [own] */
+  --clickable-icon-radius: var(--radius-s);                                                /* [own] */
+
+  /* semantic surface/text/interactive mapping onto the documented base ramp [own mapping] */
+  --background-primary: var(--color-base-00);
+  --background-primary-alt: var(--color-base-10);
+  --background-secondary: var(--color-base-20);
+  --background-secondary-alt: var(--color-base-05);
+  --background-modifier-border: var(--color-base-30);
+  --background-modifier-border-hover: var(--color-base-35);
+  --background-modifier-border-focus: var(--color-base-40);
+  --background-modifier-hover: color-mix(in oklch, var(--mono-100) 7%, transparent);   /* docs recommend color-mix */
+  --background-modifier-active-hover: color-mix(in oklch, var(--interactive-accent) 12%, transparent);
+  --background-modifier-error: var(--color-red); --background-modifier-error-hover: var(--color-red);
+  --background-modifier-success: var(--color-green);
+  --background-modifier-message: color-mix(in oklch, black 88%, transparent);
+  --background-modifier-form-field: var(--color-base-00);
+  --background-modifier-cover: color-mix(in oklch, var(--mono-0) 50%, transparent);
+  --background-modifier-box-shadow: color-mix(in oklch, black 12%, transparent);
+  --text-normal: var(--color-base-100); --text-muted: var(--color-base-70); --text-faint: var(--color-base-50);
+  --text-on-accent: white; --text-on-accent-inverted: black;                                /* [own] per docs descriptions */
+  --text-error: var(--color-red); --text-warning: var(--color-orange); --text-success: var(--color-green);
+  --text-accent: var(--color-accent); --text-accent-hover: var(--color-accent-2);
+  --text-selection: color-mix(in oklch, var(--interactive-accent) 25%, transparent);
+  --text-highlight-bg: color-mix(in oklch, var(--color-yellow) 40%, transparent);
+  --caret-color: var(--text-normal);
+  --interactive-normal: var(--color-base-00); --interactive-hover: var(--color-base-10);
+  --interactive-accent: var(--color-accent); --interactive-accent-hover: var(--color-accent-1);
+  --color-accent: hsl(var(--accent-h), var(--accent-s), var(--accent-l));                  /* [own] derivation */
+  --color-accent-1: hsl(calc(var(--accent-h) - 2), var(--accent-s), calc(var(--accent-l) + 6%));  /* [own] "shifted shade" */
+  --color-accent-2: hsl(calc(var(--accent-h) - 4), var(--accent-s), calc(var(--accent-l) + 12%)); /* [own] "further-shifted" */
+
+  /* deprecated-but-required aliases (docs: kept for theme compatibility) */
+  --color-accent-hsl: var(--accent-h), var(--accent-s), var(--accent-l);
+  --interactive-accent-hsl: var(--color-accent-hsl);
+  --background-modifier-error-rgb: var(--color-red-rgb);
+  --background-modifier-success-rgb: var(--color-green-rgb);
+  --text-highlight-bg-rgb: 224, 172, 0;                                                    /* [own] */
+  --interactive-accent-rgb: var(--color-accent-rgb, 138, 92, 245);                         /* legacy name read by 5 themes [own value] */
+
+  /* components (names [D]; values [own]) */
+  --header-height: 38px; --file-line-width: 720px;
+  --file-margins: var(--size-4-8) var(--size-4-8);
+  --ribbon-background: var(--background-secondary); --ribbon-width: 42px;
+  --divider-color: var(--background-modifier-border); --divider-width: 1px;
+  --tab-container-background: var(--background-secondary); --tab-background-active: var(--background-primary);
+  --tab-text-color: var(--text-faint); --tab-text-color-active: var(--text-muted); --tab-text-color-focused-active-current: var(--text-normal);
+  --tab-font-size: var(--font-ui-small); --tab-radius: var(--radius-s); --tab-width: 200px; --tab-max-width: 320px;
+  --status-bar-background: var(--background-secondary); --status-bar-text-color: var(--text-muted);
+  --status-bar-font-size: var(--font-ui-smaller); --status-bar-border-color: var(--divider-color); --status-bar-border-width: 1px 0 0 1px;
+  --nav-item-size: var(--font-ui-small); --nav-item-color: var(--text-muted); --nav-item-color-hover: var(--text-normal);
+  --nav-item-color-active: var(--text-normal); --nav-item-background-hover: var(--background-modifier-hover);
+  --nav-item-background-active: var(--background-modifier-hover); --nav-item-radius: var(--radius-s);
+  --nav-item-padding: var(--size-4-1) var(--size-4-2) var(--size-4-1) var(--size-4-6);
+  --input-height: 30px; --input-radius: var(--radius-s); --input-shadow: inset 0 0 0 1px var(--background-modifier-border);
+  --toggle-width: 38px; --toggle-radius: 999px; --toggle-thumb-color: white; --toggle-thumb-height: 16px; --toggle-thumb-width: 16px; --toggle-border-width: 2px;
+  --checkbox-size: 1em; --checkbox-radius: var(--radius-s); --checkbox-color: var(--interactive-accent); --checkbox-marker-color: var(--background-primary);
+  --checkbox-border-color: var(--text-faint); --checklist-done-color: var(--text-muted); --checklist-done-decoration: line-through;
+  --slider-track-background: var(--background-modifier-border); --slider-thumb-radius: 50%;
+  --modal-background: var(--background-primary); --modal-radius: var(--radius-l); --modal-border-width: 1px; --modal-border-color: var(--background-modifier-border-focus);
+  --menu-background: var(--background-secondary); --menu-border-color: var(--background-modifier-border-hover); --menu-radius: var(--radius-m);
+  --prompt-background: var(--background-primary); --prompt-width: 680px; --prompt-max-width: 90vw;
+  --popover-width: 460px; --popover-height: 380px;
+  --shadow-s: 0 2px 8px color-mix(in oklch, black 12%, transparent);                        /* undocumented, read by 7 themes [own] */
+  --shadow-l: 0 8px 32px color-mix(in oklch, black 20%, transparent);                       /* [own] */
+  --anim-duration-fast: 120ms;                                                             /* undocumented, read by 5 themes [own] */
+  --link-color: var(--text-accent); --link-color-hover: var(--text-accent-hover); --link-decoration: underline;
+  --link-external-color: var(--text-accent); --link-unresolved-color: var(--text-accent); --link-unresolved-opacity: 0.7;
+  --tag-color: var(--text-accent); --tag-background: color-mix(in oklch, var(--interactive-accent) 12%, transparent);
+  --tag-radius: 999px; --tag-padding-x: 0.6em; --tag-padding-y: 0.2em; --tag-size: var(--font-smaller);
+  --code-background: var(--background-primary-alt); --code-normal: var(--text-normal); --code-size: var(--font-smaller); --code-radius: var(--radius-s);
+  --code-comment: var(--text-faint); --code-keyword: var(--color-pink); --code-string: var(--color-green); --code-function: var(--color-yellow);
+  --code-operator: var(--color-red); --code-property: var(--color-cyan); --code-value: var(--color-purple); --code-tag: var(--color-red); --code-punctuation: var(--text-muted);
+  --blockquote-border-thickness: 2px; --blockquote-border-color: var(--interactive-accent);
+  --hr-color: var(--background-modifier-border); --hr-thickness: 2px;
+  --list-indent: 2em; --list-marker-color: var(--text-faint); --list-bullet-size: 0.3em;
+  /* list, indentation-guide and fold-icon variables the editor reads ([D] names); without them the
+     bullet is a square and guides are invisible, which plugin CSS (Outliner) does not re-declare */
+  --list-spacing: 0.075em; --list-bullet-radius: 50%; --list-bullet-border: none; --list-bullet-transform: none;
+  --list-marker-color-hover: var(--text-muted); --list-marker-color-collapsed: var(--text-accent);
+  --indentation-guide-width: 1px; --indentation-guide-width-active: 1px;
+  --indentation-guide-color: var(--background-modifier-border); --indentation-guide-color-active: var(--background-modifier-border-hover);
+  --collapse-icon-color: var(--text-faint); --collapse-icon-color-collapsed: var(--text-accent);
+  --checkbox-color-hover: var(--interactive-accent-hover); --checkbox-border-color-hover: var(--text-muted);
+  --table-border-color: var(--background-modifier-border); --table-border-width: 1px; --table-header-background: transparent;
+  --embed-border-start: 2px solid var(--interactive-accent); --embed-padding: 0 0 0 var(--size-4-6);
+  /* callout type colours (type → variable mapping is [D]; colour choice [own]) */
+  --callout-default: var(--color-blue); --callout-info: var(--color-blue); --callout-todo: var(--color-blue);
+  --callout-summary: var(--color-cyan); --callout-tip: var(--color-cyan); --callout-important: var(--color-cyan);
+  --callout-success: var(--color-green); --callout-question: var(--color-yellow); --callout-warning: var(--color-orange);
+  --callout-fail: var(--color-red); --callout-error: var(--color-red); --callout-bug: var(--color-red);
+  --callout-example: var(--color-purple); --callout-quote: var(--color-base-50);
+  --callout-radius: var(--radius-s); --callout-padding: var(--size-4-3) var(--size-4-3) var(--size-4-3) var(--size-4-6);
+  --callout-border-width: 0px; --callout-border-opacity: 0.25; --callout-title-weight: var(--font-semibold);
+  --graph-node: var(--text-muted); --graph-node-focused: var(--text-accent); --graph-node-tag: var(--color-green);
+  --graph-node-attachment: var(--color-yellow); --graph-node-unresolved: var(--text-faint); --graph-line: var(--background-modifier-border-focus); --graph-text: var(--text-normal);
+  --canvas-color-1: var(--color-red); --canvas-color-2: var(--color-orange); --canvas-color-3: var(--color-yellow);
+  --canvas-color-4: var(--color-green); --canvas-color-5: var(--color-cyan); --canvas-color-6: var(--color-purple);
+}
+.mod-rtl { --direction: -1; }                                                              /* [D] */
+
+/* 2. Scheme palettes (docs guidance: colours on .theme-light / .theme-dark) */
+.theme-light {
+  color-scheme: light;
+  --mono-0: white; --mono-100: black;                                                      /* [D] */
+  --mono-rgb-0: 255, 255, 255; --mono-rgb-100: 0, 0, 0;                                   /* deprecated alias, value implied by --mono-* [D] */
+  --color-base-00: #ffffff; --color-base-05: #fcfcfc; --color-base-10: #fafafa; --color-base-20: #f6f6f6; /* [D] */
+  --color-base-25: #efefef; --color-base-30: #e4e4e4; --color-base-35: #dadada; --color-base-40: #bdbdbd; /* [D] */
+  --color-base-50: #ababab; --color-base-60: #707070; --color-base-70: #5c5c5c; --color-base-100: #222222; /* [D] */
+  --color-red: #e93147; --color-orange: #ec7500; --color-yellow: #e0ac00; --color-green: #08b94e;         /* [D] */
+  --color-cyan: #00bfbc; --color-blue: #086ddd; --color-purple: #7852ee; --color-pink: #d53984;           /* [D] */
+  --color-red-rgb: 233, 49, 71; --color-orange-rgb: 236, 117, 0; --color-yellow-rgb: 224, 172, 0;        /* [D] */
+  --color-green-rgb: 8, 185, 78; --color-cyan-rgb: 0, 191, 188; --color-blue-rgb: 8, 109, 221;           /* [D] */
+  --color-purple-rgb: 120, 82, 238; --color-pink-rgb: 213, 57, 132;                                      /* [D] */
+}
+.theme-dark {
+  color-scheme: dark;
+  --mono-0: black; --mono-100: white;                                                      /* [D] */
+  --mono-rgb-0: 0, 0, 0; --mono-rgb-100: 255, 255, 255;
+  --color-base-00: #1c1c1c; --color-base-05: #212121; --color-base-10: #232323; --color-base-20: #282828; /* [D] */
+  --color-base-25: #2e2e2e; --color-base-30: #333333; --color-base-35: #3f3f3f; --color-base-40: #555555; /* [D] */
+  --color-base-50: #666666; --color-base-60: #999999; --color-base-70: #b3b3b3; --color-base-100: #dadada; /* [D] */
+  --color-red: #fb464c; --color-orange: #e9973f; --color-yellow: #e0de71; --color-green: #44cf6e;         /* [D] */
+  --color-cyan: #53dfdd; --color-blue: #027aff; --color-purple: #a882ff; --color-pink: #fa99cd;           /* [D] */
+  --color-red-rgb: 251, 70, 76; --color-orange-rgb: 233, 151, 63; --color-yellow-rgb: 224, 222, 113;     /* [D] */
+  --color-green-rgb: 68, 207, 110; --color-cyan-rgb: 83, 223, 221; --color-blue-rgb: 2, 122, 255;        /* [D] */
+  --color-purple-rgb: 168, 130, 255; --color-pink-rgb: 250, 153, 205;                                    /* [D] */
+  /* dark-scheme semantic adjustments [own] */
+  --background-secondary-alt: var(--color-base-30);
+  --background-modifier-form-field: var(--color-base-25);
+  --interactive-normal: var(--color-base-30); --interactive-hover: var(--color-base-35);
+  --background-modifier-box-shadow: color-mix(in oklch, black 35%, transparent);
+  --text-selection: color-mix(in oklch, var(--interactive-accent) 35%, transparent);
+}
+
+
+/* Tokens referenced by component styles and themes that the starter above
+   leaves unset. Values are this app's own choices. */
+body {
+  --dialog-width: 560px;
+  --h1-letter-spacing: -0.015em; --h2-letter-spacing: -0.01em; --h3-letter-spacing: -0.005em;
+  --h4-letter-spacing: 0; --h5-letter-spacing: 0; --h6-letter-spacing: 0;
+  --table-header-font: inherit; --table-header-size: inherit;
+  --total-scale-factor: 1;
+}

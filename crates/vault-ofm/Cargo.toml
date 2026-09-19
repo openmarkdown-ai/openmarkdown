@@ -1,0 +1,21 @@
+[package]
+name = "vault-ofm"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Obsidian Flavored Markdown: metadata extraction with UTF-16 positions, and section-by-section HTML rendering"
+
+[dependencies]
+vault-types = { workspace = true }
+serde = { workspace = true }
+# `preserve_order`: frontmatter is a map whose key order is visible — the
+# Properties view lists keys in document order, and `processFrontMatter`
+# writes them back in that order. A sorted map would silently reorder every
+# note a plugin touches.
+serde_json = { workspace = true, features = ["preserve_order"] }
+
+[[example]]
+name = "inspect"
+
+[dev-dependencies]
+vault-types = { workspace = true }

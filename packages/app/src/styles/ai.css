@@ -1,0 +1,176 @@
+/* ---- app.ai: Settings → AI, consent dialog, engine badges (docs/PLAN-ai.md) ---- */
+
+.vault-ai-engine {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-2-2);
+  max-width: 100%;
+  padding: 1px var(--size-4-2) 1px var(--size-2-3);
+  border-radius: var(--radius-l);
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.vault-ai-engine-icon {
+  display: inline-flex;
+  flex: none;
+}
+.vault-ai-engine-icon svg {
+  width: 12px;
+  height: 12px;
+}
+.vault-ai-engine[data-location="device"] {
+  color: var(--text-success);
+  background: rgba(var(--color-green-rgb), 0.1);
+}
+.vault-ai-engine[data-location="cloud"] {
+  color: var(--text-warning, var(--color-orange));
+  background: rgba(var(--color-orange-rgb), 0.12);
+}
+.vault-ai-engine[data-location="none"] {
+  color: var(--text-faint);
+}
+.vault-ai-chat-context .vault-ai-engine {
+  margin-left: auto;
+}
+
+/* Settings → AI */
+.vault-ai-summary {
+  margin: var(--size-4-3) 0 var(--size-4-4);
+  padding: var(--size-4-3) var(--size-4-4);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary-alt);
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+}
+.vault-ai-summary.mod-private {
+  border-color: rgba(var(--color-green-rgb), 0.35);
+}
+.vault-ai-summary.mod-sends {
+  border-color: rgba(var(--color-orange-rgb), 0.45);
+}
+.vault-ai-summary-title {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  font-weight: var(--font-semibold);
+  color: var(--text-normal);
+}
+.vault-ai-summary-icon {
+  display: inline-flex;
+}
+.vault-ai-summary-icon svg {
+  width: 16px;
+  height: 16px;
+}
+.vault-ai-summary.mod-private .vault-ai-summary-icon {
+  color: var(--text-success);
+}
+.vault-ai-summary.mod-sends .vault-ai-summary-icon {
+  color: var(--color-orange);
+}
+.vault-ai-summary ul {
+  margin: var(--size-4-2) 0 0;
+  padding-inline-start: var(--size-4-5);
+  color: var(--text-muted);
+}
+.vault-ai-summary li.mod-sends {
+  color: var(--text-normal);
+}
+
+.vault-ai-feature-engines {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-2-3);
+  margin-top: var(--size-2-3);
+}
+.vault-ai-feature .setting-item-control,
+.vault-ai-provider .setting-item-control,
+.vault-ai-provider-detail .setting-item-control {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--size-4-2);
+}
+.vault-ai-feature select.vault-ai-route {
+  max-width: 220px;
+}
+.vault-ai-provider-status {
+  margin-top: var(--size-2-3);
+  color: var(--text-muted);
+  overflow-wrap: anywhere;
+}
+.vault-ai-provider-status[data-state="ready"] {
+  color: var(--text-success);
+}
+.vault-ai-provider-status[data-state="needs-key"],
+.vault-ai-provider-status[data-state="needs-setup"],
+.vault-ai-provider-status[data-state="not-running"],
+.vault-ai-provider-status[data-state="blocked"],
+.vault-ai-provider-status[data-state="unavailable"] {
+  color: var(--text-warning, var(--color-orange));
+}
+.vault-ai-provider-detail {
+  padding-inline-start: var(--size-4-8);
+}
+.vault-ai-provider-detail .setting-item-name {
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+}
+.vault-ai-provider-detail input[type="text"],
+.vault-ai-provider-detail input[type="password"] {
+  width: min(280px, 100%);
+}
+.vault-ai-key-masked {
+  font-family: var(--font-monospace);
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+
+/* Consent dialog */
+.modal.vault-ai-consent {
+  width: min(480px, calc(100vw - 32px));
+}
+.vault-ai-consent-facts {
+  margin: var(--size-4-2) 0 0;
+  padding-inline-start: var(--size-4-5);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+}
+.modal.vault-ai-consent .modal-button-container {
+  flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+  .vault-ai-feature,
+  .vault-ai-provider,
+  .vault-ai-provider-detail {
+    flex-wrap: wrap;
+  }
+  .vault-ai-feature .setting-item-info,
+  .vault-ai-provider .setting-item-info,
+  .vault-ai-provider-detail .setting-item-info {
+    flex-basis: 100%;
+  }
+  .vault-ai-feature .setting-item-control,
+  .vault-ai-provider .setting-item-control,
+  .vault-ai-provider-detail .setting-item-control {
+    justify-content: flex-start;
+    margin-top: var(--size-4-2);
+  }
+  .vault-ai-feature select.vault-ai-route {
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+  .vault-ai-provider-detail {
+    padding-inline-start: 0;
+  }
+  .vault-ai-provider-detail input[type="text"],
+  .vault-ai-provider-detail input[type="password"] {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}

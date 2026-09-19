@@ -1,0 +1,7 @@
+body { background: var(--bg-page); }
+.reader-top { position: sticky; top: 0; display: flex; align-items: center; justify-content: space-between; height: 52px; padding: 0 var(--space-3) 0 var(--space-6); background: color-mix(in oklab, var(--bg-page) 82%, transparent); backdrop-filter: var(--blur-panel); border-bottom: var(--border-width) solid var(--border-hairline); }
+.reader-main { max-width: 680px; margin: 0 auto; padding: var(--space-12) var(--space-6) var(--space-24); }
+.reader-title { font: var(--type-h2); color: var(--text-strong); letter-spacing: var(--tracking-display, -0.02em); margin: 0 0 var(--space-3); }
+.reader-meta { font: var(--type-caption); color: var(--text-muted); margin: 0 0 var(--space-8); }
+.reader-article { font: var(--type-body-lg); }
+.loading { color: var(--text-muted); }

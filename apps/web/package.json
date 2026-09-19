@@ -1,0 +1,13 @@
+{
+  "name": "@vault/web",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 5200",
+    "build": "vite build",
+    "preview": "vite preview --port 5200"
+  },
+  "dependencies": { "@vault/app": "*", "@vault/engine": "*" }
+}

@@ -1,0 +1,28 @@
+/* The vault chooser. */
+.vault-starter { display: flex; height: 100%; background: var(--background-primary); color: var(--text-normal); }
+.vault-starter-recent { flex: 0 0 280px; background: var(--background-secondary); border-inline-end: var(--border-width) solid var(--divider-color); padding: var(--size-4-6) var(--size-4-3); overflow: auto; }
+.vault-starter-recent-title { font-size: var(--font-ui-smaller); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin: 0 var(--size-4-2) var(--size-4-3); }
+.vault-starter-item { display: flex; align-items: center; gap: var(--size-4-2); padding: var(--size-4-2); border-radius: var(--radius-m); cursor: var(--cursor); }
+.vault-starter-item:hover { background: var(--background-modifier-hover); }
+.vault-starter-item-label { flex: 1; min-width: 0; }
+.vault-starter-item-name { font-size: var(--font-ui-small); font-weight: var(--font-medium); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vault-starter-item-kind { font-size: var(--font-ui-smaller); color: var(--text-faint); }
+.vault-starter-item-remove { opacity: 0; }
+.vault-starter-item:hover .vault-starter-item-remove { opacity: 1; }
+.vault-starter-empty { color: var(--text-faint); font-size: var(--font-ui-small); padding: var(--size-4-2); }
+.vault-starter-main { flex: 1; display: flex; flex-direction: column; justify-content: center; max-width: 640px; margin: 0 auto; padding: var(--size-4-8); overflow: auto; }
+.vault-starter-brand h1 { font-size: 2.2em; margin: 0 0 var(--size-4-2); letter-spacing: -0.02em; }
+.vault-starter-tagline { color: var(--text-muted); margin-bottom: var(--size-4-8); line-height: var(--line-height-normal); }
+.vault-starter-action .setting-item-control { flex-wrap: wrap; }
+.vault-starter-name { width: 160px; }
+.vault-starter-error { color: var(--text-error); font-size: var(--font-ui-small); margin-bottom: var(--size-4-3); }
+@media (max-width: 720px) {
+  .vault-starter { flex-direction: column-reverse; }
+  .vault-starter-recent { flex: 0 0 auto; border-inline-end: 0; border-top: var(--border-width) solid var(--divider-color); }
+  .vault-starter-main { padding: var(--size-4-6) var(--size-4-4); }
+  .vault-starter-action { flex-direction: column; align-items: stretch; }
+}
+
+/* The account control (chrome/account.ts): the page's top-right corner. */
+.vault-starter-chrome { position: fixed; top: var(--size-4-3); inset-inline-end: var(--size-4-3); z-index: var(--layer-cover, 5); }
+.vault-starter-brand .vault-brand-link { display: inline-flex; margin-bottom: var(--size-4-3); padding: 0; }

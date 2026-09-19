@@ -1,0 +1,165 @@
+/* Workspace chrome, icons, trees and graph colour probes. */
+/* 3. Shell [S] (structure from section B.1/B.2; geometry [own]) */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body { font-family: var(--font-interface); font-size: var(--font-ui-medium); line-height: var(--line-height-tight);
+  color: var(--text-normal); background: var(--background-primary); caret-color: var(--caret-color); overflow: hidden; }
+.app-container { display: flex; flex-direction: column; height: 100%; }
+.horizontal-main-container { display: flex; flex: 1; min-height: 0; }
+.workspace { display: flex; flex: 1; min-width: 0; overflow: hidden; }
+.workspace-ribbon { display: flex; flex-direction: column; flex: 0 0 var(--ribbon-width); background: var(--ribbon-background);
+  border-inline-end: var(--divider-width) solid var(--divider-color); padding: var(--size-4-2) var(--size-4-1); gap: var(--size-4-1); }
+body:not(.show-ribbon) .workspace-ribbon.mod-left { display: none; }                      /* [?] class meaning inferred */
+.side-dock-settings { margin-top: auto; }
+.workspace-split { display: flex; position: relative; }
+.workspace-split.mod-vertical { flex-direction: row; } .workspace-split.mod-horizontal { flex-direction: column; }
+.workspace-split.mod-root { flex: 1; min-width: 0; background: var(--background-primary); }
+.workspace-split.mod-sidedock { background: var(--background-secondary); }
+.workspace-split.is-sidedock-collapsed { display: none; }                                  /* [own] */
+.workspace-leaf-resize-handle { position: absolute; margin: 0; border: 0; z-index: 1; }
+.workspace-tabs { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.workspace-tab-header-container { display: flex; flex: 0 0 var(--header-height); background: var(--tab-container-background);
+  border-bottom: var(--border-width) solid var(--divider-color); padding-inline: var(--size-4-2); }
+.workspace-tab-header-container-inner { display: flex; gap: var(--size-2-1); overflow-x: auto; scrollbar-width: none; flex: 0 1 auto; min-width: 0; }
+.workspace-tab-header-spacer { flex: 1; }
+.workspace-tab-header { display: flex; flex: 0 1 var(--tab-width); max-width: var(--tab-max-width); min-width: 0;
+  color: var(--tab-text-color); font-size: var(--tab-font-size); }
+.workspace-tab-header.is-active { color: var(--tab-text-color-active); background: var(--tab-background-active); border-radius: var(--tab-radius) var(--tab-radius) 0 0; }
+.workspace-tabs.mod-active .workspace-tab-header.is-active { color: var(--tab-text-color-focused-active-current); }
+.workspace-tab-header-inner { display: flex; align-items: center; gap: var(--size-4-1); width: 100%; padding-inline: var(--size-4-2); }
+.workspace-tab-header-inner-title { flex: 1; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.workspace-tab-header-inner-icon, .workspace-tab-header-inner-close-button { display: flex; --icon-size: var(--icon-s); --icon-stroke: var(--icon-s-stroke-width); }
+.workspace-tab-container { flex: 1; min-height: 0; display: flex; position: relative; }
+.workspace-leaf { display: flex; flex-direction: column; flex: 1; min-width: 0; position: relative; }
+.workspace-leaf-content { display: flex; flex-direction: column; height: 100%; width: 100%; overflow: hidden; }
+.view-header { display: flex; align-items: center; gap: var(--size-4-2); flex: 0 0 var(--header-height); padding-inline: var(--size-4-3); }
+body:not(.show-view-header) .mod-root .view-header { display: none; }                     /* [?] class meaning inferred */
+.view-header-title-container { flex: 1; min-width: 0; display: flex; justify-content: center; overflow: hidden; white-space: nowrap; }
+.view-header-title-parent { color: var(--text-faint); }
+.view-header-nav-buttons, .view-actions { display: flex; align-items: center; gap: var(--size-2-1); }
+.view-content { flex: 1; min-height: 0; overflow: auto; position: relative; }
+.status-bar { position: fixed; bottom: 0; inset-inline-end: 0; z-index: var(--layer-status-bar); display: flex; gap: var(--size-4-1);
+  padding: var(--size-2-2) var(--size-4-2); background: var(--status-bar-background); color: var(--status-bar-text-color);
+  font-size: var(--status-bar-font-size); border-style: solid; border-color: var(--status-bar-border-color);
+  border-width: var(--status-bar-border-width); border-start-start-radius: var(--radius-m); }
+.status-bar-item { display: inline-flex; align-items: center; gap: var(--size-2-2); padding: 2px var(--size-2-2); }
+
+/* 4. Icons and icon buttons [S] */
+svg.svg-icon { width: var(--icon-size); height: var(--icon-size); stroke-width: var(--icon-stroke); flex-shrink: 0; }
+.mod-rtl svg.svg-icon { transform: scaleX(-1); }                                          /* [D] mirrored in RTL; exempt symmetric icons as needed */
+.clickable-icon { display: flex; align-items: center; justify-content: center; padding: var(--size-2-2);
+  border-radius: var(--clickable-icon-radius); color: var(--icon-color); opacity: var(--icon-opacity);
+  background: none; border: 0; cursor: var(--cursor); }
+.clickable-icon:hover { color: var(--icon-color-hover); opacity: var(--icon-opacity-hover); background: var(--background-modifier-hover); }
+.clickable-icon.is-active { color: var(--icon-color-active); opacity: var(--icon-opacity-active); }
+.clickable-icon[aria-disabled="true"], .clickable-icon.is-disabled { opacity: 0.4; pointer-events: none; }
+.collapse-icon svg.svg-icon { transition: transform var(--anim-duration-fast) ease; }
+.is-collapsed > .tree-item-self .collapse-icon svg.svg-icon, .collapse-icon.is-collapsed svg.svg-icon { transform: rotate(calc(var(--direction) * -90deg)); }
+
+/* 8. Trees (file explorer, search, outline) [S] */
+.tree-item-self { display: flex; align-items: baseline; position: relative; padding: var(--nav-item-padding); border-radius: var(--nav-item-radius);
+  color: var(--nav-item-color); font-size: var(--nav-item-size); line-height: var(--line-height-tight); }
+.tree-item-self.is-clickable { cursor: var(--cursor); }
+.tree-item-self.is-clickable:hover { color: var(--nav-item-color-hover); background: var(--nav-item-background-hover); }
+.tree-item-self.is-active { color: var(--nav-item-color-active); background: var(--nav-item-background-active); }
+.tree-item-icon { position: absolute; inset-inline-start: var(--size-4-1); align-self: center; color: var(--text-faint); }
+.tree-item-inner { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tree-item-flair-outer { margin-inline-start: auto; } .tree-item-flair { color: var(--text-faint); font-size: var(--font-ui-smaller); }
+.tree-item-children { margin-inline-start: var(--size-4-3); padding-inline-start: var(--size-2-2);
+  border-inline-start: var(--border-width) solid color-mix(in oklch, var(--mono-100) 10%, transparent); }
+.tree-item.is-collapsed > .tree-item-children { display: none; }
+.nav-folder.mod-root > .nav-folder-title { display: none; }
+.nav-folder.mod-root > .nav-folder-children { margin: 0; padding: 0; border: 0; }
+.nav-file-tag { margin-inline-start: var(--size-4-2); padding: 0 var(--size-2-2); border-radius: var(--radius-s); font-size: 0.7em; text-transform: uppercase; background: var(--background-modifier-border); }
+.search-result-file-matched-text { background: var(--text-highlight-bg); color: var(--text-normal); }
+
+/* 12. Graph colour probes read by JS (section 1.4) [S] */
+.graph-view { position: absolute; width: 0; height: 0; overflow: hidden; }
+.graph-view.color-fill { color: var(--graph-node); }
+.graph-view.color-fill-focused, .graph-view.color-circle { color: var(--graph-node-focused); }
+.graph-view.color-fill-tag { color: var(--graph-node-tag); }
+.graph-view.color-fill-attachment { color: var(--graph-node-attachment); }
+.graph-view.color-fill-unresolved { color: var(--graph-node-unresolved); opacity: 0.5; }
+.graph-view.color-line { color: var(--graph-line); }
+.graph-view.color-text { color: var(--graph-text); }
+.graph-view.color-arrow { color: var(--text-muted); }
+.graph-view.color-fill-highlight, .graph-view.color-line-highlight { color: var(--interactive-accent); }
+
+/* ---- Shell refinements (this app's own geometry) ------------------------ */
+body { -webkit-font-smoothing: antialiased; }
+.workspace-split.mod-sidedock { flex: 0 0 auto; border-inline-end: var(--divider-width) solid var(--divider-color); }
+.workspace-split.mod-right-split { border-inline-end: 0; border-inline-start: var(--divider-width) solid var(--divider-color); }
+.workspace-split.mod-sidedock > .workspace-tabs { min-height: 0; }
+.workspace-split > * { flex: 1 1 0; min-width: 0; min-height: 0; }
+.workspace-split.mod-vertical > .workspace-leaf-resize-handle,
+.workspace-split.mod-vertical > * > .workspace-leaf-resize-handle { cursor: col-resize; top: 0; bottom: 0; inset-inline-end: -3px; width: 6px; height: auto; background: transparent; }
+.workspace-split.mod-horizontal > * > .workspace-leaf-resize-handle { cursor: row-resize; left: 0; right: 0; bottom: -3px; height: 6px; width: auto; background: transparent; }
+.workspace-leaf-resize-handle:hover { background: var(--interactive-accent) !important; opacity: 0.5; }
+.workspace-split.mod-sidedock > .mod-sidedock-handle { cursor: col-resize; top: 0; bottom: 0; width: 6px; height: auto; inset-inline-end: -3px; }
+.workspace-split.mod-right-split > .mod-sidedock-handle { inset-inline-end: auto; inset-inline-start: -3px; }
+.workspace-tabs > .workspace-leaf-resize-handle, .workspace-leaf > .workspace-leaf-resize-handle { display: none; }
+.workspace-split > .workspace-tabs, .workspace-split > .workspace-split { position: relative; }
+.workspace-tab-header-container { align-items: flex-end; }
+.workspace-tab-header { height: calc(var(--header-height) - 6px); cursor: var(--cursor); position: relative; }
+.workspace-tab-header:not(.is-active):hover { background: var(--background-modifier-hover); border-radius: var(--tab-radius); }
+.workspace-tab-header-inner-close-button { opacity: 0; border-radius: var(--radius-s); padding: 2px; }
+.workspace-tab-header:hover .workspace-tab-header-inner-close-button, .workspace-tab-header.is-active .workspace-tab-header-inner-close-button { opacity: 1; }
+.workspace-tab-header-inner-close-button:hover { background: var(--background-modifier-hover); }
+.mod-sidedock .workspace-tab-header-inner-title, .mod-sidedock .workspace-tab-header-inner-close-button { display: none; }
+.mod-sidedock .workspace-tab-header { flex: 0 0 auto; }
+.mod-sidedock .workspace-tab-header-new-tab, .mod-sidedock .workspace-tab-header-tab-list { display: none; }
+.workspace-tab-header-new-tab, .workspace-tab-header-tab-list { display: flex; align-items: center; height: 100%; }
+.workspace-tab-header-status-container { display: flex; }
+.workspace-tab-header-status-container .clickable-icon { padding: 1px; --icon-size: var(--icon-xs); }
+.workspace-tab-header-container.is-drop-target { box-shadow: inset 0 -2px 0 var(--interactive-accent); }
+/* Narrow windows: tabs shrink to a readable minimum, then the tab bar scrolls (the active tab is kept in view). */
+.workspace-split.mod-root .workspace-tab-header { min-width: 64px; }
+.workspace-split.mod-root .workspace-tab-header.is-active { min-width: 96px; }
+.workspace-tab-header-container-inner { scroll-behavior: smooth; }
+/* Stacked tabs: each tab header becomes a vertical spine in front of its leaf; spines stick to the edges while the stack scrolls. */
+.workspace-tabs.mod-stacked { --vault-stack-spine: 40px; }
+.workspace-tabs.mod-stacked > .workspace-tab-header-container > .workspace-tab-header-container-inner { visibility: hidden; }
+.workspace-tabs.mod-stacked > .workspace-tab-container { overflow-x: auto; overflow-y: hidden; }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-leaf { flex: 0 0 var(--file-line-width); max-width: calc(100% - var(--vault-stack-spine)); border-inline-end: var(--border-width) solid var(--divider-color);
+  position: sticky; left: calc((var(--vault-stack-index, 0) + 1) * var(--vault-stack-spine)); background: var(--background-primary); }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-tab-header { position: sticky; z-index: 1; flex: 0 0 var(--vault-stack-spine); width: var(--vault-stack-spine); min-width: var(--vault-stack-spine); max-width: var(--vault-stack-spine); height: auto;
+  left: calc(var(--vault-stack-index, 0) * var(--vault-stack-spine)); right: calc((var(--vault-stack-count, 1) - var(--vault-stack-index, 0) - 1) * var(--vault-stack-spine));
+  background: var(--tab-container-background); border-inline-end: var(--border-width) solid var(--divider-color); border-radius: 0; }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-tab-header .workspace-tab-header-inner { flex-direction: column; justify-content: flex-start; padding: var(--size-4-2) 0; gap: var(--size-4-2); }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-tab-header .workspace-tab-header-inner-title { writing-mode: vertical-lr; flex: 0 1 auto; max-height: 100%; }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-tab-header .workspace-tab-header-inner-close-button { order: -1; }
+.workspace-tabs.mod-stacked > .workspace-tab-container > .workspace-tab-header.is-active { background: var(--background-primary); }
+.workspace-ribbon.is-collapsed.mod-right { display: none; }
+.side-dock-actions, .side-dock-settings { display: flex; flex-direction: column; align-items: center; gap: var(--size-4-1); }
+.sidebar-toggle-button { display: flex; justify-content: center; margin-bottom: var(--size-4-2); }
+.side-dock-ribbon-action { padding: var(--size-4-1); }
+.view-header-title { outline: none; cursor: text; }
+.view-header-title[contenteditable="true"] { background: var(--background-modifier-form-field); padding: 0 var(--size-2-2); border-radius: var(--radius-s); }
+.view-header-breadcrumb { color: var(--text-faint); }
+.view-header-breadcrumb-separator { color: var(--text-faint); padding-inline: var(--size-2-2); }
+.view-header-icon { display: none; }
+.mod-sidedock .view-header { display: none; }
+.empty-state { display: flex; align-items: center; justify-content: center; }
+.empty-state-container { display: flex; flex-direction: column; align-items: center; gap: var(--size-4-3); }
+.empty-state-title { font-size: var(--font-ui-large); color: var(--text-muted); }
+.empty-state-action-list { display: flex; flex-direction: column; align-items: center; gap: var(--size-4-2); }
+.empty-state-action { color: var(--text-accent); cursor: var(--cursor-link); }
+.empty-state-action:hover { text-decoration: underline; }
+.status-bar:empty { display: none; }
+.workspace-drop-overlay { position: fixed; pointer-events: none; background: color-mix(in oklch, var(--interactive-accent) 20%, transparent); border-radius: var(--radius-m); z-index: var(--layer-dragged-item); }
+body.is-grabbing, body.is-grabbing * { cursor: grabbing !important; user-select: none; }
+.vault-loading { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--size-4-2); background: var(--background-primary); z-index: var(--layer-modal); }
+.vault-loading-title { font-size: var(--font-ui-large); font-weight: var(--font-semibold); color: var(--text-normal); }
+.vault-loading-status { font-size: var(--font-ui-small); color: var(--text-muted); }
+.vault-render-error { color: var(--text-error); white-space: pre-wrap; font-size: var(--font-ui-small); }
+@keyframes node-inserted { from { opacity: 0.99; } to { opacity: 1; } }
+.node-insert-event { animation-duration: 0.001s; animation-name: node-inserted; }
+.drag-ghost-action { position: fixed; z-index: var(--layer-dragged-item); pointer-events: none; padding: var(--size-2-2) var(--size-4-2); border-radius: var(--radius-s); background: var(--background-modifier-message); color: #f2f2f2; font-size: var(--font-ui-smaller); }
+
+/* The account control and brand mark (chrome/account.ts), in Obsidian's own chrome. */
+.vault-account-control { flex: 0 0 auto; border-radius: 50%; color: var(--icon-color); }
+.vault-account-control.is-signed-in { color: var(--interactive-accent); }
+.workspace-tab-header-container > .vault-account-control { align-self: center; margin-inline: var(--size-2-2) var(--size-4-2); }
+.vault-brand-link { display: flex; align-items: center; justify-content: center; }
+.vault-brand-link img { width: 22px; height: 22px; border-radius: 5px; display: block; }
+.workspace-ribbon.mod-left > .vault-brand-link { margin: var(--size-4-2) auto var(--size-2-3); }

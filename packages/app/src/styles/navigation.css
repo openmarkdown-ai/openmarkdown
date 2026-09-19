@@ -1,0 +1,406 @@
+/*
+ * Navigation core plugins: Files, Bookmarks, Quick switcher, Command palette,
+ * Workspaces, and the Editor status / Word count status bar items.
+ * Generic tree rows (.tree-item-self, .tree-item-children …) are in app.css;
+ * this file adds what these views need on top. Colours only via variables.
+ */
+
+/* ---- nav header (Files, Bookmarks) ------------------------------------------------------ */
+
+.nav-header {
+  flex: 0 0 auto;
+  padding: var(--size-4-2) var(--size-4-2) var(--size-4-1);
+}
+
+.nav-buttons-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--size-2-1);
+}
+
+.nav-action-button {
+  --icon-size: var(--icon-s);
+  --icon-stroke: var(--icon-s-stroke-width);
+}
+
+.nav-action-button.is-active {
+  background: var(--background-modifier-hover);
+}
+
+/* ---- file explorer ------------------------------------------------------------------------ */
+
+.nav-files-container {
+  flex: 1 1 auto;
+  padding: var(--size-4-1) var(--size-4-2) var(--size-4-12);
+  outline: none;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.nav-files-container .tree-item-self {
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  margin-bottom: 1px;
+}
+
+.nav-folder-title .collapse-icon {
+  --icon-size: var(--icon-xs);
+  --icon-stroke: var(--icon-xs-stroke-width);
+  display: flex;
+  color: var(--nav-collapse-icon-color, var(--text-faint));
+}
+
+.nav-folder-title:hover .collapse-icon {
+  color: var(--nav-collapse-icon-color-hover, var(--text-muted));
+}
+
+.nav-file-title-content,
+.nav-folder-title-content {
+  outline: none;
+}
+
+.nav-file-tag {
+  flex: 0 0 auto;
+  align-self: center;
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--text-muted);
+  font-weight: var(--font-semibold, 600);
+  letter-spacing: 0.02em;
+}
+
+.nav-file-title.is-active .nav-file-tag {
+  color: var(--text-normal);
+}
+
+/* Multi-selection and keyboard focus. */
+.tree-item-self.is-selected,
+.tree-item-self.is-selected:hover {
+  color: var(--nav-item-color-selected, var(--text-normal));
+  background: var(--nav-item-background-selected, var(--background-modifier-active-hover));
+}
+
+.nav-files-container:focus-within .tree-item-self.has-focus,
+.workspace-leaf-content[data-type="bookmarks"] .view-content:focus-within .tree-item-self.has-focus {
+  box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+}
+
+/* A context menu is open for this row. */
+.tree-item-self.has-active-menu {
+  background: var(--nav-item-background-hover);
+  color: var(--nav-item-color-hover);
+}
+
+/* Inline rename. */
+.tree-item-self.is-being-renamed {
+  background: var(--nav-item-background-hover);
+}
+
+.tree-item-self.is-being-renamed .tree-item-inner {
+  overflow: visible;
+  white-space: pre-wrap;
+  text-overflow: clip;
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  border-radius: var(--radius-s);
+  box-shadow: 0 0 0 1px var(--background-modifier-border-focus);
+  padding-inline: var(--size-2-1);
+  margin-inline: calc(-1 * var(--size-2-1));
+}
+
+/* Drag and drop. */
+.tree-item-self.is-being-dragged {
+  opacity: 0.5;
+}
+
+.nav-folder.is-being-dragged-over,
+.nav-files-container.is-being-dragged-over {
+  background: var(--background-modifier-active-hover);
+  border-radius: var(--radius-s);
+}
+
+.nav-folder.is-being-dragged-over > .nav-folder-title {
+  color: var(--nav-item-color-hover);
+  background: var(--background-modifier-active-hover);
+}
+
+.nav-files-container.is-being-dragged-over .nav-folder.mod-root {
+  min-height: 100%;
+}
+
+/* Files and folders matched by "Excluded files". */
+.nav-files-container .tree-item.vault-is-excluded > .tree-item-self {
+  opacity: 0.55;
+}
+
+/* ---- bookmarks ------------------------------------------------------------------------------ */
+
+.workspace-leaf-content[data-type="bookmarks"] .search-input-container {
+  flex: 0 0 auto;
+  margin: 0 var(--size-4-2) var(--size-4-2);
+}
+
+.workspace-leaf-content[data-type="bookmarks"] .view-content {
+  padding: var(--size-4-1) var(--size-4-2) var(--size-4-12);
+  outline: none;
+}
+
+.tree-item-self.bookmark {
+  align-items: center;
+  user-select: none;
+  -webkit-user-select: none;
+  margin-bottom: 1px;
+}
+
+.tree-item-self.bookmark .tree-item-icon {
+  --icon-size: var(--icon-xs);
+  --icon-stroke: var(--icon-xs-stroke-width);
+  display: flex;
+}
+
+.tree-item-self.bookmark.is-unresolved .tree-item-inner {
+  color: var(--text-faint);
+  text-decoration: line-through;
+  text-decoration-color: var(--text-faint);
+}
+
+.tree-item-self.bookmark .tree-item-inner-text[contenteditable="true"] {
+  cursor: text;
+  user-select: text;
+  -webkit-user-select: text;
+  outline: none;
+  background: var(--background-modifier-form-field);
+  color: var(--text-normal);
+  border-radius: var(--radius-s);
+  box-shadow: 0 0 0 1px var(--background-modifier-border-focus);
+  padding-inline: var(--size-2-1);
+  white-space: pre-wrap;
+}
+
+.tree-item-self.bookmark .tree-item-inner-text[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-faint);
+}
+
+.tree-item-self.bookmark.is-being-dragged-over {
+  background: var(--background-modifier-active-hover);
+}
+
+.tree-item-self.bookmark.vault-drop-before {
+  box-shadow: inset 0 2px 0 var(--interactive-accent);
+}
+
+.tree-item-self.bookmark.vault-drop-after {
+  box-shadow: inset 0 -2px 0 var(--interactive-accent);
+}
+
+.workspace-leaf-content[data-type="bookmarks"] .view-content.is-being-dragged-over {
+  box-shadow: inset 0 -2px 0 var(--interactive-accent);
+}
+
+.workspace-leaf-content[data-type="bookmarks"] .pane-empty {
+  padding: var(--size-4-3) var(--size-4-2);
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  line-height: var(--line-height-normal, 1.5);
+}
+
+/* ---- quick switcher and command palette ------------------------------------------------------------ */
+
+.prompt .suggestion-item.mod-complex {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+}
+
+.prompt .suggestion-item.mod-complex .suggestion-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.prompt .suggestion-item.mod-complex .suggestion-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.prompt .suggestion-item .suggestion-aux {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-1);
+  flex: 0 0 auto;
+}
+
+.prompt .suggestion-item .suggestion-flair {
+  display: flex;
+  --icon-size: var(--icon-xs);
+  --icon-stroke: var(--icon-xs-stroke-width);
+  color: var(--text-faint);
+}
+
+.mod-quick-switcher .suggestion-item .nav-file-tag {
+  margin: 0;
+}
+
+.mod-quick-switcher .suggestion-item.is-unresolved .suggestion-title,
+.mod-quick-switcher .suggestion-item.mod-excluded .suggestion-title {
+  color: var(--text-muted);
+}
+
+.mod-quick-switcher .suggestion-item.mod-create .suggestion-title {
+  color: var(--text-accent);
+}
+
+/* ---- settings: pinned commands ---------------------------------------------------------------------------- */
+
+.vault-pinned-commands .setting-item.mod-draggable {
+  gap: var(--size-4-2);
+  outline: none;
+}
+
+.vault-pinned-commands .setting-item.mod-draggable:focus-visible {
+  box-shadow: 0 0 0 2px var(--background-modifier-border-focus);
+  border-radius: var(--radius-s);
+}
+
+.vault-pinned-commands .setting-item-drag-handle {
+  cursor: grab;
+  color: var(--text-faint);
+  --icon-size: var(--icon-s);
+}
+
+.vault-pinned-commands .setting-item.is-being-dragged {
+  opacity: 0.5;
+}
+
+.vault-pinned-commands .setting-item.is-being-dragged-over {
+  box-shadow: inset 0 2px 0 var(--interactive-accent);
+}
+
+/* ---- workspaces modal ------------------------------------------------------------------------------------------ */
+
+.modal.mod-workspaces {
+  width: var(--dialog-width, 560px);
+}
+
+.modal.mod-workspaces .workspace-save-row .setting-item-info {
+  display: none;
+}
+
+.modal.mod-workspaces .workspace-save-row .setting-item-control {
+  flex: 1 1 auto;
+}
+
+.modal.mod-workspaces .workspace-save-row input[type="text"] {
+  flex: 1 1 auto;
+}
+
+.modal.mod-workspaces .workspace-list {
+  margin-top: var(--size-4-2);
+}
+
+.modal.mod-workspaces .workspace-item {
+  padding-inline: var(--size-4-2);
+  border-radius: var(--radius-s);
+}
+
+.modal.mod-workspaces .workspace-item.is-active {
+  background: var(--background-modifier-active-hover);
+}
+
+.modal.mod-workspaces .workspace-item.is-active .setting-item-name::after {
+  content: " (current)";
+  color: var(--text-faint);
+  font-weight: normal;
+}
+
+.modal.mod-workspaces .workspace-list-empty {
+  color: var(--text-muted);
+  padding: var(--size-4-3) 0;
+}
+
+/* ---- status bar items ------------------------------------------------------------------------------------------ */
+
+.status-bar-item.mod-clickable {
+  cursor: var(--cursor);
+  border-radius: var(--radius-s);
+}
+
+.status-bar-item.mod-clickable:hover {
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+
+.status-bar-item.plugin-editor-status .status-bar-item-icon {
+  display: flex;
+  --icon-size: var(--icon-xs);
+  --icon-stroke: var(--icon-xs-stroke-width);
+}
+
+.status-bar-item.plugin-word-count {
+  gap: var(--size-4-2);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- W5: file explorer custom order ------------------------------------------------------- */
+
+.nav-files-container .tree-item-self.vault-drop-before,
+.nav-files-container .tree-item-self.vault-drop-after {
+  position: relative;
+}
+
+.nav-files-container .tree-item-self.vault-drop-before::before,
+.nav-files-container .tree-item-self.vault-drop-after::after {
+  content: "";
+  position: absolute;
+  inset-inline: var(--size-4-2) 0;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--interactive-accent);
+  pointer-events: none;
+}
+
+.nav-files-container .tree-item-self.vault-drop-before::before {
+  top: -1px;
+}
+
+.nav-files-container .tree-item-self.vault-drop-after::after {
+  bottom: -1px;
+}
+
+/* ---- vault replace: matches left out to keep links working (search view) ---------------------- */
+
+.vault-replace-row .vault-replace-option {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--size-2-3);
+  min-width: 0;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  cursor: var(--cursor);
+}
+
+.vault-replace-row .vault-replace-option input {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.vault-replace-match .vault-replace-reason {
+  display: block;
+  margin-top: var(--size-2-1);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+}
+
+.vault-replace-match.is-protected.is-excluded .vault-replace-text {
+  opacity: 1;
+}
+
+.vault-replace-match.is-protected.is-excluded .vault-replace-old {
+  color: var(--text-muted);
+}

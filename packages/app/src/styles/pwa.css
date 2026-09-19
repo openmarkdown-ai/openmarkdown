@@ -1,0 +1,114 @@
+/* The web app shell: capture surface, update notice, install and storage banners,
+   single-file bar, installed-window title bar, pop-out windows. (workstream W2) */
+
+/* ---- capture surface (page, modal, floating window) ---------------------------------- */
+.vault-capture { display: flex; flex-direction: column; gap: var(--size-4-3); color: var(--text-normal); }
+.vault-capture-header { display: flex; align-items: center; gap: var(--size-4-2); }
+.vault-capture-header-icon { display: flex; color: var(--text-accent); }
+.vault-capture-titles { flex: 1; min-width: 0; }
+.vault-capture-title { font-size: var(--font-ui-medium); font-weight: var(--font-semibold); }
+.vault-capture-vault { font-size: var(--font-ui-smaller); color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vault-capture-input { width: 100%; min-height: 7.5em; resize: vertical; font-family: var(--font-text); font-size: var(--font-text-size, 16px); line-height: var(--line-height-normal);
+  padding: var(--size-4-3); border-radius: var(--radius-m); background: var(--background-primary); border: var(--input-border-width, 1px) solid var(--background-modifier-border); color: var(--text-normal); }
+.vault-capture-input:focus { border-color: var(--interactive-accent); box-shadow: 0 0 0 2px hsla(var(--interactive-accent-hsl), 0.25); outline: none; }
+.vault-capture-attachments { display: flex; flex-wrap: wrap; gap: var(--size-4-1); }
+.vault-capture-attachment { display: inline-flex; align-items: center; gap: var(--size-4-1); max-width: 100%; padding: var(--size-2-1) var(--size-4-2); border-radius: var(--radius-s);
+  background: var(--background-secondary); font-size: var(--font-ui-smaller); color: var(--text-muted); }
+.vault-capture-attachment-icon { display: flex; --icon-size: var(--icon-xs); }
+.vault-capture-attachment-name { color: var(--text-normal); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.vault-capture-footer { display: flex; align-items: center; gap: var(--size-4-2); flex-wrap: wrap; }
+.vault-capture-destination { max-width: 60%; }
+.vault-capture-hint { flex: 1; font-size: var(--font-ui-smaller); color: var(--text-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vault-capture-save { margin-inline-start: auto; min-width: 5.5em; }
+.vault-capture-status { display: flex; align-items: center; flex-wrap: wrap; gap: var(--size-4-1) var(--size-4-2); min-height: 1.5em; font-size: var(--font-ui-small); color: var(--text-muted); }
+.vault-capture-status:empty { display: none; }
+.vault-capture-status-icon { display: flex; color: var(--color-green); }
+.vault-capture-status.mod-error { color: var(--text-error); }
+.vault-capture-status-actions { margin-inline-start: auto; display: flex; gap: var(--size-4-2); }
+
+/* the full page: /?capture=1 and the share target */
+body.vault-capture-route { overflow: auto; background: var(--background-secondary); }
+.vault-capture-page { min-height: 100%; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; gap: var(--size-4-3);
+  max-width: 640px; margin: 0 auto; padding: max(var(--size-4-6), env(safe-area-inset-top)) var(--size-4-4) max(var(--size-4-6), env(safe-area-inset-bottom)); }
+.vault-capture.mod-page { background: var(--background-primary); border: var(--border-width) solid var(--background-modifier-border); border-radius: var(--radius-l);
+  padding: var(--size-4-5); box-shadow: var(--shadow-s); }
+.vault-capture-page-footer { display: flex; align-items: center; gap: var(--size-4-3); flex-wrap: wrap; font-size: var(--font-ui-small); color: var(--text-muted); padding: 0 var(--size-4-2); }
+.vault-capture-open-vault { color: var(--text-accent); text-decoration: none; }
+.vault-capture-open-vault:hover { text-decoration: underline; }
+.vault-capture-permission { flex-basis: 100%; color: var(--text-faint); font-size: var(--font-ui-smaller); }
+.vault-capture-empty { display: flex; flex-direction: column; align-items: center; gap: var(--size-4-2); text-align: center; padding: var(--size-4-8) var(--size-4-4); }
+.vault-capture-empty-icon { color: var(--text-faint); --icon-size: var(--icon-xl); }
+.vault-capture-detail { color: var(--text-muted); margin-bottom: var(--size-4-3); }
+@media (max-width: 480px) {
+  .vault-capture-page { justify-content: flex-start; padding-inline: var(--size-4-3); }
+  .vault-capture.mod-page { padding: var(--size-4-4); }
+  .vault-capture-input { min-height: 10em; }
+  .vault-capture-hint { display: none; }
+  .vault-capture-destination { max-width: none; flex: 1; }
+  .vault-capture-save { min-height: 44px; }
+}
+
+/* the sheet over the workspace */
+.modal.vault-capture-modal { width: min(560px, calc(100vw - 2 * var(--size-4-4))); }
+.modal.vault-capture-modal .modal-close-button { display: none; }
+
+/* the floating (Picture-in-Picture) window */
+body.is-popout-window .vault-capture-floating-host { box-sizing: border-box; height: 100%; padding: var(--size-4-3); background: var(--background-primary); overflow: auto; }
+.vault-capture.mod-floating .vault-capture-input { min-height: 5em; }
+.vault-capture.mod-floating .vault-capture-hint { display: none; }
+
+/* ---- update notice -------------------------------------------------------------------- */
+.vault-update-notice { position: fixed; z-index: var(--layer-notice); inset-inline-end: var(--size-4-4); bottom: calc(var(--size-4-8) + env(safe-area-inset-bottom));
+  display: flex; align-items: center; gap: var(--size-4-3); max-width: min(420px, calc(100vw - 2 * var(--size-4-4))); box-sizing: border-box;
+  padding: var(--size-4-2) var(--size-4-2) var(--size-4-2) var(--size-4-3); border-radius: var(--radius-m);
+  background: var(--background-primary); border: var(--border-width) solid var(--background-modifier-border); box-shadow: var(--shadow-l); font-size: var(--font-ui-small); }
+.vault-update-notice-icon { display: flex; color: var(--text-accent); }
+.vault-update-notice.mod-warning .vault-update-notice-icon { color: var(--text-warning); }
+.vault-update-notice-text { flex: 1; min-width: 0; }
+.vault-update-notice-title { font-weight: var(--font-semibold); color: var(--text-normal); }
+.vault-update-notice-detail { color: var(--text-muted); font-size: var(--font-ui-smaller); }
+.vault-update-notice-actions { display: flex; align-items: center; gap: var(--size-4-1); }
+@media (max-width: 480px) {
+  .vault-update-notice { inset-inline: var(--size-4-3); max-width: none; bottom: calc(var(--size-4-3) + env(safe-area-inset-bottom)); }
+}
+
+/* ---- Safari storage banner ------------------------------------------------------------ */
+.vault-storage-banner { display: flex; align-items: flex-start; gap: var(--size-4-2); padding: var(--size-4-2) var(--size-4-3); font-size: var(--font-ui-small);
+  background: rgba(var(--color-yellow-rgb), 0.12); border-bottom: var(--border-width) solid rgba(var(--color-yellow-rgb), 0.35); color: var(--text-normal); }
+.vault-capture-page > .vault-storage-banner { border: var(--border-width) solid rgba(var(--color-yellow-rgb), 0.35); border-radius: var(--radius-m); }
+.vault-storage-banner-icon { display: flex; color: var(--color-yellow); padding-top: 2px; }
+.vault-storage-banner-text { flex: 1; min-width: 0; line-height: var(--line-height-tight); }
+.vault-storage-banner-title { font-weight: var(--font-semibold); }
+.vault-storage-banner-detail { color: var(--text-muted); font-size: var(--font-ui-smaller); margin-top: 2px; }
+
+/* ---- single-file mode ------------------------------------------------------------------ */
+.vault-single-file-bar { display: flex; align-items: center; gap: var(--size-4-2); flex-wrap: wrap; padding: var(--size-4-1) var(--size-4-3); font-size: var(--font-ui-small);
+  background: var(--background-secondary); border-bottom: var(--border-width) solid var(--divider-color); color: var(--text-muted); }
+.vault-single-file-bar-icon { display: flex; color: var(--text-accent); }
+.vault-single-file-bar-text { flex: 1; min-width: 12em; }
+.vault-single-file-bar-actions { display: flex; gap: var(--size-4-2); }
+
+/* ---- installed window: Window Controls Overlay ----------------------------------------- */
+body.vault-wco {
+  --vault-titlebar-left: env(titlebar-area-x, 0px);
+  --vault-titlebar-height: env(titlebar-area-height, 33px);
+  --vault-titlebar-right: calc(100vw - env(titlebar-area-x, 0px) - env(titlebar-area-width, 100vw));
+}
+/* The top tab bars are the window's drag handle; everything clickable in them is not. */
+body.vault-wco .workspace-tabs.mod-top > .workspace-tab-header-container { -webkit-app-region: drag; app-region: drag; }
+body.vault-wco .workspace-tab-header,
+body.vault-wco .workspace-tab-header-new-tab,
+body.vault-wco .workspace-tab-header-tab-list,
+body.vault-wco .workspace-tab-header-container .clickable-icon,
+body.vault-wco .workspace-tab-header-container button,
+body.vault-wco .sidebar-toggle-button { -webkit-app-region: no-drag; app-region: no-drag; }
+body.vault-wco .workspace-tabs.mod-top-left-space > .workspace-tab-header-container { padding-inline-start: var(--vault-titlebar-left); }
+body.vault-wco .workspace-tabs.mod-top-right-space > .workspace-tab-header-container { padding-inline-end: var(--vault-titlebar-right); }
+body.vault-wco .workspace-ribbon.mod-left { padding-top: max(var(--size-4-2), var(--vault-titlebar-height)); -webkit-app-region: drag; app-region: drag; }
+body.vault-wco .workspace-ribbon.mod-left > * { -webkit-app-region: no-drag; app-region: no-drag; }
+body.vault-wco .vault-single-file-bar { -webkit-app-region: drag; app-region: drag; padding-inline-end: var(--vault-titlebar-right); padding-inline-start: max(var(--size-4-3), var(--vault-titlebar-left)); }
+body.vault-wco .vault-single-file-bar button { -webkit-app-region: no-drag; app-region: no-drag; }
+
+/* ---- pop-out windows -------------------------------------------------------------------- */
+body.is-popout-window { height: 100vh; margin: 0; }
+body.is-popout-window .workspace > .workspace-split.mod-root { flex: 1; }

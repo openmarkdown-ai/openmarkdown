@@ -1,0 +1,15 @@
+[package]
+name = "vault-bases"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Bases: the .base file format, its expression language, filters, formulas, grouping and summaries"
+
+[dependencies]
+vault-types = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true, features = ["preserve_order"] }
+# Pure Rust YAML 1.2 parser; `encoding` pulls in encoding_rs tables we never need.
+yaml-rust2 = { version = "0.13", default-features = false }
+# Small regex engine for `/pattern/flags` literals (binary size over speed).
+regex-lite = "0.1"

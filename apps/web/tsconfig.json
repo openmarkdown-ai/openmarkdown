@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "paths": {
+      "@vault/app/*": ["../../packages/app/src/*"],
+      "@opensync/client": ["../../../opensync/packages/client/src/index.ts", "../../packages/app/src/core-plugins/opensync/unavailable/index.ts"],
+      "@opensync/in-build": ["../../packages/app/src/core-plugins/opensync/in-build.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "../../packages/app/src/**/*.d.ts"]
+}

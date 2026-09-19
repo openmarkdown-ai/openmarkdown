@@ -1,0 +1,7 @@
+.consent { padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-2); }
+.consent h1 { font: var(--type-h4); color: var(--text-strong); margin: 0; }
+.consent .eyebrow { margin-top: var(--space-4); }
+.consent .origin { font: var(--type-mono); color: var(--text-strong); background: var(--bg-sunken); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); margin: var(--space-1) 0; overflow-wrap: anywhere; }
+.consent .lede { color: var(--text-muted); font-size: var(--text-sm); margin: 0; }
+.consent-actions { display: flex; justify-content: flex-end; gap: var(--space-2); margin-top: var(--space-4); }
+.consent-actions .oa-btn { height: var(--control-h-md); padding: 0 14px; }

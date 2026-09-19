@@ -1,0 +1,196 @@
+/* AI assist (stream A3): suggestions pane, query writer, periodic review. Obsidian variables only. */
+
+/* ---- shared ---- */
+.ai-assist-engine {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-2-2);
+  padding: 2px var(--size-4-2);
+  border-radius: var(--radius-s);
+  background: var(--background-modifier-hover);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.ai-assist-engine.mod-leaves-device {
+  background: rgba(var(--color-orange-rgb), 0.12);
+  color: var(--text-normal);
+}
+.ai-assist-engine-icon {
+  display: inline-flex;
+}
+.ai-assist-engine-icon svg {
+  width: var(--icon-xs, 14px);
+  height: var(--icon-xs, 14px);
+}
+.modal.ai-assist-modal {
+  width: min(720px, calc(100vw - 32px));
+}
+.ai-assist-modal .modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+}
+.ai-assist-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+}
+.ai-assist-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-4-2);
+}
+.ai-assist-label {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  font-weight: var(--font-medium, 500);
+  margin-top: var(--size-4-1);
+}
+.ai-assist-modal textarea {
+  width: 100%;
+  resize: vertical;
+  font-size: var(--font-ui-small);
+}
+.ai-query-source,
+.ai-review-source {
+  font-family: var(--font-monospace);
+}
+.ai-assist-status {
+  min-height: 1.4em;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+}
+.ai-assist-modal.is-loading .ai-assist-status::after,
+.ai-suggest-view.is-loading .ai-suggest-status::after {
+  content: " ⋯";
+}
+.ai-assist-preview {
+  min-height: 80px;
+  max-height: min(40vh, 360px);
+  overflow: auto;
+  padding: var(--size-4-2) var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary-alt);
+  overflow-wrap: anywhere;
+}
+.ai-assist-preview > .markdown-rendered > :first-child {
+  margin-top: 0;
+}
+.ai-assist-preview-message {
+  color: var(--text-faint);
+  font-size: var(--font-ui-small);
+  padding: var(--size-4-2) 0;
+}
+.ai-query-validation:empty {
+  display: none;
+}
+.ai-query-validation {
+  padding: var(--size-4-1) var(--size-4-2);
+  border-radius: var(--radius-s);
+  background: rgba(var(--color-red-rgb), 0.1);
+  color: var(--text-error);
+  font-size: var(--font-ui-small);
+}
+.ai-assist-modal .modal-button-container {
+  flex-wrap: wrap;
+}
+
+/* ---- suggestions pane ---- */
+.view-content.ai-suggest-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+  padding: var(--size-4-3);
+}
+.ai-suggest-note {
+  font-weight: var(--font-semibold, 600);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: var(--size-4-2);
+}
+.ai-suggest-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-4-2);
+}
+.ai-suggest-status {
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  min-height: 1.4em;
+}
+.ai-suggest-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-3);
+}
+.ai-suggest-section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-1);
+  margin-bottom: var(--size-4-1);
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-semibold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.ai-suggest-section-icon {
+  display: inline-flex;
+}
+.ai-suggest-section-icon svg {
+  width: var(--icon-xs, 14px);
+  height: var(--icon-xs, 14px);
+}
+.ai-suggest-chips {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-1);
+}
+.ai-suggest-chip {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2-2);
+  padding: var(--size-4-1) var(--size-4-1) var(--size-4-1) var(--size-4-2);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  background: var(--background-primary);
+}
+.ai-suggest-chip-body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.ai-suggest-chip-label {
+  font-size: var(--font-ui-small);
+  overflow-wrap: anywhere;
+}
+.ai-suggest-chip[data-kind="tag"] .ai-suggest-chip-label {
+  color: var(--tag-color, var(--text-accent));
+}
+.ai-suggest-chip-detail {
+  color: var(--text-faint);
+  font-size: var(--font-ui-smaller);
+  overflow-wrap: anywhere;
+}
+.ai-suggest-chip button.clickable-icon {
+  flex: 0 0 auto;
+  width: auto;
+  height: auto;
+  padding: var(--size-2-3);
+  background: transparent;
+  box-shadow: none;
+}
+.ai-suggest-chip .ai-suggest-accept:hover {
+  color: var(--color-green);
+}
+.ai-suggest-chip .ai-suggest-dismiss:hover {
+  color: var(--text-error);
+}
+.is-mobile .ai-suggest-chip button.clickable-icon {
+  padding: var(--size-4-2);
+}

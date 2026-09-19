@@ -1,0 +1,196 @@
+[
+ {
+  "name": "para_emphasis",
+  "html": "<p>Some <em>em</em>, <strong>strong</strong>, <i>i</i> and <b>b</b> text.</p><p>Second   paragraph\nwith newline.</p>"
+ },
+ {
+  "name": "escapes",
+  "html": "<p>2 * 3 = 6 and snake_case and [brackets] and `ticks` and back\\slash</p><p>- not a list</p><p># not heading</p><p>1. not ordered</p><p>&gt; not quote</p><p>+ plus</p><p>=== eq</p>"
+ },
+ {
+  "name": "tag_like_lt",
+  "html": "<p>Monte&lt;video&gt; and a &lt; b and &lt;/div&gt; and &lt;a@b.com&gt;</p>"
+ },
+ {
+  "name": "headings",
+  "html": "<h1>Title</h1><h2>Two</h2><h3>Three <a href='/x'>link</a></h3><h6>Six</h6>"
+ },
+ {
+  "name": "leading_h1_strip",
+  "html": "<h1>Title</h1><p>Body</p>"
+ },
+ {
+  "name": "links",
+  "html": "<p><a href='https://e.com/a'>plain</a> <a href='https://e.com/a b'>space</a> <a href='https://e.com/(x)' title='T \"q\"'>paren</a> <a>nohref</a> <a href='https://e.com/'></a></p>"
+ },
+ {
+  "name": "images",
+  "html": "<p><img src='https://e.com/a.png' alt='Alt *x*' title='Tip'> <img srcset='https://e.com/s.png 400w, https://e.com/l.png 1200w, https://e.com/m.png 800w' src='https://e.com/f.png'> <img src=''></p>"
+ },
+ {
+  "name": "srcset_commas",
+  "html": "<img srcset='https://substack.com/w_424,c_limit/a.png 424w, https://substack.com/w_848,c_limit/a.png 848w' src='x.png'>"
+ },
+ {
+  "name": "bang_image",
+  "html": "<p>Yey!<img src='https://e.com/i.png' alt='IMG'></p>"
+ },
+ {
+  "name": "lists",
+  "html": "<ul><li>one</li><li>two<ul><li>two-a</li><li>two-b<ol><li>deep</li></ol></li></ul></li><li>three</li></ul>",
+  "expect": "- one\n- two\n\t- two-a\n\t- two-b\n\t\t1. deep\n- three",
+  "departure": "Defuddle indents the second nested sibling one tab too deep (nested_list_siblings_share_one_indent)"
+ },
+ {
+  "name": "ordered_start",
+  "html": "<ol start='5'><li>five</li><li>six</li></ol>"
+ },
+ {
+  "name": "list_paragraphs",
+  "html": "<ul><li><p>para one</p><p>para two</p></li><li>next</li></ul>"
+ },
+ {
+  "name": "task_list",
+  "html": "<ul class='contains-task-list'><li class='task-list-item'><input type='checkbox' disabled> todo</li><li class='task-list-item'><input type='checkbox' checked='checked' disabled> done</li></ul>"
+ },
+ {
+  "name": "blockquote",
+  "html": "<blockquote><p>q1</p><p>q2 <em>em</em></p><blockquote><p>nested</p></blockquote></blockquote>"
+ },
+ {
+  "name": "code_inline",
+  "html": "<p>Use <code>a_b*c</code> and <code>`tick`</code> and <code> spaced </code></p>"
+ },
+ {
+  "name": "code_block",
+  "html": "<pre><code class='language-rust'>fn main() {\n    println!(\"hi `x`\");\n}\n</code></pre><pre><code data-lang='py'>x = 1</code></pre><pre><code>plain</code></pre>"
+ },
+ {
+  "name": "pre_no_code",
+  "html": "<pre>line one\n  line *two*</pre>"
+ },
+ {
+  "name": "hr_br",
+  "html": "<p>a<br>b<br/>c</p><hr><p>d</p>"
+ },
+ {
+  "name": "mark_del",
+  "html": "<p><mark>hi</mark> <del>gone</del> <s>s</s> <strike>st</strike></p>"
+ },
+ {
+  "name": "sup_sub",
+  "html": "<p>E=mc<sup>2</sup> H<sub>2</sub>O</p>"
+ },
+ {
+  "name": "table_simple",
+  "html": "<table><thead><tr><th>Name</th><th>Val|ue</th></tr></thead><tbody><tr><td>A</td><td><b>1</b><br>x</td></tr><tr><td>B</td></tr></tbody></table>"
+ },
+ {
+  "name": "table_complex",
+  "html": "<table class='wikitable' style='x'><tr><th colspan='2'>Head &amp; more</th></tr><tr><td>a</td><td data-x='1'>b</td></tr></table>"
+ },
+ {
+  "name": "table_layout",
+  "html": "<table><tr><td><p>Only cell</p></td></tr></table><table><tr><td>A</td></tr><tr><td>B</td></tr></table>"
+ },
+ {
+  "name": "table_nested",
+  "html": "<table><tr><td>left</td><td><table><tr><th>x</th><th>y</th></tr><tr><td>1</td><td>2</td></tr></table></td></tr></table>"
+ },
+ {
+  "name": "iframe_youtube",
+  "html": "<p>Watch:</p><iframe src='https://www.youtube.com/embed/dQw4w9WgXcQ'></iframe><iframe src='https://player.vimeo.com/video/1'></iframe>"
+ },
+ {
+  "name": "tweet_embed",
+  "html": "<iframe src='https://platform.twitter.com/embed/Tweet.html?dnt=false&id=123456'></iframe>"
+ },
+ {
+  "name": "figure",
+  "html": "<figure><img src='https://e.com/f.png' alt='F'><figcaption>Caption <em>here</em></figcaption></figure>"
+ },
+ {
+  "name": "figure_with_p",
+  "html": "<figure><p>Text para</p><img src='https://e.com/f.png'></figure>"
+ },
+ {
+  "name": "footnotes",
+  "html": "<p>Claim<sup id='fnref:1'><a href='#fn:1'>1</a></sup> and again<sup id='fnref:1-2'><a href='#fn:1'>1</a></sup>.</p><div id='footnotes'><ol><li class='footnote' id='fn:1'><p>Note text.&nbsp;<a href='#fnref:1' class='footnote-backref'>↩</a></p></li><li id='fn:b'><p>Second</p></li></ol></div>"
+ },
+ {
+  "name": "math_inline_block",
+  "html": "<p>Inline <math display='inline' data-latex='a \\neq 0'><mi>a</mi></math> here</p><p><math display='block' data-latex='x^2 + y^2 = z^2'></math></p><math display='block' data-latex='a &amp; b \\\\ c'></math>"
+ },
+ {
+  "name": "math_annotation",
+  "html": "<p>x<math><semantics><mrow><mi>x</mi></mrow><annotation encoding='application/x-tex'>\\alpha</annotation></semantics></math>y</p>"
+ },
+ {
+  "name": "katex",
+  "html": "<p>K <span class='katex'><span class='katex-mathml'><math><semantics><annotation encoding='application/x-tex'>E=mc^2</annotation></semantics></math></span><span class='katex-html'>E=mc2</span></span></p><div class='math math-display'>\\int x</div>"
+ },
+ {
+  "name": "callout",
+  "html": "<div data-callout='warning' class='callout'><div class='callout-title'><div class='callout-title-inner'>Careful</div></div><div class='callout-content'><p>Line one</p><p>Line two</p></div></div><div data-callout='tip' data-callout-fold='-' class='callout'><div class='callout-content'><p>Tip body</p></div></div>"
+ },
+ {
+  "name": "complex_link",
+  "html": "<a href='https://e.com/post'><h2>Card title</h2><p>Card summary</p></a>"
+ },
+ {
+  "name": "whitespace_inline",
+  "html": "<p>a <b> bold </b> b<i>x</i> <span> span </span>c</p><div>  lots   of    space  </div>"
+ },
+ {
+  "name": "nbsp_flank",
+  "html": "<p>a&nbsp;<b>&nbsp;b&nbsp;</b>&nbsp;c</p>"
+ },
+ {
+  "name": "empty_elements",
+  "html": "<p></p><div> </div><p>kept</p><span></span><a href='https://e.com/x'></a>"
+ },
+ {
+  "name": "definition_list",
+  "html": "<dl><dt>Term</dt><dd>Definition <em>one</em></dd><dt>T2</dt><dd>D2</dd></dl>"
+ },
+ {
+  "name": "button_script_style",
+  "html": "<p><button>Click</button><script>var x=1;</script><style>.a{}</style>after</p>"
+ },
+ {
+  "name": "svg_video",
+  "html": "<p><svg><path d='M0'/></svg> <video src='https://e.com/v.mp4' controls></video></p><audio src='a.mp3'></audio>"
+ },
+ {
+  "name": "blank_quote_runs",
+  "html": "<blockquote><p>a</p><p><br></p><p><br></p><p>b</p></blockquote>"
+ },
+ {
+  "name": "many_newlines",
+  "html": "<p>a</p><div><div><p>b</p></div></div><br><br><br><p>c</p>"
+ },
+ {
+  "name": "nested_inline_code_in_link",
+  "html": "<p><a href='https://e.com'><code>code_link</code></a></p>"
+ },
+ {
+  "name": "heading_with_formatting",
+  "html": "<h2><em>Em</em> and <code>code</code></h2>"
+ },
+ {
+  "name": "list_with_code_block",
+  "html": "<ol><li>Step<pre><code class='language-sh'>ls -la</code></pre></li><li>Next</li></ol>"
+ },
+ {
+  "name": "arxiv_enumerate",
+  "html": "<ol class='ltx_enumerate'><li><span class='ltx_tag ltx_tag_item'>1.</span><p>First</p></li><li><span class='ltx_tag ltx_tag_item'>2.</span><p>Second</p></li></ol>"
+ },
+ {
+  "name": "wiki_cite_note",
+  "html": "<div id='footnotes'><ol><li id='cite_note-Smith-3'><sup>Smith-3</sup> Smith 2020</li></ol></div>"
+ },
+ {
+  "name": "entities",
+  "html": "<p>&copy; 2024 &mdash; caf&eacute; &amp; &quot;quotes&quot; &#x1F600;</p>"
+ }
+]

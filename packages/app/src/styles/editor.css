@@ -1,0 +1,956 @@
+/*
+ * Markdown editor (Live Preview and Source mode).
+ *
+ * Only Obsidian's CSS variables are used; the default theme defines their
+ * values. Selectors use Obsidian's class names so community themes that
+ * restyle the editor override these rules naturally.
+ */
+
+/* ---- Shell ---------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-text);
+  font-size: var(--font-text-size);
+  line-height: var(--line-height-normal);
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+  -webkit-font-smoothing: var(--font-smoothing, auto);
+}
+
+.markdown-source-view.mod-cm6 .cm-editor {
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  background-color: inherit;
+  color: inherit;
+}
+
+.markdown-source-view.mod-cm6 .cm-editor.cm-focused {
+  outline: none;
+}
+
+.markdown-source-view.mod-cm6 .cm-scroller {
+  font-family: inherit;
+  line-height: inherit;
+  padding: var(--file-margins);
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.markdown-source-view.mod-cm6 .cm-sizer {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 100%;
+  width: 100%;
+  margin-inline: auto;
+  padding-bottom: var(--file-folding-offset, 0);
+}
+
+.markdown-source-view.mod-cm6.is-readable-line-width .cm-sizer {
+  max-width: var(--file-line-width);
+}
+
+/* Not positioned: `.cm-scroller` is the lines' offsetParent, as in Obsidian.
+   Plugins measure against it — Outliner places its vertical list lines from
+   `.cm-content > .cm-line:first-child`.offsetTop. */
+.markdown-source-view.mod-cm6 .cm-contentContainer {
+  display: flex;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-content {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 0 var(--size-4-12, 3rem) 0;
+  caret-color: var(--caret-color);
+  font-family: inherit;
+  word-wrap: break-word;
+}
+
+.markdown-source-view.mod-cm6.is-folding .cm-content {
+  padding-inline-start: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-line {
+  padding: 0;
+  position: relative;
+}
+
+.markdown-source-view.mod-cm6.is-rtl .cm-content {
+  direction: rtl;
+}
+
+/* Inline editors plugins build from the internal embeddable editor (Kanban's
+   list and card fields) are text fields inside another view, not documents:
+   no file margins, no scroll-past-end padding, no full-height sizer. */
+.markdown-source-view.mod-cm6.vault-embedded-editor {
+  --file-margins: 0;
+}
+
+.markdown-source-view.mod-cm6.vault-embedded-editor .cm-content {
+  padding-bottom: 0;
+}
+
+.markdown-source-view.mod-cm6.vault-embedded-editor .cm-sizer {
+  min-height: 0;
+}
+
+/* ---- Cursor, selection, gutters, panels ----------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-cursor,
+.markdown-source-view.mod-cm6 .cm-dropCursor {
+  border-inline-start: var(--cursor-line-width, 1px) solid var(--caret-color);
+}
+
+.markdown-source-view.mod-cm6 .cm-selectionBackground,
+.markdown-source-view.mod-cm6 .cm-editor.cm-focused > .cm-scroller > .cm-selectionLayer .cm-selectionBackground,
+.markdown-source-view.mod-cm6 .cm-content ::selection {
+  background-color: var(--text-selection);
+}
+
+.markdown-source-view.mod-cm6 .cm-gutters {
+  background-color: var(--background-primary);
+  color: var(--text-faint);
+  border-inline-end: none;
+  font-family: var(--font-interface);
+  font-size: var(--font-ui-smaller);
+  margin-inline-end: var(--size-4-3);
+}
+
+.markdown-source-view.mod-cm6 .cm-lineNumbers .cm-gutterElement {
+  padding: 0 var(--size-2-2) 0 var(--size-4-2);
+  min-width: 24px;
+}
+
+.markdown-source-view.mod-cm6 .cm-lineNumbers .cm-gutterElement.cm-active {
+  color: var(--text-muted);
+}
+
+.markdown-source-view.mod-cm6 .cm-panels {
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  border-color: var(--background-modifier-border);
+  font-family: var(--font-interface);
+  font-size: var(--font-ui-small);
+}
+
+.markdown-source-view.mod-cm6 .cm-panels input,
+.markdown-source-view.mod-cm6 .cm-panels button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+.markdown-source-view.mod-cm6 .cm-searchMatch {
+  background-color: var(--text-highlight-bg);
+  outline: none;
+}
+
+.markdown-source-view.mod-cm6 .cm-searchMatch.cm-searchMatch-selected {
+  background-color: var(--text-highlight-bg-active);
+}
+
+/* ---- Headings ------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-line.HyperMD-header {
+  padding-top: var(--heading-spacing, 0);
+}
+
+.markdown-source-view.mod-cm6 .HyperMD-header-1, .markdown-source-view.mod-cm6 .cm-header-1 { font-size: var(--h1-size); line-height: var(--h1-line-height); }
+.markdown-source-view.mod-cm6 .HyperMD-header-2, .markdown-source-view.mod-cm6 .cm-header-2 { font-size: var(--h2-size); line-height: var(--h2-line-height); }
+.markdown-source-view.mod-cm6 .HyperMD-header-3, .markdown-source-view.mod-cm6 .cm-header-3 { font-size: var(--h3-size); line-height: var(--h3-line-height); }
+.markdown-source-view.mod-cm6 .HyperMD-header-4, .markdown-source-view.mod-cm6 .cm-header-4 { font-size: var(--h4-size); line-height: var(--h4-line-height); }
+.markdown-source-view.mod-cm6 .HyperMD-header-5, .markdown-source-view.mod-cm6 .cm-header-5 { font-size: var(--h5-size); line-height: var(--h5-line-height); }
+.markdown-source-view.mod-cm6 .HyperMD-header-6, .markdown-source-view.mod-cm6 .cm-header-6 { font-size: var(--h6-size); line-height: var(--h6-line-height); }
+
+.markdown-source-view.mod-cm6 .cm-header-1 { color: var(--h1-color); font-weight: var(--h1-weight); font-family: var(--h1-font); font-style: var(--h1-style); font-variant: var(--h1-variant); letter-spacing: var(--h1-letter-spacing); }
+.markdown-source-view.mod-cm6 .cm-header-2 { color: var(--h2-color); font-weight: var(--h2-weight); font-family: var(--h2-font); font-style: var(--h2-style); font-variant: var(--h2-variant); letter-spacing: var(--h2-letter-spacing); }
+.markdown-source-view.mod-cm6 .cm-header-3 { color: var(--h3-color); font-weight: var(--h3-weight); font-family: var(--h3-font); font-style: var(--h3-style); font-variant: var(--h3-variant); letter-spacing: var(--h3-letter-spacing); }
+.markdown-source-view.mod-cm6 .cm-header-4 { color: var(--h4-color); font-weight: var(--h4-weight); font-family: var(--h4-font); font-style: var(--h4-style); font-variant: var(--h4-variant); letter-spacing: var(--h4-letter-spacing); }
+.markdown-source-view.mod-cm6 .cm-header-5 { color: var(--h5-color); font-weight: var(--h5-weight); font-family: var(--h5-font); font-style: var(--h5-style); font-variant: var(--h5-variant); letter-spacing: var(--h5-letter-spacing); }
+.markdown-source-view.mod-cm6 .cm-header-6 { color: var(--h6-color); font-weight: var(--h6-weight); font-family: var(--h6-font); font-style: var(--h6-style); font-variant: var(--h6-variant); letter-spacing: var(--h6-letter-spacing); }
+
+.markdown-source-view.mod-cm6 .cm-formatting-header {
+  color: var(--text-faint);
+}
+
+/* ---- Inline formatting ---------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-formatting {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-strong {
+  font-weight: var(--bold-weight);
+  color: var(--bold-color);
+}
+
+.markdown-source-view.mod-cm6 .cm-em {
+  font-style: italic;
+  color: var(--italic-color);
+}
+
+.markdown-source-view.mod-cm6 .cm-strikethrough {
+  text-decoration: line-through;
+}
+
+.markdown-source-view.mod-cm6 .cm-highlight {
+  background-color: var(--text-highlight-bg);
+  color: var(--text-normal);
+}
+
+.markdown-source-view.mod-cm6 .cm-inline-code:not(.cm-formatting-code-block):not(.cm-hmd-indented-code) {
+  font-family: var(--font-monospace);
+  font-size: var(--code-size);
+  color: var(--code-normal);
+  background-color: var(--code-background);
+  padding: 0.1em 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-inline-code.cm-formatting-code {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-inline-code:not(.cm-formatting-code):not(.cm-hmd-indented-code) {
+  border-radius: var(--code-radius);
+  padding: 0.1em 0.25em;
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-indented-code {
+  font-family: var(--font-monospace);
+  font-size: var(--code-size);
+  color: var(--code-normal);
+}
+
+.markdown-source-view.mod-cm6 .cm-comment {
+  color: var(--code-comment);
+}
+
+.markdown-source-view.mod-cm6 .cm-math,
+.markdown-source-view.mod-cm6 .cm-formatting-math {
+  color: var(--code-normal);
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-math {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-blockid {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-footref,
+.markdown-source-view.mod-cm6 .cm-hmd-footnote {
+  color: var(--text-muted);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-escape-backslash {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-hr {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-tag:not(.cm-hmd-codeblock) {
+  color: var(--code-tag);
+}
+
+/* ---- Links ---------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-hmd-internal-link,
+.markdown-source-view.mod-cm6 .cm-link {
+  color: var(--link-color);
+  font-weight: var(--link-weight);
+}
+
+.markdown-source-view.mod-cm6 .cm-url,
+.markdown-source-view.mod-cm6 .cm-link.cm-url {
+  color: var(--link-external-color);
+}
+
+.markdown-source-view.mod-cm6 .cm-string.cm-url,
+.markdown-source-view.mod-cm6 .cm-formatting-link,
+.markdown-source-view.mod-cm6 .cm-formatting-link-string,
+.markdown-source-view.mod-cm6 .cm-link-alias-pipe {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-underline {
+  cursor: var(--cursor-link, pointer);
+  text-decoration-line: var(--link-decoration);
+  text-decoration-thickness: var(--link-decoration-thickness);
+}
+
+.markdown-source-view.mod-cm6 .cm-underline:hover {
+  color: var(--link-color-hover);
+  text-decoration-line: var(--link-decoration-hover);
+}
+
+.markdown-source-view.mod-cm6 .cm-url .cm-underline,
+.markdown-source-view.mod-cm6 .cm-link .cm-underline {
+  text-decoration-line: var(--link-external-decoration);
+}
+
+.markdown-source-view.mod-cm6 .cm-url .cm-underline:hover,
+.markdown-source-view.mod-cm6 .cm-link .cm-underline:hover {
+  color: var(--link-external-color-hover);
+  text-decoration-line: var(--link-external-decoration-hover);
+}
+
+.markdown-source-view.mod-cm6 .is-unresolved,
+.markdown-source-view.mod-cm6 .is-unresolved .cm-underline {
+  color: var(--link-unresolved-color);
+  opacity: var(--link-unresolved-opacity);
+  text-decoration-style: var(--link-unresolved-decoration-style);
+  text-decoration-color: var(--link-unresolved-decoration-color);
+}
+
+.markdown-source-view.mod-cm6 .is-unresolved .cm-underline {
+  opacity: 1;
+}
+
+.markdown-source-view.mod-cm6 .external-link {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-inline-start: 0.15em;
+  vertical-align: baseline;
+  background-color: var(--link-external-color);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M15 3h6v6'/><path d='M10 14 21 3'/><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/></svg>") no-repeat center / contain;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M15 3h6v6'/><path d='M10 14 21 3'/><path d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'/></svg>") no-repeat center / contain;
+  cursor: var(--cursor-link, pointer);
+}
+
+/* ---- Tags ----------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-hashtag {
+  background-color: var(--tag-background);
+  color: var(--tag-color);
+  font-size: var(--tag-size);
+  font-weight: var(--tag-weight);
+  text-decoration: var(--tag-decoration);
+  border: var(--tag-border-width) solid var(--tag-border-color);
+  padding-top: var(--tag-padding-y);
+  padding-bottom: var(--tag-padding-y);
+  cursor: var(--cursor-link, pointer);
+}
+
+.markdown-source-view.mod-cm6 .cm-hashtag.cm-hashtag-begin {
+  border-start-start-radius: var(--tag-radius);
+  border-end-start-radius: var(--tag-radius);
+  border-inline-end: none;
+  padding-inline-start: var(--tag-padding-x);
+}
+
+.markdown-source-view.mod-cm6 .cm-hashtag.cm-hashtag-end {
+  border-start-end-radius: var(--tag-radius);
+  border-end-end-radius: var(--tag-radius);
+  border-inline-start: none;
+  padding-inline-end: var(--tag-padding-x);
+}
+
+.markdown-source-view.mod-cm6 .cm-hashtag:hover {
+  background-color: var(--tag-background-hover);
+  color: var(--tag-color-hover);
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-hashtag {
+  color: var(--tag-color);
+}
+
+/* ---- Lists and tasks ------------------------------------------------------ */
+
+.markdown-source-view.mod-cm6 .HyperMD-list-line {
+  padding-top: var(--list-spacing);
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-list {
+  color: var(--list-marker-color);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-formatting-list .list-bullet {
+  position: relative;
+  color: transparent;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-formatting-list .list-bullet::after {
+  content: "";
+  position: absolute;
+  inset-inline-start: 50%;
+  top: 50%;
+  width: var(--list-bullet-size);
+  height: var(--list-bullet-size);
+  margin-inline-start: calc(var(--list-bullet-size) / -2);
+  margin-top: calc(var(--list-bullet-size) / -2);
+  border-radius: var(--list-bullet-radius);
+  border: var(--list-bullet-border);
+  background-color: var(--list-marker-color);
+  transform: var(--list-bullet-transform);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-list-line.cm-active .list-bullet::after,
+.markdown-source-view.mod-cm6.is-live-preview .cm-formatting-list .list-bullet:hover::after {
+  background-color: var(--list-marker-color-hover);
+}
+
+.markdown-source-view.mod-cm6 .list-number {
+  color: var(--list-marker-color);
+  font-variant-numeric: tabular-nums;
+}
+
+.markdown-source-view.mod-cm6 .task-list-label {
+  display: inline;
+}
+
+.markdown-source-view.mod-cm6 .task-list-item-checkbox {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  box-sizing: border-box;
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
+  margin: 0;
+  margin-inline-end: var(--checkbox-margin-inline-start, 0.4em);
+  vertical-align: middle;
+  top: -0.1em;
+  border: 1px solid var(--checkbox-border-color);
+  border-radius: var(--checkbox-radius);
+  background-color: transparent;
+  cursor: var(--cursor, pointer);
+  transition: box-shadow 0.15s ease-in-out;
+}
+
+.markdown-source-view.mod-cm6 .task-list-item-checkbox:hover {
+  border-color: var(--checkbox-border-color-hover);
+}
+
+.markdown-source-view.mod-cm6 .task-list-item-checkbox:checked {
+  background-color: var(--checkbox-color);
+  border-color: var(--checkbox-color);
+}
+
+.markdown-source-view.mod-cm6 .task-list-item-checkbox:checked:hover {
+  background-color: var(--checkbox-color-hover);
+  border-color: var(--checkbox-color-hover);
+}
+
+.markdown-source-view.mod-cm6 .task-list-item-checkbox:checked::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--checkbox-marker-color);
+  -webkit-mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M3 7.5 5.8 10 11 4'/></svg>") no-repeat center / 90%;
+  mask: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'><path fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round' d='M3 7.5 5.8 10 11 4'/></svg>") no-repeat center / 90%;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-task-line[data-task="x"],
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-task-line[data-task="X"] {
+  color: var(--checklist-done-color);
+  text-decoration: var(--checklist-done-decoration);
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-task {
+  font-family: var(--font-monospace);
+}
+
+/* ---- Indentation guides --------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-indent {
+  position: relative;
+  /* Own formatting context for a leading tab: see listIndentation in editor/live-preview/indent.ts.
+     text-indent is inherited, so reset the line's negative hanging indent inside it. */
+  display: inline-block;
+  text-indent: 0;
+}
+
+.markdown-source-view.mod-cm6.show-indentation-guide .cm-indent::before {
+  content: "";
+  position: absolute;
+  top: calc(-1 * var(--list-spacing, 0px));
+  bottom: 0;
+  inset-inline-start: 0.3em;
+  border-inline-start: var(--indentation-guide-width) solid var(--indentation-guide-color);
+  pointer-events: none;
+}
+
+.markdown-source-view.mod-cm6.show-indentation-guide .cm-indent.cm-active-indent::before {
+  border-inline-start-width: var(--indentation-guide-width-active);
+  border-inline-start-color: var(--indentation-guide-color-active);
+}
+
+/* ---- Quotes --------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-quote {
+  color: var(--blockquote-color);
+  font-style: var(--blockquote-font-style);
+}
+
+.markdown-source-view.mod-cm6 .cm-formatting-quote {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote {
+  background-color: var(--blockquote-background-color);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-quote::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
+  pointer-events: none;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-transparent {
+  color: transparent;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-blockquote-border {
+  display: inline-block;
+  position: relative;
+  height: 1em;
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .cm-blockquote-border::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: -0.35em;
+  bottom: -0.35em;
+  border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
+}
+
+/* ---- Code blocks ---------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .HyperMD-codeblock {
+  font-family: var(--font-monospace);
+  font-size: var(--code-size);
+  color: var(--code-normal);
+}
+
+.markdown-source-view.mod-cm6 .HyperMD-codeblock-bg {
+  background-color: var(--code-background);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-codeblock {
+  padding-inline: var(--size-4-4);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-codeblock-begin-bg {
+  border-start-start-radius: var(--code-radius);
+  border-start-end-radius: var(--code-radius);
+  padding-top: var(--size-4-2);
+}
+
+.markdown-source-view.mod-cm6.is-live-preview .HyperMD-codeblock-end-bg {
+  border-end-start-radius: var(--code-radius);
+  border-end-end-radius: var(--code-radius);
+  padding-bottom: var(--size-4-2);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock {
+  font-family: var(--font-monospace);
+}
+
+.markdown-source-view.mod-cm6 .code-block-flair {
+  position: absolute;
+  inset-inline-end: var(--size-4-2);
+  top: var(--size-4-2);
+  font-family: var(--font-interface);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+  cursor: var(--cursor, pointer);
+  user-select: none;
+  line-height: 1;
+}
+
+.markdown-source-view.mod-cm6 .code-block-flair:hover {
+  color: var(--text-muted);
+}
+
+.markdown-source-view.mod-cm6 .code-block-flair .svg-icon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-keyword { color: var(--code-keyword); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-def,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-builtin { color: var(--code-function); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-string,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-string-2 { color: var(--code-string); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-number,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-atom { color: var(--code-value); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-comment,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-meta { color: var(--code-comment); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-operator { color: var(--code-operator); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-property,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-attribute,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-variable-2 { color: var(--code-property); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-tag,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-type,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-qualifier { color: var(--code-tag); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-bracket,
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-punctuation { color: var(--code-punctuation); }
+.markdown-source-view.mod-cm6 .cm-hmd-codeblock.cm-error { color: var(--code-important); }
+
+/* ---- Frontmatter (source) ------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-hmd-frontmatter {
+  font-family: var(--font-monospace);
+  font-size: var(--code-size);
+  color: var(--code-normal);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-frontmatter.cm-def,
+.markdown-source-view.mod-cm6 .cm-hmd-frontmatter.cm-meta {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-frontmatter.cm-atom {
+  color: var(--code-property);
+}
+
+.markdown-source-view.mod-cm6 .cm-hmd-frontmatter.cm-comment {
+  color: var(--code-comment);
+}
+
+.markdown-source-view.mod-cm6 .metadata-container[hidden] {
+  display: none;
+}
+
+/* ---- Tables (source) ------------------------------------------------------ */
+
+.markdown-source-view.mod-cm6 .cm-hmd-table-sep {
+  color: var(--text-faint);
+}
+
+.markdown-source-view.mod-cm6 .HyperMD-table-row {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- Horizontal rule ------------------------------------------------------ */
+
+.markdown-source-view.mod-cm6 .hr.cm-line {
+  padding: var(--size-4-2) 0;
+}
+
+.markdown-source-view.mod-cm6 .hr.cm-line br {
+  display: none;
+}
+
+.markdown-source-view.mod-cm6 .hr.cm-line hr {
+  margin: 0;
+  border: none;
+  border-top: var(--hr-thickness) solid var(--hr-color);
+  cursor: var(--cursor, text);
+}
+
+/* ---- Block widgets -------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-embed-block {
+  position: relative;
+  border-radius: var(--radius-s);
+  cursor: var(--cursor, text);
+  overflow-y: hidden;
+}
+
+.markdown-source-view.mod-cm6 .cm-embed-block:not(.cm-table-widget):hover {
+  box-shadow: 0 0 0 1px var(--background-modifier-border);
+}
+
+.markdown-source-view.mod-cm6 .cm-embed-block .embed-actions {
+  position: absolute;
+  top: var(--size-2-2);
+  inset-inline-end: var(--size-2-2);
+  display: flex;
+  gap: var(--size-2-1);
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+}
+
+.markdown-source-view.mod-cm6 .cm-embed-block:hover .embed-actions {
+  opacity: 1;
+}
+
+.markdown-source-view.mod-cm6 .embed-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-2-2);
+  border-radius: var(--clickable-icon-radius);
+  color: var(--icon-color);
+  background-color: var(--background-primary);
+  cursor: var(--cursor, pointer);
+}
+
+.markdown-source-view.mod-cm6 .embed-action:hover {
+  color: var(--icon-color-hover);
+  background-color: var(--background-modifier-hover);
+}
+
+.markdown-source-view.mod-cm6 .embed-action .svg-icon {
+  width: var(--icon-s);
+  height: var(--icon-s);
+}
+
+.markdown-source-view.mod-cm6 .cm-callout > .markdown-rendered {
+  padding: 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-callout .callout {
+  margin: var(--size-2-2) 0;
+}
+
+.markdown-source-view.mod-cm6 .math.math-block.cm-embed-block {
+  display: block;
+  text-align: center;
+  padding: var(--size-4-2) 0;
+  overflow-x: auto;
+}
+
+.markdown-source-view.mod-cm6 span.math {
+  cursor: var(--cursor, text);
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget {
+  overflow-x: auto;
+  padding: var(--size-2-1) 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget .table-wrapper {
+  display: inline-block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget table {
+  border-collapse: collapse;
+  font-size: var(--table-text-size);
+  color: var(--table-text-color);
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget th,
+.markdown-source-view.mod-cm6 .cm-table-widget td {
+  border: var(--table-border-width) solid var(--table-border-color);
+  padding: var(--size-2-2) var(--size-4-2);
+  text-align: start;
+  vertical-align: top;
+  line-height: var(--table-line-height);
+  white-space: var(--table-white-space);
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget th {
+  /* Header cells read as headers even when the theme leaves these unset (audit #31). */
+  font-weight: var(--table-header-weight, var(--font-semibold));
+  color: var(--table-header-color, var(--text-normal));
+  background-color: var(--table-header-background);
+  font-family: var(--table-header-font);
+  font-size: var(--table-header-size);
+}
+
+/* Column alignment from the delimiter row (`align` is a presentational hint the rule above overrides). */
+.markdown-source-view.mod-cm6 .cm-table-widget :is(th, td)[align="center"] { text-align: center; }
+.markdown-source-view.mod-cm6 .cm-table-widget :is(th, td)[align="right"] { text-align: end; }
+
+.markdown-source-view.mod-cm6 .cm-table-widget td:hover {
+  background-color: var(--table-row-background-hover);
+}
+
+.markdown-source-view.mod-cm6 .cm-table-widget .table-cell-wrapper {
+  min-width: var(--table-column-min-width, 2ch);
+}
+
+.markdown-source-view.mod-cm6 .internal-embed {
+  display: inline-block;
+  max-width: 100%;
+}
+
+.markdown-source-view.mod-cm6 div.internal-embed {
+  display: block;
+  padding: var(--size-2-1) 0;
+}
+
+.markdown-source-view.mod-cm6 .internal-embed img,
+.markdown-source-view.mod-cm6 .cm-content img {
+  max-width: 100%;
+  vertical-align: bottom;
+}
+
+/* CodeMirror 6.39+ draws a zero-width <img class="cm-widgetBuffer"> on both
+   sides of every hidden widget — each concealed `**`, `[[`, `==` in Live
+   Preview. Themes size editor images with rules like Minimal's
+   `.full-width-media .markdown-source-view img:not([width]) { width: 100% }`,
+   which turned every buffer into a full-width empty line. A buffer is caret
+   plumbing, never content, so pin its geometry above any theme rule. */
+.markdown-source-view.mod-cm6 .cm-content img.cm-widgetBuffer,
+.cm-editor .cm-content img.cm-widgetBuffer {
+  display: inline !important;
+  width: 0 !important;
+  min-width: 0 !important;
+  max-width: 0 !important;
+  height: 1em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  vertical-align: text-top !important;
+}
+
+.markdown-source-view.mod-cm6 .cm-preview-code-block {
+  padding: var(--size-2-2) 0;
+}
+
+.markdown-source-view.mod-cm6 .cm-html-embed {
+  padding: var(--size-2-2) 0;
+}
+
+.markdown-source-view.mod-cm6 .vault-render-error {
+  color: var(--text-error);
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-smaller);
+}
+
+/* ---- Folding -------------------------------------------------------------- */
+
+.markdown-source-view.mod-cm6 .cm-fold-indicator {
+  display: inline;
+  position: relative;
+}
+
+.markdown-source-view.mod-cm6 .cm-fold-indicator .collapse-indicator {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 0;
+  height: var(--line-height-normal, 1.5em);
+  display: flex;
+  align-items: center;
+  padding-inline-end: var(--size-2-2);
+  color: var(--collapse-icon-color);
+  opacity: 0;
+  cursor: var(--cursor, pointer);
+  transition: opacity 0.1s;
+}
+
+.markdown-source-view.mod-cm6 .HyperMD-header .cm-fold-indicator .collapse-indicator {
+  height: 100%;
+  padding-top: var(--heading-spacing, 0);
+}
+
+.markdown-source-view.mod-cm6 .cm-line:hover .cm-fold-indicator .collapse-indicator,
+.markdown-source-view.mod-cm6 .cm-fold-indicator.is-collapsed .collapse-indicator {
+  opacity: 1;
+}
+
+.markdown-source-view.mod-cm6 .cm-fold-indicator.is-collapsed .collapse-indicator {
+  color: var(--collapse-icon-color-collapsed);
+}
+
+.markdown-source-view.mod-cm6 .cm-fold-indicator .svg-icon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+  transition: transform 0.1s;
+}
+
+.markdown-source-view.mod-cm6 .cm-fold-indicator.is-collapsed .svg-icon {
+  transform: rotate(-90deg);
+}
+
+.markdown-source-view.mod-cm6.is-rtl .cm-fold-indicator.is-collapsed .svg-icon {
+  transform: rotate(90deg);
+}
+
+.markdown-source-view.mod-cm6 .cm-foldPlaceholder {
+  display: inline-block;
+  margin-inline-start: var(--size-4-1);
+  padding: 0 var(--size-2-2);
+  border: none;
+  border-radius: var(--radius-s);
+  background-color: transparent;
+  color: var(--text-faint);
+  cursor: var(--cursor, pointer);
+  line-height: 1;
+}
+
+.markdown-source-view.mod-cm6 .cm-foldPlaceholder:hover {
+  background-color: var(--background-modifier-hover);
+  color: var(--text-muted);
+}
+
+/* ---- Link and tag suggestions --------------------------------------------- */
+
+.suggestion-container.vault-editor-suggest {
+  position: fixed;
+  z-index: var(--layer-popover);
+  width: 300px;
+  max-width: calc(100vw - 16px);
+  max-height: 300px;
+  overflow-y: auto;
+  padding: var(--size-2-3);
+  background-color: var(--background-primary);
+  border: var(--border-width) solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  box-shadow: var(--shadow-s);
+  font-family: var(--font-interface);
+  font-size: var(--font-ui-small);
+  color: var(--text-normal);
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-2);
+  padding: var(--size-2-3) var(--size-4-3);
+  border-radius: var(--radius-s);
+  cursor: var(--cursor, pointer);
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-item.is-selected {
+  background-color: var(--background-modifier-hover);
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-content {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-note {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suggestion-container.vault-editor-suggest .suggestion-flair {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+}
+
+/* ---- Vim ------------------------------------------------------------------ */
+
+.markdown-source-view.mod-cm6 .cm-fat-cursor {
+  background-color: var(--text-accent);
+  color: var(--text-on-accent);
+}
+
+.markdown-source-view.mod-cm6:not(.cm-focused) .cm-fat-cursor {
+  background: none;
+  outline: 1px solid var(--text-accent);
+  color: transparent;
+}
