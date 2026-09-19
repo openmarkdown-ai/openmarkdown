@@ -8,9 +8,9 @@ independent, open-source implementation of the MIT-licensed
 [Obsidian plugin API](https://github.com/obsidianmd/obsidian-api), and contains no
 code from the Obsidian app.
 
-- **Use it:** [openmarkdown.ai/app](https://openmarkdown.ai/app/) (coming soon), or
+- **Use it:** [openmarkdown.ai/app](https://openmarkdown.ai/app/), or
   download the web app from [Releases](../../releases) and serve it yourself.
-- **Site:** [openmarkdown.ai](https://openmarkdown.ai) (coming soon)
+- **Site:** [openmarkdown.ai](https://openmarkdown.ai)
 
 ![OpenMarkdown editing a note in Live Preview, with backlinks in the right sidebar](docs/screenshots/02-live-preview.png)
 
