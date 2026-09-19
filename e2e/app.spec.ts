@@ -44,7 +44,7 @@ test("Live Preview hides markup away from the cursor and reading view renders it
   await page.click('.nav-file-title[data-path="Formatting.md"]');
   await page.waitForSelector(".markdown-source-view.is-live-preview .cm-content");
   await expect(page.locator(".cm-content .callout").first()).toBeVisible();
-  await page.keyboard.press("Meta+e");
+  await page.keyboard.press("ControlOrMeta+e");
   const reading = page.locator(".markdown-reading-view .markdown-preview-view");
   await expect(reading.locator(".callout[data-callout='note']")).toBeVisible();
   await expect(reading.locator("mark", { hasText: "highlighted" })).toBeVisible();
@@ -93,12 +93,12 @@ test("search uses Obsidian's query language", async ({ page }) => {
 
 test("quick switcher and command palette", async ({ page }) => {
   await openDemo(page);
-  await page.keyboard.press("Meta+o");
+  await page.keyboard.press("ControlOrMeta+o");
   await page.keyboard.type("garden");
   await expect(page.locator(".prompt .suggestion-item").first()).toContainText("Garden plan");
   await page.keyboard.press("Enter");
   await expect(page.locator(".workspace-leaf.mod-active .view-header-title")).toHaveText("Garden plan");
-  await page.keyboard.press("Meta+p");
+  await page.keyboard.press("ControlOrMeta+p");
   await page.keyboard.type("toggle reading");
   await expect(page.locator(".prompt .suggestion-item").first()).toContainText("reading");
   await page.keyboard.press("Escape");
@@ -148,7 +148,7 @@ test("nothing is sent anywhere while using the app", async ({ page }) => {
   });
   await openDemo(page);
   await page.click('.nav-file-title[data-path="Formatting.md"]');
-  await page.keyboard.press("Meta+e");
+  await page.keyboard.press("ControlOrMeta+e");
   await page.waitForTimeout(3000);
   await page.evaluate(() => (window as any).app.commands.executeCommandById("graph:open"));
   await page.evaluate(() => (window as any).app.metadataCache.index.search("callout", {}));
