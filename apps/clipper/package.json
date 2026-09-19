@@ -1,0 +1,19 @@
+{
+  "name": "@vault/clipper",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT OR Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "build:chromium": "node build.mjs chromium",
+    "build:firefox": "node build.mjs firefox",
+    "watch": "node build.mjs --watch",
+    "icons": "node scripts/icons.mjs",
+    "typecheck": "tsc -p . --noEmit"
+  },
+  "dependencies": {
+    "@vault/engine": "*",
+    "dompurify": "^3.4.15"
+  }
+}

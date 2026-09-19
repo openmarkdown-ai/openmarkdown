@@ -1,0 +1,147 @@
+/* ======== data safety: save status, conflict/deleted/read-only banners, recovery ======== */
+
+.status-bar-item.vault-save-status {
+  gap: var(--size-4-1, 4px);
+}
+.status-bar-item.vault-save-status.mod-clickable {
+  cursor: var(--cursor, pointer);
+}
+.status-bar-item.vault-save-status.mod-error {
+  color: var(--text-error);
+  font-weight: var(--font-semibold, 600);
+}
+.status-bar-item.vault-save-status.mod-warning {
+  color: var(--text-warning, var(--color-orange));
+}
+
+/* A tab whose note is failing to save or is in conflict. */
+.workspace-tab-header.vault-save-failed .workspace-tab-header-inner-title {
+  color: var(--text-error);
+}
+
+.vault-safety-banner {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-4-2, 8px) var(--size-4-3, 12px);
+  flex-shrink: 0;
+  padding: var(--size-4-2, 8px) var(--size-4-4, 16px);
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+  background-color: var(--background-secondary);
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+  line-height: var(--line-height-tight, 1.3);
+}
+.vault-safety-banner-icon {
+  display: flex;
+  color: var(--text-warning, var(--color-orange));
+}
+.vault-safety-banner.mod-deleted .vault-safety-banner-icon {
+  color: var(--text-error);
+}
+.vault-safety-banner.mod-encoding .vault-safety-banner-icon {
+  color: var(--text-muted);
+}
+.vault-safety-banner-icon svg {
+  width: var(--icon-s, 16px);
+  height: var(--icon-s, 16px);
+}
+.vault-safety-banner-message {
+  flex: 1 1 16em;
+  min-width: 0;
+}
+.vault-safety-banner-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-4-2, 8px);
+}
+.vault-safety-banner-actions button {
+  font-size: var(--font-ui-small);
+}
+
+/* Compare modal */
+.modal.vault-conflict-modal {
+  width: min(960px, calc(100vw - 2 * var(--size-4-4, 16px)));
+  max-width: 100%;
+}
+.vault-conflict-description {
+  margin-bottom: var(--size-4-3, 12px);
+}
+.vault-conflict-diff {
+  max-height: min(60vh, 540px);
+  overflow: auto;
+  border: var(--border-width, 1px) solid var(--background-modifier-border);
+  border-radius: var(--radius-s, 4px);
+  background-color: var(--background-primary);
+}
+.vault-conflict-diff .vault-diff-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background-color: var(--background-secondary);
+}
+.vault-diff-skip .vault-diff-cell {
+  padding: 2px var(--size-4-2, 8px);
+  color: var(--text-faint);
+  font-family: var(--font-interface);
+  background-color: var(--background-secondary-alt, var(--background-secondary));
+}
+.vault-conflict-modal .modal-button-container {
+  margin-top: var(--size-4-4, 16px);
+}
+
+/* Recovery modal */
+.modal.vault-recovery-modal {
+  width: min(640px, calc(100vw - 2 * var(--size-4-4, 16px)));
+}
+.vault-recovery-description {
+  margin-bottom: var(--size-4-3, 12px);
+}
+.vault-recovery-list {
+  display: flex;
+  flex-direction: column;
+  border-top: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+.vault-recovery-item {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--size-4-2, 8px) var(--size-4-4, 16px);
+  padding: var(--size-4-3, 12px) 0;
+  border-bottom: var(--border-width, 1px) solid var(--background-modifier-border);
+}
+.vault-recovery-info {
+  flex: 1 1 14em;
+  min-width: 0;
+}
+.vault-recovery-name {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-1, 4px);
+  font-weight: var(--font-medium, 500);
+  overflow-wrap: anywhere;
+}
+.vault-recovery-icon {
+  display: flex;
+  color: var(--text-muted);
+}
+.vault-recovery-icon svg {
+  width: var(--icon-xs, 14px);
+  height: var(--icon-xs, 14px);
+}
+.vault-recovery-meta {
+  margin-top: 2px;
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
+.vault-recovery-actions {
+  display: flex;
+  gap: var(--size-4-2, 8px);
+}
+
+/* Notices with buttons (mass delete) */
+.vault-safety-notice-actions {
+  display: flex;
+  gap: var(--size-4-2, 8px);
+  margin-top: var(--size-4-2, 8px);
+}

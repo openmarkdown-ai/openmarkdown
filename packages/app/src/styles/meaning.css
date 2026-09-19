@@ -1,0 +1,374 @@
+/* A2 Meaning: Related notes, search by meaning, Chat with vault (docs/PLAN-ai.md). */
+
+/* ---- Related notes + shared result list ---------------------------------------- */
+.semantic-related-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+.semantic-related-view > .nav-header,
+.semantic-related-view > .semantic-status,
+.semantic-related-view > .semantic-subject,
+.semantic-related-view > .semantic-empty {
+  flex-shrink: 0;
+}
+.semantic-related-view > .semantic-related-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+.semantic-related-view > .nav-header {
+  padding: var(--size-4-2) var(--size-4-2) 0;
+}
+.semantic-status {
+  margin: var(--size-4-2) var(--size-4-3) 0;
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.semantic-status.mod-error {
+  color: var(--text-error);
+}
+.semantic-status button {
+  margin-top: var(--size-4-1);
+}
+.semantic-progress {
+  height: 4px;
+  margin-top: var(--size-4-1);
+  border-radius: 2px;
+  background: var(--background-modifier-border);
+  overflow: hidden;
+}
+.semantic-progress-fill {
+  height: 100%;
+  background: var(--interactive-accent);
+  transition: width 200ms ease;
+}
+.semantic-subject {
+  margin: var(--size-4-2) var(--size-4-3) var(--size-4-1);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.semantic-subject-name {
+  color: var(--text-normal);
+  font-weight: var(--font-medium);
+}
+.semantic-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+  align-items: flex-start;
+  padding: var(--size-4-3);
+  line-height: 1.45;
+}
+.semantic-related-list,
+.semantic-search-list {
+  padding: 0 var(--size-4-1) var(--size-4-8);
+}
+.semantic-result > .search-result-file-title {
+  align-items: center;
+}
+.semantic-result .tree-item-flair-outer {
+  display: flex;
+  align-items: center;
+  gap: var(--size-2-2);
+}
+.semantic-score,
+.semantic-passage-score {
+  font-variant-numeric: tabular-nums;
+}
+.semantic-insert-link {
+  padding: var(--size-2-1);
+  opacity: 0;
+}
+.semantic-result > .search-result-file-title:hover .semantic-insert-link,
+.semantic-insert-link:focus-visible,
+body.is-mobile .semantic-insert-link {
+  opacity: 1;
+}
+.semantic-passage {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  cursor: pointer;
+}
+.semantic-passage[draggable="true"] {
+  cursor: grab;
+}
+.semantic-passage-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--size-4-2);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.semantic-passage-heading > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.semantic-passage-score {
+  color: var(--text-faint);
+}
+.semantic-passage-text {
+  color: var(--text-normal);
+  font-size: var(--font-ui-small);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* status bar item */
+.status-bar-item.semantic-status-bar {
+  font-variant-numeric: tabular-nums;
+}
+.status-bar-item.semantic-status-bar.mod-error {
+  color: var(--text-error);
+}
+
+/* ---- Search by meaning ----------------------------------------------------------- */
+.semantic-search-toggle.is-active {
+  color: var(--interactive-accent);
+  background: var(--background-modifier-hover);
+}
+.semantic-search-section {
+  margin: var(--size-4-1) 0 var(--size-4-2);
+  padding-bottom: var(--size-4-1);
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+.semantic-search-section.is-loading .semantic-search-header .tree-item-inner::after {
+  content: " …";
+  color: var(--text-faint);
+}
+.semantic-search-header,
+.semantic-keyword-label {
+  font-size: var(--font-ui-smaller);
+  font-weight: var(--font-semibold);
+  color: var(--text-muted);
+  text-transform: none;
+  padding-inline: var(--size-4-3);
+}
+.semantic-search-engine {
+  padding: 0 var(--size-4-3) var(--size-4-1);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+}
+.semantic-search-engine:empty {
+  display: none;
+}
+
+/* ---- Chat with vault --------------------------------------------------------------- */
+.view-content.vault-chat-view {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+.vault-chat-pins {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--size-4-1);
+  padding: var(--size-4-2) var(--size-4-3);
+  border-bottom: 1px solid var(--background-modifier-border);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.vault-chat-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-2-2);
+  max-width: 100%;
+  padding: 1px var(--size-2-2) 1px var(--size-4-1);
+  border-radius: var(--radius-s);
+  background: var(--background-modifier-hover);
+  color: var(--text-normal);
+}
+.vault-chat-pin > span:nth-child(2) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vault-chat-pin-icon svg,
+.vault-chat-pin-remove svg {
+  width: 12px;
+  height: 12px;
+}
+.vault-chat-pin-remove {
+  padding: 1px;
+}
+.vault-chat-pin-add {
+  margin-left: auto;
+}
+.vault-chat-notice {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--size-4-2);
+  margin: var(--size-4-2) var(--size-4-3) 0;
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-m);
+  background: var(--background-secondary);
+  font-size: var(--font-ui-small);
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+.vault-chat-messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-3);
+  padding: var(--size-4-3);
+}
+.vault-chat-empty {
+  margin: auto 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-ui-small);
+  line-height: 1.5;
+  padding: var(--size-4-4);
+}
+.vault-chat-empty-title {
+  font-size: var(--font-ui-medium);
+  font-weight: var(--font-semibold);
+  color: var(--text-normal);
+  margin-bottom: var(--size-4-1);
+}
+.vault-chat-turn {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-2);
+}
+.vault-chat-message {
+  max-width: 100%;
+  padding: var(--size-4-2) var(--size-4-3);
+  border-radius: var(--radius-m);
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  user-select: text;
+  font-size: var(--font-ui-small);
+}
+.vault-chat-message.mod-user {
+  align-self: flex-end;
+  max-width: 88%;
+  white-space: pre-wrap;
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+.vault-chat-message.mod-assistant {
+  align-self: stretch;
+  background: var(--background-secondary);
+  color: var(--text-normal);
+}
+.vault-chat-message.mod-error .vault-chat-status {
+  color: var(--text-error);
+}
+.vault-chat-status {
+  color: var(--text-muted);
+  font-size: var(--font-ui-smaller);
+}
+.vault-chat-message.is-streaming .vault-chat-answer {
+  white-space: pre-wrap;
+}
+.vault-chat-message.is-streaming .vault-chat-answer::after {
+  content: "▍";
+  color: var(--text-faint);
+}
+.vault-chat-answer.markdown-rendered > :first-child {
+  margin-top: 0;
+}
+.vault-chat-answer.markdown-rendered > :last-child {
+  margin-bottom: 0;
+}
+.vault-chat-answer.markdown-rendered p,
+.vault-chat-answer.markdown-rendered li {
+  font-size: var(--font-ui-small);
+}
+.vault-chat-sources {
+  margin-top: var(--size-4-2);
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+.vault-chat-sources summary {
+  cursor: pointer;
+}
+.vault-chat-source {
+  display: flex;
+  gap: var(--size-4-2);
+  padding: 2px var(--size-4-1);
+  border-radius: var(--radius-s);
+  cursor: pointer;
+  color: var(--text-normal);
+}
+.vault-chat-source:hover {
+  background: var(--background-modifier-hover);
+}
+.vault-chat-source-n {
+  min-width: 1.2em;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+.vault-chat-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-4-1);
+  margin-top: var(--size-4-2);
+  padding-top: var(--size-4-1);
+  border-top: 1px solid var(--background-modifier-border);
+}
+.vault-chat-engine {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-faint);
+}
+.vault-chat-actions {
+  display: flex;
+  gap: var(--size-2-1);
+}
+.vault-chat-form {
+  display: flex;
+  gap: var(--size-4-2);
+  /* the floating status bar covers the bottom of the right sidebar */
+  padding: var(--size-4-2) var(--size-4-3) calc(var(--size-4-3) + 28px);
+  border-top: 1px solid var(--background-modifier-border);
+}
+body.is-mobile .vault-chat-form {
+  padding-bottom: var(--size-4-3);
+}
+.vault-chat-input {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+  font-size: var(--font-ui-small);
+}
+.vault-chat-send {
+  align-self: flex-end;
+}
+.vault-chat-insert-tabs {
+  display: flex;
+  gap: var(--size-4-1);
+  margin: var(--size-4-2) 0;
+}
+.vault-chat-insert-tabs button.is-active {
+  background: var(--interactive-accent);
+  color: var(--text-on-accent);
+}
+.vault-chat-insert-preview {
+  max-height: 50vh;
+  overflow: auto;
+  padding: var(--size-4-2) var(--size-4-3);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+}
+.vault-chat-insert-source {
+  width: 100%;
+  font-family: var(--font-monospace);
+  font-size: var(--font-ui-small);
+}

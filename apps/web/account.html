@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="robots" content="noindex" />
+    <title>Account · OpenMarkdown</title>
+    <meta name="description" content="Your account: sign in, see your balance, sign out. OpenMarkdown itself needs no account." />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+  </head>
+  <!--
+    The account page. Its own page, not a panel over the workspace: the
+    Google button sends the whole window to the provider and back, which
+    would throw away whatever the workspace was holding. Nothing here is
+    worth losing. The sign-in comes back to this same URL with the code in
+    the fragment, and the login element redeems it as it mounts.
+  -->
+  <body>
+    <header class="om-topbar">
+      <a class="om-brand" id="om-brand" href="./">
+        <img class="om-brand-tile" src="./favicon.svg" alt="" width="26" height="26" />
+        <span class="om-brand-word"><span class="om-prefix">Open</span>Markdown<span class="om-dot">.</span></span>
+      </a>
+      <nav class="om-actions">
+        <a class="om-back" href="./">Back to your notes</a>
+        <a class="om-account-control" href="./account" aria-current="page" aria-label="Account" title="Account">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></svg>
+        </a>
+      </nav>
+    </header>
+    <main class="om-main">
+      <!-- h2: the sign-in panel below carries the page's one h1. -->
+      <h2 class="om-title">Account</h2>
+      <p class="om-lede">OpenMarkdown is free, and nothing in it needs an account. Signing in keeps a balance you can spend in our other apps, and sends none of your notes anywhere.</p>
+      <div class="om-card" data-testid="account-panel" id="account-panel">
+        <p class="om-muted" id="account-loading">Loading…</p>
+      </div>
+    </main>
+    <script type="module" src="./src/account/main.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,988 @@
+{
+ "vars": {
+  "title": "Hello World",
+  "author": "Ada Lovelace",
+  "tags": [
+   "alpha",
+   "beta",
+   "gamma"
+  ],
+  "empty": "",
+  "nums": [
+   3,
+   1,
+   2
+  ],
+  "people": [
+   {
+    "name": "Ann",
+    "age": 31,
+    "city": {
+     "name": "Oslo"
+    }
+   },
+   {
+    "name": "Bob",
+    "age": 25,
+    "city": {
+     "name": "Rome"
+    }
+   }
+  ],
+  "obj": {
+   "a": 1,
+   "b": "two",
+   "c": [
+    1,
+    2
+   ]
+  },
+  "html": "<p class=\"x\" id=\"y\">Hi <b>there</b> <a href=\"/l\" style=\"c\">link</a></p><img src=\"a.png\" alt=\"A\">",
+  "published": "2024-03-05T14:07:09Z",
+  "md": "**bold** _it_ [link](https://x.com) `code` ==hl== ~~s~~",
+  "camelText": "helloWorld exampleText",
+  "spaced": "  padded  ",
+  "multi": "line one\nline two",
+  "single": [
+   "solo"
+  ],
+  "url": "https://example.com/a?b=1",
+  "n": 1234.5678,
+  "dur": "PT1H30M5S",
+  "str": "a,b,c,d"
+ },
+ "cases": [
+  {
+   "name": "var",
+   "tpl": "{{title}}",
+   "vars": null
+  },
+  {
+   "name": "upper",
+   "tpl": "{{title|upper}}",
+   "vars": null
+  },
+  {
+   "name": "lower",
+   "tpl": "{{title|lower}}",
+   "vars": null
+  },
+  {
+   "name": "chain",
+   "tpl": "{{ title | lower | replace:\"o\":\"0\" }}",
+   "vars": null
+  },
+  {
+   "name": "missing",
+   "tpl": "[{{nope}}]",
+   "vars": null
+  },
+  {
+   "name": "array_out",
+   "tpl": "{{tags}}",
+   "vars": null
+  },
+  {
+   "name": "single_array_out",
+   "tpl": "{{single}}",
+   "vars": null
+  },
+  {
+   "name": "obj_out",
+   "tpl": "{{obj}}",
+   "vars": null
+  },
+  {
+   "name": "nested",
+   "tpl": "{{people[1].name}} {{obj.b}} {{people[0].city.name}}",
+   "vars": null
+  },
+  {
+   "name": "if_true",
+   "tpl": "{% if title %}yes{% else %}no{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "if_false",
+   "tpl": "{% if empty %}yes{% elseif tags %}tags{% else %}no{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "if_ml",
+   "tpl": "Start\n{% if title %}\nhas title\n{% endif %}\nEnd",
+   "vars": null
+  },
+  {
+   "name": "if_else_ml",
+   "tpl": "a\n{% if empty %}\nx\n{% else %}\ny\n{% endif %}\nb",
+   "vars": null
+  },
+  {
+   "name": "for",
+   "tpl": "{% for t in tags %}\n- {{t}}\n{% endfor %}\ndone",
+   "vars": null
+  },
+  {
+   "name": "for_loop",
+   "tpl": "{% for t in tags %}{{loop.index}}/{{loop.length}}:{{t}}{% if not loop.last %}, {% endif %}{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "for_index",
+   "tpl": "{% for p in people %}{{p_index}}={{p.name}} {% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "for_nested",
+   "tpl": "{% for p in people %}\n## {{p.name}}\n{% for t in tags %}\n- {{t}}\n{% endfor %}\n{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "for_split",
+   "tpl": "{% for x in str|split:\",\" %}[{{x}}]{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "set",
+   "tpl": "{% set x = title|upper %}{{x}}-{{x|lower}}",
+   "vars": null
+  },
+  {
+   "name": "set_in_for",
+   "tpl": "{% set c = \"out\" %}{% for t in tags %}{% set c = t %}{% endfor %}{{c}}",
+   "vars": null
+  },
+  {
+   "name": "compare",
+   "tpl": "{% if people[0].age > 30 %}old{% endif %}{% if nums contains 2 %} has2{% endif %}{% if title contains \"world\" %} w{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "logic",
+   "tpl": "{% if title and not empty %}A{% endif %}{% if empty or tags %}B{% endif %}{% if title == \"Hello World\" %}C{% endif %}{% if 5 >= 5 %}D{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "nullish",
+   "tpl": "{{ nope ?? \"fallback\" }} {{ empty ?? title }}",
+   "vars": null
+  },
+  {
+   "name": "comment",
+   "tpl": "a{# hidden #}b\n{# line #}\nc",
+   "vars": null
+  },
+  {
+   "name": "spaced_name",
+   "tpl": "{{ First name }}",
+   "vars": {
+    "First name": "Grace"
+   }
+  },
+  {
+   "name": "blockquote",
+   "tpl": "{{multi|blockquote}}",
+   "vars": null
+  },
+  {
+   "name": "blockquote_arr",
+   "tpl": "{{tags|blockquote}}",
+   "vars": null
+  },
+  {
+   "name": "bold",
+   "tpl": "{{title|bold}} {{tags|bold}}",
+   "vars": null
+  },
+  {
+   "name": "italic",
+   "tpl": "{{title|italic:\"_\"}}",
+   "vars": null
+  },
+  {
+   "name": "strike_hl",
+   "tpl": "{{title|strike}} {{title|highlight:\"blue\"}}",
+   "vars": null
+  },
+  {
+   "name": "calc",
+   "tpl": "{{ \"5\"|calc:\"+10\" }} {{ \"2\"|calc:\"**3\" }} {{ \"10\"|calc:\"/3\" }} {{ \"abc\"|calc:\"+1\" }}",
+   "vars": null
+  },
+  {
+   "name": "callout",
+   "tpl": "{{multi|callout:(\"warning\", \"Heads up\", true)}}",
+   "vars": null
+  },
+  {
+   "name": "callout_default",
+   "tpl": "{{title|callout}}",
+   "vars": null
+  },
+  {
+   "name": "camel",
+   "tpl": "{{camelText|camel}} {{\"hello world-foo_bar\"|camel}}",
+   "vars": null
+  },
+  {
+   "name": "capitalize",
+   "tpl": "{{\"hELLO wORLD\"|capitalize}} {{tags|capitalize}}",
+   "vars": null
+  },
+  {
+   "name": "code",
+   "tpl": "{{title|code}} {{multi|code:\"js\"}}",
+   "vars": null
+  },
+  {
+   "name": "code_block",
+   "tpl": "{{title|code_block}}",
+   "vars": null
+  },
+  {
+   "name": "comment_filter",
+   "tpl": "{{title|comment}}",
+   "vars": null
+  },
+  {
+   "name": "compact",
+   "tpl": "{{ \"[1,null,\\\"\\\",\\\"x\\\"]\"|parse_json|compact }}",
+   "vars": null
+  },
+  {
+   "name": "date",
+   "tpl": "{{published|date:\"YYYY-MM-DD HH:mm\"}}",
+   "vars": null
+  },
+  {
+   "name": "date_input",
+   "tpl": "{{ \"12/01/2024\"|date:(\"YYYY-MM-DD\", \"MM/DD/YYYY\") }}",
+   "vars": null
+  },
+  {
+   "name": "date_tokens",
+   "tpl": "{{published|date:\"dddd, MMMM Do YYYY [at] h:mm A Q\"}}",
+   "vars": null
+  },
+  {
+   "name": "date_default",
+   "tpl": "{{published|date}}",
+   "vars": null
+  },
+  {
+   "name": "date_modify",
+   "tpl": "{{ \"2024-12-01\"|date_modify:\"+1 year\" }} {{ \"2024-12-01\"|date_modify:\"- 2 months\" }} {{ \"2024-01-31\"|date_modify:\"+1 month\" }}",
+   "vars": null
+  },
+  {
+   "name": "decode_uri",
+   "tpl": "{{ \"hello%20world\"|decode_uri }} {{ \"%E4%BD%A0%E5%A5%BD\"|decode_uri }} {{ \"%E4%ZZ\"|decode_uri }}",
+   "vars": null
+  },
+  {
+   "name": "encode_uri",
+   "tpl": "{{ \"a b&c/d\"|encode_uri }}",
+   "vars": null
+  },
+  {
+   "name": "duration",
+   "tpl": "{{dur|duration}} {{ \"3665\"|duration:\"H:mm:ss\" }} {{ \"PT6702S\"|duration }} {{ \"125\"|duration }}",
+   "vars": null
+  },
+  {
+   "name": "embed",
+   "tpl": "{{title|embed}} {{tags|embed:\"x\"}}",
+   "vars": null
+  },
+  {
+   "name": "escape_md",
+   "tpl": "{{ \"*a* [b] #c\"|escape_md }}",
+   "vars": null
+  },
+  {
+   "name": "first_last",
+   "tpl": "{{tags|first}} {{tags|last}} {{title|first}}",
+   "vars": null
+  },
+  {
+   "name": "footnote",
+   "tpl": "{{tags|footnote}}",
+   "vars": null
+  },
+  {
+   "name": "footnote_obj",
+   "tpl": "{{ '{\"First Note\": \"C1\", \"secondNote\": \"C2\"}'|footnote }}",
+   "vars": null
+  },
+  {
+   "name": "fragment_link",
+   "tpl": "{{ \"one two three\"|fragment_link:\"https://ex.com/p\" }}",
+   "vars": null
+  },
+  {
+   "name": "headings",
+   "tpl": "{{title|h2}}\n{{multi|h3}}",
+   "vars": null
+  },
+  {
+   "name": "hard_break",
+   "tpl": "{{multi|hard_break}}",
+   "vars": null
+  },
+  {
+   "name": "hr",
+   "tpl": "{{title|hr}}|{{title|hr:\"before\"}}",
+   "vars": null
+  },
+  {
+   "name": "image",
+   "tpl": "{{ \"image.jpg\"|image:\"alt text\" }} {{tags|image}}",
+   "vars": null
+  },
+  {
+   "name": "image_obj",
+   "tpl": "{{ '{\"a.jpg\":\"Alt 1\",\"b.jpg\":\"Alt 2\"}'|image }}",
+   "vars": null
+  },
+  {
+   "name": "indent",
+   "tpl": "{{multi|indent}}|{{multi|indent:4}}",
+   "vars": null
+  },
+  {
+   "name": "join",
+   "tpl": "{{tags|join}} {{tags|join:\" \"}} {{tags|join:\"\\n\"}}",
+   "vars": null
+  },
+  {
+   "name": "kebab_snake_pascal",
+   "tpl": "{{camelText|kebab}} {{camelText|snake}} {{\"hello world-foo_bar\"|pascal}}",
+   "vars": null
+  },
+  {
+   "name": "length",
+   "tpl": "{{tags|length}} {{title|length}} {{obj|length}}",
+   "vars": null
+  },
+  {
+   "name": "link",
+   "tpl": "{{url|link:\"author\"}} {{tags|link}}",
+   "vars": null
+  },
+  {
+   "name": "link_obj",
+   "tpl": "{{ '{\"u1\":\"A 1\",\"u2\":\"A 2\"}'|link }}",
+   "vars": null
+  },
+  {
+   "name": "list",
+   "tpl": "{{tags|list}}\n{{tags|list:numbered}}\n{{tags|list:task}}\n{{tags|list:\"numbered-task\"}}",
+   "vars": null
+  },
+  {
+   "name": "map_arrow",
+   "tpl": "{{people|map:p => p.name}}",
+   "vars": null
+  },
+  {
+   "name": "map_obj",
+   "tpl": "{{people|map:p => ({n: p.name, c: p.city.name})}}",
+   "vars": null
+  },
+  {
+   "name": "map_str",
+   "tpl": "{{tags|map:t => \"genres/${t}\"|template:\"- ${str}\"}}",
+   "vars": null
+  },
+  {
+   "name": "map_path",
+   "tpl": "{{people|map:\"city.name\"}}",
+   "vars": null
+  },
+  {
+   "name": "math",
+   "tpl": "{{ \"x^2\"|math }} {{multi|math_block}}",
+   "vars": null
+  },
+  {
+   "name": "merge",
+   "tpl": "{{tags|merge:(\"d\",\"e\")}} {{title|merge:\"x\"}} {{tags|merge:'b,\"c,d\",e'}}",
+   "vars": null
+  },
+  {
+   "name": "nth",
+   "tpl": "{{ \"[1,2,3,4,5,6,7,8,9,10]\"|nth:1,2,3:5 }} {{ \"[1,2,3,4,5,6]\"|nth:2n }} {{ \"[1,2,3,4,5]\"|nth:n+3 }} {{ \"[1,2,3]\"|nth:2 }}",
+   "vars": null
+  },
+  {
+   "name": "number_format",
+   "tpl": "{{n|number_format:2}} {{n|number_format:(2,\",\",\".\")}} {{ \"1000000\"|number_format }}",
+   "vars": null
+  },
+  {
+   "name": "object",
+   "tpl": "{{obj|object:array}} {{obj|object:keys}} {{obj|object:values}}",
+   "vars": null
+  },
+  {
+   "name": "remove_attr",
+   "tpl": "{{html|remove_attr:\"class\"}}",
+   "vars": null
+  },
+  {
+   "name": "remove_tags",
+   "tpl": "{{html|remove_tags:\"b,a\"}}",
+   "vars": null
+  },
+  {
+   "name": "replace_simple",
+   "tpl": "{{ \"hello, world!\"|replace:\",\":\"\" }} {{ \"hello world\"|replace:(\"e\":\"a\",\"o\":\"0\") }}",
+   "vars": null
+  },
+  {
+   "name": "replace_regex",
+   "tpl": "{{ \"hello world\"|replace:\"/[aeiou]/g\":\"*\" }} {{ \"HELLO world\"|replace:\"/hello/i\":\"hi\" }} {{ \"hello world\"|replace:(\"/[aeiou]/g\":\"*\",\"/\\s+/\":\"-\") }}",
+   "vars": null
+  },
+  {
+   "name": "replace_groups",
+   "tpl": "{{ \"2024-03-05\"|replace:\"/(\\d+)-(\\d+)-(\\d+)/\":\"$3.$2.$1\" }}",
+   "vars": null
+  },
+  {
+   "name": "replace_tags",
+   "tpl": "{{html|replace_tags:\"b\":\"strong\"}}",
+   "vars": null
+  },
+  {
+   "name": "reverse",
+   "tpl": "{{tags|reverse}} {{title|reverse}}",
+   "vars": null
+  },
+  {
+   "name": "round",
+   "tpl": "{{n|round}} {{n|round:2}} {{ \"3.7\"|round }}",
+   "vars": null
+  },
+  {
+   "name": "safe_name",
+   "tpl": "{{ \"a/b:c*d?#e|f.\"|safe_name }} {{ \"con.txt\"|safe_name:windows }} {{ \".hidden\"|safe_name:mac }}",
+   "vars": null
+  },
+  {
+   "name": "slice",
+   "tpl": "{{ \"hello\"|slice:1,4 }} {{tags|slice:1,3}} {{ \"hello\"|slice:-3 }} {{tags|slice:1,2}}",
+   "vars": null
+  },
+  {
+   "name": "sort",
+   "tpl": "{{nums|sort}} {{people|sort:(\"age\")|map:\"name\"}} {{tags|sort:\"desc\"}}",
+   "vars": null
+  },
+  {
+   "name": "split",
+   "tpl": "{{str|split:\",\"}} {{ \"a1b2c3\"|split:[0-9] }} {{ \"hey\"|split }}",
+   "vars": null
+  },
+  {
+   "name": "sum",
+   "tpl": "{{nums|sum}} {{people|sum:\"age\"}}",
+   "vars": null
+  },
+  {
+   "name": "strip_attr",
+   "tpl": "{{html|strip_attr}} {{html|strip_attr:(\"class, id\")}}",
+   "vars": null
+  },
+  {
+   "name": "strip_md",
+   "tpl": "{{md|strip_md}}",
+   "vars": null
+  },
+  {
+   "name": "strip_tags",
+   "tpl": "{{html|strip_tags}} {{html|strip_tags:(\"b\")}}",
+   "vars": null
+  },
+  {
+   "name": "table",
+   "tpl": "{{people|table}}\n{{tags|table}}\n{{ \"[[1,2],[3,4]]\"|table:(\"A\",\"B\") }}\n{{tags|table:(\"X\",\"Y\")}}",
+   "vars": null
+  },
+  {
+   "name": "table_pretty",
+   "tpl": "{{people|table_pretty}}",
+   "vars": null
+  },
+  {
+   "name": "template",
+   "tpl": "{{ '{\"gem\":\"obsidian\",\"hardness\":5}'|template:\"${gem} has ${hardness}\" }}",
+   "vars": null
+  },
+  {
+   "name": "title_f",
+   "tpl": "{{ \"the lord of the rings\"|title }}",
+   "vars": null
+  },
+  {
+   "name": "trim",
+   "tpl": "[{{spaced|trim}}]",
+   "vars": null
+  },
+  {
+   "name": "truncate",
+   "tpl": "{{title|truncate:8}} {{ \"one two three four\"|truncatewords:2 }} {{title|truncate:(5,\"...\")}}",
+   "vars": null
+  },
+  {
+   "name": "uncamel",
+   "tpl": "{{ \"camelCaseXMLParser\"|uncamel }}",
+   "vars": null
+  },
+  {
+   "name": "unescape",
+   "tpl": "{{ 'Line 1\\\\nLine 2'|unescape }}",
+   "vars": null
+  },
+  {
+   "name": "unique",
+   "tpl": "{{ \"[1,1,2,\\\"a\\\",\\\"a\\\"]\"|unique }}",
+   "vars": null
+  },
+  {
+   "name": "wikilink",
+   "tpl": "{{title|wikilink}} {{tags|wikilink:\"al\"}} {{ '{\"p1\":\"a1\"}'|wikilink }}",
+   "vars": null
+  },
+  {
+   "name": "yaml",
+   "tpl": "{{tags|yaml}}\n{{obj|yaml}}\n{{title|yaml}}\n{{ \"42\"|yaml }}\n{{tags|yaml:flow}}",
+   "vars": null
+  },
+  {
+   "name": "yaml_property",
+   "tpl": "{{tags|yaml_property:\"genre\"}}\n{{title|yaml_property:\"name\"}}",
+   "vars": null
+  },
+  {
+   "name": "where",
+   "tpl": "{{people|where:(\"name\", \"Bob\")|map:\"age\"}}",
+   "vars": null
+  },
+  {
+   "name": "parse_json",
+   "tpl": "{{ '{\"a\":[1,2]}'|parse_json|object:keys }}",
+   "vars": null
+  },
+  {
+   "name": "unknown_filter",
+   "tpl": "{{title|nosuch}}",
+   "vars": null
+  },
+  {
+   "name": "filter_ident_arg",
+   "tpl": "{{title|callout:info}}",
+   "vars": null
+  },
+  {
+   "name": "string_literal",
+   "tpl": "{{ \"lit\" }} {{ 'single' }} {{ 42 }} {{ true }}",
+   "vars": null
+  },
+  {
+   "name": "member_bracket",
+   "tpl": "{{ tags[0] }} {{ obj[\"b\"] }} {{ people[1][\"name\"] }}",
+   "vars": null
+  },
+  {
+   "name": "loop_empty_iter",
+   "tpl": "{% for x in nope %}x{% endfor %}ok",
+   "vars": null
+  },
+  {
+   "name": "whitespace_set",
+   "tpl": "a\n{% set y = 1 %}\nb",
+   "vars": null
+  },
+  {
+   "name": "ws_nested_if_in_for",
+   "tpl": "{% for p in people %}\n{% if p.age > 30 %}\n- {{p.name}} (old)\n{% else %}\n- {{p.name}}\n{% endif %}\n{% endfor %}\nend",
+   "vars": null
+  },
+  {
+   "name": "ws_empty_iteration",
+   "tpl": "{% for t in tags %}{% if t == \"beta\" %}{{t}}{% endif %}{% endfor %}|",
+   "vars": null
+  },
+  {
+   "name": "ws_blank_lines_kept",
+   "tpl": "a\n\n{% if title %}\n\nb\n\n{% endif %}\n\nc",
+   "vars": null
+  },
+  {
+   "name": "ws_inline_if",
+   "tpl": "x {% if title %}y{% endif %} z",
+   "vars": null
+  },
+  {
+   "name": "ws_set_chain",
+   "tpl": "{% set a = 1 %}\n{% set b = 2 %}\n{{a}}{{b}}",
+   "vars": null
+  },
+  {
+   "name": "for_over_object_error",
+   "tpl": "{% for x in obj %}{{x}}{% endfor %}after",
+   "vars": null
+  },
+  {
+   "name": "for_json_string",
+   "tpl": "{% for x in '[\"a\",\"b\"]' %}{{x}}{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "loop_first_last",
+   "tpl": "{% for t in tags %}{% if loop.first %}[{% endif %}{{t}}{% if loop.last %}]{% else %},{% endif %}{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "compare_numbers_strings",
+   "tpl": "{% if \"10\" > 9 %}a{% endif %}{% if \"abc\" < \"abd\" %}b{% endif %}{% if nums|length == 3 %}c{% endif %}{% if 0 %}d{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "not_precedence",
+   "tpl": "{% if not empty and title %}A{% endif %}{% if not (empty or title) %}B{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "contains_array_ci",
+   "tpl": "{% if tags contains \"ALPHA\" %}yes{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "nullish_chain",
+   "tpl": "{{ nope ?? empty ?? \"last\" }}",
+   "vars": null
+  },
+  {
+   "name": "filter_in_condition",
+   "tpl": "{% if title|lower contains \"hello\" %}ok{% endif %}",
+   "vars": null
+  },
+  {
+   "name": "set_filtered_array",
+   "tpl": "{% set picked = people|map:p => p.name %}{% for n in picked %}<{{n}}>{% endfor %}",
+   "vars": null
+  },
+  {
+   "name": "date_parse_formats",
+   "tpl": "{{ \"March 5, 2024\"|date:\"YYYY-MM-DD\" }} {{ \"2024/03/05 10:20\"|date:\"DD.MM.YY HH:mm\" }} {{ \"Tue, 05 Mar 2024 10:20:30 GMT\"|date:\"x\" }}",
+   "vars": null
+  },
+  {
+   "name": "date_unix",
+   "tpl": "{{ \"1709634000\"|date:\"YYYY\" }} {{ \"05/03/2024\"|date:(\"MMM D\",\"DD/MM/YYYY\") }}",
+   "vars": null
+  },
+  {
+   "name": "date_week",
+   "tpl": "{{published|date:\"W WW w ww GGGG\"}}",
+   "vars": null
+  },
+  {
+   "name": "date_modify_units",
+   "tpl": "{{ \"2024-03-05\"|date_modify:\"+3 weeks\" }} {{ \"2024-03-05\"|date_modify:\"-10 days\" }} {{ \"2024-03-05T23:00:00Z\"|date_modify:\"+2 hours\" }}",
+   "vars": null
+  },
+  {
+   "name": "replace_colon_pipe",
+   "tpl": "{{ \"a:b|c\"|replace:\":\":\"-\" }} {{ \"a|b\"|replace:\"|\":\"/\" }} {{ \"x.y.z\"|replace:\".\":\"\" }}",
+   "vars": null
+  },
+  {
+   "name": "replace_newline",
+   "tpl": "{{multi|replace:\"\\n\":\" / \"}}",
+   "vars": null
+  },
+  {
+   "name": "replace_dollar",
+   "tpl": "{{ \"cost 5\"|replace:\"5\":\"$&0\" }} {{ \"abc\"|replace:\"/(b)/\":\"[$1]\" }}",
+   "vars": null
+  },
+  {
+   "name": "split_regex_groups",
+   "tpl": "{{ \"a1b22c\"|split:\"(\\d+)\" }}",
+   "vars": null
+  },
+  {
+   "name": "slice_negative_array",
+   "tpl": "{{tags|slice:-2}} {{tags|slice:0,-1}}",
+   "vars": null
+  },
+  {
+   "name": "join_nested",
+   "tpl": "{{ \"[[1,2],[3]]\"|join:\";\" }}",
+   "vars": null
+  },
+  {
+   "name": "first_of_objects",
+   "tpl": "{{people|first}} {{people|last|length}}",
+   "vars": null
+  },
+  {
+   "name": "length_unicode",
+   "tpl": "{{ \"héllo😀\"|length }}",
+   "vars": null
+  },
+  {
+   "name": "upper_unicode",
+   "tpl": "{{ \"straße ǆ\"|upper }} {{ \"İSTANBUL\"|lower }}",
+   "vars": null
+  },
+  {
+   "name": "title_hyphen",
+   "tpl": "{{ \"a tale of two-cities and THE end\"|title }}",
+   "vars": null
+  },
+  {
+   "name": "capitalize_unicode",
+   "tpl": "{{ \"éCOLE\"|capitalize }}",
+   "vars": null
+  },
+  {
+   "name": "safe_name_long",
+   "tpl": "{{ \"   ...lead dots\"|safe_name }} {{ \"trail. \"|safe_name:windows }} {{ \"a:b\"|safe_name:linux }}",
+   "vars": null
+  },
+  {
+   "name": "wikilink_empty",
+   "tpl": "[{{empty|wikilink}}] {{ \"[\\\"a\\\",\\\"\\\"]\"|wikilink }}",
+   "vars": null
+  },
+  {
+   "name": "link_escape",
+   "tpl": "{{ \"https://e.com/a b(c)\"|link:\"t*x_[y]\" }} {{ \"javascript:alert(1)\"|link }}",
+   "vars": null
+  },
+  {
+   "name": "image_array_objects",
+   "tpl": "{{ '[{\"a.png\":\"A\"},\"b.png\"]'|image:\"alt\" }}",
+   "vars": null
+  },
+  {
+   "name": "list_nested",
+   "tpl": "{{ '[\"a\",[\"b\",\"c\"],\"d\"]'|list }} {{ '[\"a\",[\"b\"]]'|list:numbered }}",
+   "vars": null
+  },
+  {
+   "name": "table_escape",
+   "tpl": "{{ '[{\"a|b\":\"x|y\",\"c\":null}]'|table }}",
+   "vars": null
+  },
+  {
+   "name": "template_nested",
+   "tpl": "{{ '{\"gem\":{\"name\":\"Obsidian\"},\"n\":null}'|template:\"${gem.name}-${n}-${missing}\" }}",
+   "vars": null
+  },
+  {
+   "name": "template_array_newlines",
+   "tpl": "{{people|template:\"- ${name}\\n  age ${age}\"}}",
+   "vars": null
+  },
+  {
+   "name": "map_nested_prop_array",
+   "tpl": "{{ '[{\"a\":{\"b\":[1,2]}}]'|map:x => x.a.b }}",
+   "vars": null
+  },
+  {
+   "name": "merge_nonarray",
+   "tpl": "{{ \"\"|merge:\"x\" }} {{obj|merge:\"z\"}}",
+   "vars": null
+  },
+  {
+   "name": "object_on_array",
+   "tpl": "{{tags|object:keys}}",
+   "vars": null
+  },
+  {
+   "name": "number_format_neg",
+   "tpl": "{{ \"-1234567.891\"|number_format:2 }} {{ \"0.005\"|number_format:2 }} {{ \"2.5\"|number_format }}",
+   "vars": null
+  },
+  {
+   "name": "round_neg",
+   "tpl": "{{ \"-2.5\"|round }} {{ \"1.005\"|round:2 }} {{ '[1.26,\"x\"]'|round:1 }}",
+   "vars": null
+  },
+  {
+   "name": "calc_chain",
+   "tpl": "{{ \"3\"|calc:\"*4\"|calc:\"-2\"|calc:\"^2\" }} {{ \"0.1\"|calc:\"+0.2\" }}",
+   "vars": null
+  },
+  {
+   "name": "unique_objects",
+   "tpl": "{{ '[{\"a\":1},{\"a\":1},{\"a\":2}]'|unique }} {{ '{\"x\":1,\"y\":1,\"z\":2}'|unique }}",
+   "vars": null
+  },
+  {
+   "name": "reverse_object",
+   "tpl": "{{obj|reverse}}",
+   "vars": null
+  },
+  {
+   "name": "strip_md_wikilinks",
+   "tpl": "{{ \"# H\\n[[Page|Alias]] [[Other]] ![[img.png]] > quote\\n- [x] task\"|strip_md }}",
+   "vars": null
+  },
+  {
+   "name": "strip_tags_entities",
+   "tpl": "{{ \"<p>a &amp; b &#8212; &#x41;</p>\\n\\n\\n\\n<b>c</b>\"|strip_tags }}",
+   "vars": null
+  },
+  {
+   "name": "remove_attr_selfclosing",
+   "tpl": "{{ '<img src=\"a\" alt=\"b\" />'|remove_attr:\"alt\" }}",
+   "vars": null
+  },
+  {
+   "name": "footnote_string",
+   "tpl": "{{title|footnote}}",
+   "vars": null
+  },
+  {
+   "name": "duration_edge",
+   "tpl": "{{ \"P1DT2H\"|duration }} {{ \"59\"|duration }} {{ \"abc\"|duration }} {{ \"PT90M\"|duration:\"H[h] m\" }}",
+   "vars": null
+  },
+  {
+   "name": "uncamel_digits",
+   "tpl": "{{ \"version2Update\"|uncamel }} {{ \"HTMLParser\"|uncamel }}",
+   "vars": null
+  },
+  {
+   "name": "kebab_existing",
+   "tpl": "{{ \"already-kebab_case Mixed\"|kebab }} {{ \"Some_Title here\"|snake }}",
+   "vars": null
+  },
+  {
+   "name": "pascal_edge",
+   "tpl": "{{ \"  lead space\"|pascal }} {{ \"a--b\"|pascal }}",
+   "vars": null
+  },
+  {
+   "name": "camel_edge",
+   "tpl": "{{ \"HTML parser_v2\"|camel }}",
+   "vars": null
+  },
+  {
+   "name": "encode_decode_obj",
+   "tpl": "{{ '[\"a b\",\"c/d\"]'|encode_uri }} {{ '{\"k\":\"%20\"}'|decode_uri }}",
+   "vars": null
+  },
+  {
+   "name": "sort_mixed",
+   "tpl": "{{ '[3,\"10\",null,1,\"2\"]'|sort }} {{ '[{\"n\":null},{\"n\":2},{\"n\":1}]'|sort:(\"n\",\"desc\")|map:\"n\" }}",
+   "vars": null
+  },
+  {
+   "name": "sum_strings",
+   "tpl": "{{ '[\"1.5\",\" 2 \",\"x\",true,null]'|sum }}",
+   "vars": null
+  },
+  {
+   "name": "where_bool_num",
+   "tpl": "{{ '[{\"a\":true,\"n\":1},{\"a\":false,\"n\":2}]'|where:(\"a\", true)|map:\"n\" }} {{ '[{\"n\":1},{\"n\":\"1\"}]'|where:(\"n\", 1)|length }}",
+   "vars": null
+  },
+  {
+   "name": "compact_object",
+   "tpl": "{{ '{\"a\":\"\",\"b\":0,\"c\":null,\"d\":\" \"}'|compact }}",
+   "vars": null
+  },
+  {
+   "name": "yaml_nested",
+   "tpl": "{{ '{\"a\":{\"b\":[1,{\"c\":\"x\"}]},\"yes\":true,\"e\":[],\"f\":{}}'|yaml }}",
+   "vars": null
+  },
+  {
+   "name": "yaml_scalars",
+   "tpl": "{{ \"007\"|yaml }} {{ \"true\"|yaml }} {{ \"1e5\"|yaml }} {{ \"a\\\"b\"|yaml }}",
+   "vars": null
+  },
+  {
+   "name": "yaml_property_key_quote",
+   "tpl": "{{tags|yaml_property:\"my key\"}}\n{{ \"x\"|yaml_property:\"no\" }}",
+   "vars": null
+  },
+  {
+   "name": "truncate_edge",
+   "tpl": "{{ \"abc\"|truncate:2 }} {{ \"abc\"|truncate:(1,\"...\") }} {{ \"a  b  c\"|truncatewords:2 }} {{ \"abc\"|truncate:0 }}",
+   "vars": null
+  },
+  {
+   "name": "indent_crlf",
+   "tpl": "{{ \"a\\r\\nb\\n\\nc\"|indent:1 }}",
+   "vars": null
+  },
+  {
+   "name": "highlight_colors",
+   "tpl": "{{title|highlight}} {{title|highlight:\"red\"}}",
+   "vars": null
+  },
+  {
+   "name": "escape_md_all",
+   "tpl": "{{ \"!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~\"|escape_md }}",
+   "vars": null
+  },
+  {
+   "name": "code_multiline_backticks",
+   "tpl": "{{ \"a ``` b\\nc\"|code }} {{ \"`x`\"|code }}",
+   "vars": null
+  },
+  {
+   "name": "hr_both_multiline",
+   "tpl": "{{multi|hr:\"both\"}}",
+   "vars": null
+  },
+  {
+   "name": "heading_multiline_blank",
+   "tpl": "{{ \"one\\n\\n  \\ntwo\"|h4 }}",
+   "vars": null
+  },
+  {
+   "name": "parse_json_invalid",
+   "tpl": "{{ \"{nope\"|parse_json }}",
+   "vars": null
+  },
+  {
+   "name": "filter_paren_args",
+   "tpl": "{{title|replace:(\"Hello\":\"Bye\",\"World\":\"All\")}}",
+   "vars": null
+  },
+  {
+   "name": "filter_number_arg_slice",
+   "tpl": "{{tags|slice:1}}",
+   "vars": null
+  },
+  {
+   "name": "member_on_filter_result",
+   "tpl": "{{ (people|first) }}",
+   "vars": null
+  },
+  {
+   "name": "unclosed_if_error",
+   "tpl": "{% if title %}x",
+   "vars": null
+  },
+  {
+   "name": "unknown_tag_error",
+   "tpl": "{% unless x %}y",
+   "vars": null
+  },
+  {
+   "name": "comment_multiline",
+   "tpl": "a{#\n multi\n line #}b",
+   "vars": null
+  }
+ ]
+}

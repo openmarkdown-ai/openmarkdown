@@ -1,0 +1,175 @@
+name: Release
+
+# Builds every downloadable artifact and attaches it to a GitHub Release:
+#   openmarkdown-web-<v>.zip               the static web app (any static host)
+#   openmarkdown-clipper-chrome-<v>.zip    the companion extension, Chromium
+#   openmarkdown-clipper-firefox-<v>.zip   the companion extension, Firefox
+#   vault-<v>-<platform>.tar.gz / .zip     the `vault` CLI and MCP server
+#
+# A tag with a hyphen (v0.1.0-rc.1) becomes a pre-release. This workflow never
+# submits anything to a browser store; there is deliberately no publish job.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to release, e.g. 0.1.0-rc.1 (a leading v is optional). The tag is created on this commit if it does not exist."
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+env:
+  # Must equal the `wasm-bindgen = "=…"` pin in Cargo.toml, or glue generation fails.
+  WASM_BINDGEN_VERSION: "0.2.126"
+  # wasm-opt is optional (build-wasm.sh skips it if absent); pinned so builds are repeatable.
+  BINARYEN_VERSION: "version_132"
+  CARGO_TERM_COLOR: always
+
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.v.outputs.tag }}
+      prerelease: ${{ steps.v.outputs.prerelease }}
+    steps:
+      - id: v
+        env:
+          INPUT: ${{ inputs.version || github.ref_name }}
+        run: |
+          v="${INPUT#v}"
+          if ! [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]]; then
+            echo "::error::'$INPUT' is not a version like 0.1.0 or 0.1.0-rc.1"; exit 1
+          fi
+          echo "tag=v$v" >> "$GITHUB_OUTPUT"
+          if [[ "$v" == *-* ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+          echo "Releasing v$v"
+
+  web-and-extension:
+    needs: version
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@${{ env.WASM_BINDGEN_VERSION }}
+      - name: Install wasm-opt (binaryen)
+        run: |
+          curl -fsSL "https://github.com/WebAssembly/binaryen/releases/download/${BINARYEN_VERSION}/binaryen-${BINARYEN_VERSION}-x86_64-linux.tar.gz" | tar -xz -C "$RUNNER_TEMP"
+          echo "$RUNNER_TEMP/binaryen-${BINARYEN_VERSION}/bin" >> "$GITHUB_PATH"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Build the wasm engine
+        run: npm run build:wasm
+        env:
+          CARGO_TARGET_DIR: ${{ github.workspace }}/target
+      # ../opensync is not checked out here, so the app builds without sync
+      # (apps/web/vite.config.ts points @opensync/* at a stub).
+      - name: Build the web app
+        run: npm run build:web
+      - name: Build the extension
+        run: npm run build -w @vault/clipper
+      # Zip the contents, never the directory: index.html and manifest.json
+      # must sit at the archive root.
+      - name: Package
+        run: |
+          mkdir -p out
+          (cd apps/web/dist && zip -qr "$GITHUB_WORKSPACE/out/openmarkdown-web-$TAG.zip" .)
+          (cd apps/clipper/dist && zip -qr "$GITHUB_WORKSPACE/out/openmarkdown-clipper-chrome-$TAG.zip" .)
+          (cd apps/clipper/dist-firefox && zip -qr "$GITHUB_WORKSPACE/out/openmarkdown-clipper-firefox-$TAG.zip" .)
+          for z in out/*.zip; do unzip -l "$z" | grep -qE ' (index\.html|manifest\.json)$' || { echo "::error::$z has no index.html/manifest.json at its root"; exit 1; }; done
+          ls -la out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-and-extension
+          path: out/*
+          if-no-files-found: error
+
+  cli:
+    needs: version
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { os: macos-14, target: aarch64-apple-darwin, platform: macos-arm64 }
+          - { os: macos-14, target: x86_64-apple-darwin, platform: macos-x86_64 }
+          - { os: ubuntu-latest, target: x86_64-unknown-linux-gnu, platform: linux-x86_64 }
+          - { os: windows-latest, target: x86_64-pc-windows-msvc, platform: windows-x86_64 }
+    runs-on: ${{ matrix.os }}
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Build vault
+        run: cargo build --release --locked -p vault-cli --target ${{ matrix.target }}
+      - name: Package (tar.gz)
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          name="vault-$TAG-${{ matrix.platform }}"
+          mkdir -p "stage/$name" out
+          cp "target/${{ matrix.target }}/release/vault" "stage/$name/"
+          cp LICENSE-MIT LICENSE-APACHE docs/mcp.md "stage/$name/"
+          tar -C stage -czf "out/$name.tar.gz" "$name"
+          ls -la out
+      - name: Package (zip)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $name = "vault-$env:TAG-${{ matrix.platform }}"
+          New-Item -ItemType Directory -Force -Path "stage/$name", out | Out-Null
+          Copy-Item "target/${{ matrix.target }}/release/vault.exe", LICENSE-MIT, LICENSE-APACHE, docs/mcp.md "stage/$name/"
+          Compress-Archive -Path "stage/$name" -DestinationPath "out/$name.zip"
+          Get-ChildItem out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cli-${{ matrix.platform }}
+          path: out/*
+          if-no-files-found: error
+
+  release:
+    needs: [version, web-and-extension, cli]
+    runs-on: ubuntu-latest
+    env:
+      TAG: ${{ needs.version.outputs.tag }}
+      PRERELEASE: ${{ needs.version.outputs.prerelease }}
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: out
+          merge-multiple: true
+      - name: Create the release and attach every artifact
+        run: |
+          ls -la out
+          test "$(ls out | wc -l)" -eq 7 || { echo "::error::expected 7 artifacts"; exit 1; }
+          sed "s/{{TAG}}/$TAG/g" .github/release-notes.md > "$RUNNER_TEMP/notes.md"
+          flags=()
+          # A hyphenated tag is a release candidate: never "Latest".
+          if [ "$PRERELEASE" = "true" ]; then flags+=(--prerelease); fi
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" out/* --clobber
+          else
+            gh release create "$TAG" out/* --title "OpenMarkdown $TAG" \
+              --notes-file "$RUNNER_TEMP/notes.md" --target "$GITHUB_SHA" "${flags[@]}"
+          fi
+          gh release view "$TAG" --json assets --jq '[.assets[].name]'

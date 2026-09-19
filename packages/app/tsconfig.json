@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": [],
+    "paths": { "@opensync/client": ["../../../opensync/packages/client/src/index.ts", "./src/core-plugins/opensync/unavailable/index.ts"], "@opensync/in-build": ["./src/core-plugins/opensync/in-build.ts"] }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+}

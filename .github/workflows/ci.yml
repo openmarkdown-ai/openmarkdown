@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  WASM_BINDGEN_VERSION: "0.2.126"
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust:
+    name: cargo test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo test --workspace --locked
+
+  typescript:
+    name: typecheck, build and e2e
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-bindgen@${{ env.WASM_BINDGEN_VERSION }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      # The engine's TypeScript imports the generated wasm glue, so it is
+      # built before the typecheck (it is never committed).
+      - run: npm run build:wasm
+        env:
+          CARGO_TARGET_DIR: ${{ github.workspace }}/target
+      - name: Typecheck
+        run: |
+          npm run typecheck
+          npx tsc -p apps/clipper --noEmit
+      - run: npm run build:web
+      - run: npm run build -w @vault/clipper
+      # Headless Chromium: the app suite, the extension suite and the /app/ sub-path check. All three pass
+      # headless locally; the larger e2e/daily suites are run by hand.
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test e2e/app.spec.ts e2e/clipper.spec.ts e2e/daily/subpath.spec.ts
+        env:
+          CI: "1"
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: test-results/
+          retention-days: 7

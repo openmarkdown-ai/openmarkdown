@@ -1,0 +1,15 @@
+[package]
+name = "vault-index"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "The vault index: link resolution, backlinks, tags, the search query language, fuzzy matching, and the link graph with its force layout"
+
+[dependencies]
+vault-types = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+# `/regex/` search terms. Small, pure Rust, no Unicode tables: ASCII-only
+# case folding and classes, which is what a JavaScript RegExp without the `u`
+# flag gives Obsidian for `\w`, `\d` and `\b` anyway.
+regex-lite = "0.1"

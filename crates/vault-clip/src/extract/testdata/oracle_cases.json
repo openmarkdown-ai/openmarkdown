@@ -1,0 +1,1075 @@
+[
+ {
+  "name": "meta_og_title_and_site",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Real Title | Example Blog</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"og:title\" content=\"Real Title\"><meta property=\"og:site_name\" content=\"Example Blog\"><meta name=\"description\" content=\"A description.\"></head><body><article><h1>Real Title</h1><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Real Title",
+   "author": "",
+   "published": "",
+   "description": "A description.",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Example Blog",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "title_suffix_cleaned_without_site",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>How Things Work - Acme</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main></body></html>",
+  "expected": {
+   "title": "How Things Work",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Acme",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "title_prefix_site_name",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>The Daily | Big News Story Today</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"og:site_name\" content=\"The Daily\"></head><body><main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main></body></html>",
+  "expected": {
+   "title": "Big News Story Today",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "The Daily",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "title_fuzzy_site_suffix",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>CORS - HTTP | MDN</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"og:site_name\" content=\"MDN Web Docs\"></head><body><main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main></body></html>",
+  "expected": {
+   "title": "CORS",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "MDN Web Docs",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "author_meta_by_prefix_and_and",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta name=\"author\" content=\"By Jane Doe and John Roe\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "Jane Doe, John Roe",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "author_citation_author_reversed",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta name=\"citation_author\" content=\"Doe, Jane\"><meta name=\"citation_author\" content=\"Roe, John\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "Jane Doe, John Roe",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "author_schema_graph",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@graph\":[{\"@type\":\"WebSite\",\"name\":\"Site Name\"},{\"@type\":\"Article\",\"headline\":\"Graph Headline\",\"author\":{\"name\":\"Ann &amp; Bee\"},\"datePublished\":\"2024-03-01T10:00:00Z\",\"articleBody\":\"short\"}]}</script></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Graph Headline",
+   "author": "Ann &amp; Bee",
+   "published": "2024-03-01T10:00:00Z",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Ann &amp; Bee",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": [
+   "author",
+   "site"
+  ]
+ },
+ {
+  "name": "author_rel_author",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><header><a rel=\"author\" href=\"/u/x\">Sam Writer</a></header><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "Sam Writer",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Sam Writer",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "author_byline_near_h1",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><main><h1>Title Here</h1><p class=\"x\">By Chris Byline</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "Chris Byline",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Chris Byline",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 110,
+   "content": "<main><H2>Title Here</H2> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "published_time_element",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><time datetime=\"2023-05-06T07:08:09Z\">May 6</time><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "2023-05-06T07:08:09Z",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "published_date_text_after_h1",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><main><h1>Title</h1><div><p>March 4, 2025</p></div><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "2025-03-04T00:00:00+00:00",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 109,
+   "content": "<main><H2>Title</H2> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "published_meta_article_time",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"article:published_time\" content=\"2022-01-02\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "2022-01-02",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "placeholder_values_rejected",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta name=\"author\" content=\"{{author}}\"><meta name=\"description\" content=\"-\"><meta property=\"og:description\" content=\"Real description\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "Real description",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "language_og_locale",
+  "url": "https://example.com/blog/post",
+  "html": "<html><head><meta property=\"og:locale\" content=\"fr_FR\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "",
+   "site": "",
+   "domain": "",
+   "language": "fr-FR",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": [
+   "site"
+  ]
+ },
+ {
+  "name": "image_twitter_and_favicon_link",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta name=\"twitter:image\" content=\"https://cdn.example.com/i.png\"><link rel=\"icon\" href=\"/fav.png\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "https://cdn.example.com/i.png",
+   "favicon": "/fav.png",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "entry_point_article_over_body",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><nav><a href=\"/\">Home</a><a href=\"/a\">About</a></nav><div class=\"wrapper\"><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article><aside class=\"sidebar\"><p>Sidebar stuff that is not content at all.</p></aside></div><footer><p>Copyright 2024 Example Inc. All rights reserved.</p></footer></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "exact_selectors_remove_clutter",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"share-buttons\"><button>Share</button></div><form><input type=\"text\"></form><div class=\"author\">Jane</div><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><footer>foot</footer></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "Jane",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Jane",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 126,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "partial_selector_class",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"related-posts\"><p>Other things you might read today at our site.</p></div><div class=\"post-meta\">meta words</div><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 126,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "partial_selector_anchored_id",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><section id=\"theroleofthings\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></section><section id=\"comments\">x</section><div id=\"feedback-form\">y</div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "hidden_inline_style_and_class",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div style=\"display:none\">Hidden text node here</div><p class=\"hidden\">also hidden</p><p class=\"hidden md:block\">responsive shown</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 110,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>responsive shown</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "small_images_removed",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><img src=\"icon.png\" width=\"16\" height=\"16\"><img src=\"big.png\" width=\"600\" height=\"400\" alt=\"Big\"><img src=\"data:image/gif;base64,R0lGOD\"></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><img src=\"https://example.com/blog/big.png\" width=\"600\" height=\"400\" alt=\"Big\"></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "low_scoring_nav_block",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div><ul><li><a href=\"/a\">Newsletter</a></li><li><a href=\"/b\">Subscribe</a></li><li><a href=\"/c\">Follow us</a></li><li><a href=\"/d\">Privacy</a></li></ul></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "content_pattern_read_time_and_byline",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Title</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><h1>Title</h1><p>5 min read</p><p>By Alice Smith</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Title",
+   "author": "Alice Smith",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Alice Smith",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "content_pattern_related_heading",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><section><h2>Related posts</h2><ul><li><a href=\"/x\">One</a></li><li><a href=\"/y\">Two</a></li></ul></section></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 90,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "content_pattern_toc_list",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><h2>Contents</h2><ul><li><a href=\"#a\">Alpha</a></li><li><a href=\"#b\">Beta</a></li><li><a href=\"#c\">Gamma</a></li></ul><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><h2 id=\"a\">Alpha</h2><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 127,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><H2>Alpha</H2> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "content_pattern_newsletter",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div><p>Subscribe to our weekly newsletter for updates</p></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "content_pattern_boilerplate_trailing",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This article originally appeared in The Magazine.</p><p>Some trailing junk after the boilerplate line.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "h1_to_h2_and_title_heading_removed",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>My Article</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><h1>My Article</h1><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><h1>Second Section</h1><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "My Article",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 128,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><H2>Second Section</H2> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "heading_permalink_anchors",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><h2 id=\"s\">Section <a href=\"#s\" class=\"anchor\">¶</a></h2><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><h3><a href=\"#t\">Linked heading</a></h3><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 147,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><H2>Section</H2> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><H3>Linked heading</H3> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "code_language_variants",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><pre><code class=\"language-rust\">fn main() {}</code></pre><div class=\"highlight highlight-source-python\"><pre>print(1)</pre></div><pre data-lang=\"Go\"><code>package main</code></pre><pre class=\"lang-js\">let x = 1;</pre><pre><code class=\"hljs\">plain\n\tindented</code></pre></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 120,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><pre><code class=\"language-rust\" data-lang=\"rust\">fn main() {}</code></pre> <pre><code>print(1)</code></pre> <pre><code class=\"language-go\" data-lang=\"go\">package main</code></pre> <pre><code class=\"language-js\" data-lang=\"js\">let x = 1;</code></pre><pre><code>plain\n    indented</code></pre></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "code_line_numbers_and_buttons",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"code-block\"><div class=\"code-header\"><span>bash</span><button>Copy</button></div><pre><code class=\"language-bash\"><span class=\"line\"><span>echo 1</span></span>\n<span class=\"line\"><span>echo 2</span></span></code></pre></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 112,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div><pre><code class=\"language-bash\" data-lang=\"bash\">echo 1\necho 2</code></pre></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "footnotes_wikipedia_style",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Claim here.<sup id=\"cite_ref-1\" class=\"reference\"><a href=\"#cite_note-1\">[1]</a></sup> Another.<sup class=\"reference\"><a href=\"#cite_note-b\">[2]</a></sup></p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><ol class=\"references\"><li id=\"cite_note-1\"><span class=\"mw-cite-backlink\"><a href=\"#cite_ref-1\">^</a></span> <span class=\"reference-text\">First source.</span></li><li id=\"cite_note-b\"><span class=\"reference-text\">Second source.</span></li></ol></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 137,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Claim here.<sup id=\"fnref:1\"><a href=\"#fn:1\">1</a></sup> Another.<sup id=\"fnref:2\"><a href=\"#fn:2\">2</a></sup></p> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div id=\"footnotes\"><ol><li id=\"fn:1\"><p> First source.<a class=\"footnote-backref\" title=\"return to article\" href=\"#fnref:1\">↩</a></p></li> <li id=\"fn:2\"><p>Second source.<a class=\"footnote-backref\" title=\"return to article\" href=\"#fnref:2\">↩</a></p></li></ol></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "footnotes_markdown_it_style",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Text<sup class=\"footnote-ref\"><a href=\"#fn1\" id=\"fnref1\">[1]</a></sup> more.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><section class=\"footnotes\"><ol class=\"footnotes-list\"><li id=\"fn1\" class=\"footnote-item\"><p>Note body. <a href=\"#fnref1\" class=\"footnote-backref\">↩︎</a></p></li></ol></section></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 132,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Text<sup id=\"fnref:1\"><a href=\"#fn:1\">1</a></sup> more.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div id=\"footnotes\"><ol><li id=\"fn:1\"><p>Note body. <a class=\"footnote-backref\" title=\"return to article\" href=\"#fnref:1\">↩</a></p></li></ol></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "footnotes_substack_style",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Word<a class=\"footnote-anchor\" id=\"footnote-anchor-1\" href=\"#footnote-1\">1</a> end.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"footnote\" data-component-name=\"FootnoteToDOM\"><a id=\"footnote-1\" href=\"#footnote-anchor-1\" class=\"footnote-number\">1</a><div class=\"footnote-content\"><p>Substack note.</p></div></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 132,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Word<sup id=\"fnref:1\"><a href=\"#fn:1\">1</a></sup> end.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div id=\"footnotes\"><ol><li id=\"fn:1\"><p>Substack note.<a class=\"footnote-backref\" title=\"return to article\" href=\"#fnref:1\">↩</a></p></li></ol></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "math_mathml_annotation",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Inline <math alttext=\"x^2\"><semantics><msup><mi>x</mi><mn>2</mn></msup><annotation encoding=\"application/x-tex\">x^2</annotation></semantics></math> here.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 113,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Inline <math data-latex=\"x^2\" display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><msup><mi>x</mi> <mn>2</mn></msup> <annotation>x^2</annotation></semantics></math> here.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "math_mathjax_script_and_katex",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>A <span class=\"MathJax_Preview\">x</span><script type=\"math/tex\">a+b</script> and <span class=\"katex\"><span class=\"katex-mathml\"><math><semantics><mi>c</mi><annotation encoding=\"application/x-tex\">\\frac{1}{2}</annotation></semantics></math></span><span class=\"katex-html\">½</span></span>.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 116,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>A <math data-latex=\"a+b\" display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mrow><mi>a</mi> <mo>+</mo> <mi>b</mi></mrow></math> and <math data-latex=\"\\frac{1}{2}\" display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><semantics><mi>c</mi> <annotation>\\frac{1}{2}</annotation></semantics></math>.</p></article>"
+  },
+  "skip": [
+   "wordCount"
+  ]
+ },
+ {
+  "name": "math_raw_latex_with_library",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><script src=\"https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js\"></script></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Euler: $e^{i\\pi}+1=0$ costs $5 and $10.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 114,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Euler: <math data-latex=\"e^{i\\pi}+1=0\" display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\">e^{i\\pi}+1=0</math> costs $5 and $10.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "math_latex_image",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p><img src=\"https://latex.codecogs.com/svg.image?\\frac{a}{b}\" alt=\"\\frac{a}{b}\"></p><p>Inline <img src=\"https://chart.googleapis.com/chart?cht=tx&chl=%5Csqrt%7Bx%7D\" alt=\"sqrt\"> text.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 113,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p><math data-latex=\"\\frac{a}{b}\" display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mfrac><mi>a</mi> <mi>b</mi></mfrac></math></p> <p>Inline <math data-latex=\"\\sqrt{x}\" display=\"inline\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msqrt><mrow><mi>x</mi></mrow></msqrt></math> text.</p></article>"
+  },
+  "skip": [
+   "wordCount"
+  ]
+ },
+ {
+  "name": "callout_github_alert",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article class=\"markdown-body\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"markdown-alert markdown-alert-warning\"><p class=\"markdown-alert-title\">Warning</p><p>Careful now.</p></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 111,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"callout\" data-callout=\"warning\"><div class=\"callout-title\"><div class=\"callout-title-inner\">Warning</div></div> <p>Careful now.</p></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "callout_bootstrap_and_aside",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"alert alert-info\"><h4 class=\"alert-heading\">Heads up</h4><p>Info body.</p></div><aside class=\"callout callout-tip\"><p>Tip body.</p></aside></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 115,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"callout\" data-callout=\"info\"><div class=\"callout-title\"><div class=\"callout-title-inner\">Heads up</div></div> <p>Info body.</p></div><div class=\"callout\" data-callout=\"tip\"><div class=\"callout-title\"><div class=\"callout-title-inner\">Tip</div></div> <p>Tip body.</p></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "callout_admonition",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"admonition note\"><p class=\"admonition-title\">Note title</p><p>Admonition body.</p></div></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 112,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"callout\" data-callout=\"note\"><div class=\"callout-title\"><div class=\"callout-title-inner\">Note title</div></div> <p>Admonition body.</p></div></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "lazy_images_promoted",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><img data-src=\"/images/real.jpg\" src=\"data:image/gif;base64,R0lGODlhAQABAAAAACw=\" alt=\"Lazy\"><img class=\"lazyload\" data-srcset=\"/a.jpg 1x, /b.jpg 2x\" alt=\"Set\"></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><img src=\"https://example.com/images/real.jpg\" alt=\"Lazy\"> <img srcset=\"https://example.com/a.jpg 1x, https://example.com/b.jpg 2x\" alt=\"Set\"></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "picture_sources",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><picture><source media=\"(min-width: 800px)\" srcset=\"/img/large.jpg 1200w\"><source srcset=\"/img/default.webp 800w\"><img src=\"/img/fallback.jpg\" alt=\"Pic\"></picture></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><picture><img srcset=\"https://example.com/img/default.webp 800w\" src=\"https://example.com/img/default.webp\" alt=\"Pic\"></picture></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "figure_caption_normalised",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><figure class=\"wp-block-image\"><img src=\"/photo.jpg\" alt=\"A photo\"><figcaption>A long enough <em>caption</em> for the photo.</figcaption></figure></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 115,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><figure><img src=\"https://example.com/photo.jpg\" alt=\"A photo\"> <figcaption>A long enough caption for the photo.</figcaption></figure></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "noscript_image_resolved",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><figure><img src=\"data:image/gif;base64,AAAA\" alt=\"Next\"><noscript><img src=\"/real-next.jpg\" alt=\"Next\"></noscript></figure></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><figure><img src=\"https://example.com/real-next.jpg\" alt=\"Next\"></figure></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "attributes_stripped",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article class=\"post\" data-x=\"1\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p style=\"color:red\" class=\"lead\" id=\"intro\" onclick=\"x()\">Styled <span>bare span</span> <span class=\"k\">classed span</span> text.</p><a href=\"javascript:alert(1)\">js link</a></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 116,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Styled bare span classed span text.</p>js link</article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "relative_urls_and_srcset",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><base href=\"https://example.com/root/\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p><a href=\"../other\">rel</a> <a href=\"#frag\">frag</a> <a href=\"//cdn.example.org/x\">proto</a></p><img src=\"img/a b.png\" srcset=\"img/a.png 1x, /img/b.png 2x\" alt=\"x\"></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 111,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p><a href=\"https://example.com/other\">rel</a> <a href=\"#frag\">frag</a> <a href=\"https://cdn.example.org/x\">proto</a></p> <img src=\"https://example.com/root/img/a%20b.png\" srcset=\"https://example.com/root/img/a.png 1x, https://example.com/img/b.png 2x\" alt=\"x\"></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "empty_elements_and_br",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div><p></p><span> </span></div><p>Line one<br><br><br><br>Line two<br></p><br><p>After.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 113,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Line one <br> <br> Line two</p> <p>After.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "layout_table_unwrapped",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><table><tr><td><p>Only cell paragraph with some words in it.</p></td></tr></table><table><tr><th>H</th></tr><tr><td>data</td></tr></table></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 118,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Only cell paragraph with some words in it.</p><table><tr><th>H</th></tr> <tr><td>data</td></tr></table></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "cover_image_removed",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"og:image\" content=\"https://example.com/cover.jpg\"></head><body><article><img src=\"https://example.com/cover.jpg\" alt=\"Cover\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "https://example.com/cover.jpg",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article> <p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "short_page_retry_keeps_content",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><div class=\"post-meta-wrapper\"><p>Just a short note, with a comma, that is the whole page.</p></div></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 12,
+   "content": "<body><p>Just a short note, with a comma, that is the whole page.</p></body>"
+  },
+  "skip": []
+ },
+ {
+  "name": "schema_article_body_fallback",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><script type=\"application/ld+json\">{\"@type\":\"SocialMediaPosting\",\"text\":\"This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. \"}</script></head><body><div id=\"app\"><div class=\"card-content\"><p>Tiny.</p></div></div></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 96,
+   "content": "This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. This is the full post text from structured data, repeated for length. "
+  },
+  "skip": []
+ },
+ {
+  "name": "cjk_word_count",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>日本語の文章です。これは記事の本文であり、十分な長さがあります。</p></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 32,
+   "content": "<article><p>日本語の文章です。これは記事の本文であり、十分な長さがあります。</p></article>"
+  },
+  "skip": []
+ },
+ {
+  "name": "wikipedia_extractor",
+  "url": "https://en.wikipedia.org/wiki/Test",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"><meta property=\"og:title\" content=\"Test - Wikipedia\"></head><body><div id=\"mw-content-text\"><div class=\"mw-parser-output\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><div class=\"navbox\">Nav box</div></div></div><div id=\"footer\">f</div></body></html>",
+  "expected": {
+   "title": "Test",
+   "author": "Wikipedia",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "Wikipedia",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 110,
+   "content": "<div><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>Nav box</p></div>"
+  },
+  "skip": []
+ },
+ {
+  "name": "streamed_ssr_content",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><main><template id=\"B:0\"></template><p>Loading skeleton</p><!--/$--></main><div hidden id=\"S:0\"><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></div><script>$RC(\"B:0\",\"S:0\")</script></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<main><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p></main>"
+  },
+  "skip": []
+ },
+ {
+  "name": "unsafe_elements_stripped",
+  "url": "https://example.com/blog/post",
+  "html": "<!doctype html><html lang=\"en\"><head><title>Test Page</title><meta property=\"og:url\" content=\"https://example.com/blog/post\"></head><body><article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><iframe src=\"https://www.youtube.com/embed/x\" srcdoc=\"<b>x</b>\"></iframe><img src=\"data:text/html;base64,PHNjcmlwdD4=\" alt=\"bad\"><object data=\"x.swf\"></object></article></body></html>",
+  "expected": {
+   "title": "Test Page",
+   "author": "",
+   "published": "",
+   "description": "",
+   "image": "",
+   "favicon": "https://example.com/favicon.ico",
+   "site": "example.com",
+   "domain": "example.com",
+   "language": "en",
+   "wordCount": 108,
+   "content": "<article><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><p>This paragraph has enough words to count as real article prose, with commas, clauses, and a full stop.</p><iframe src=\"https://www.youtube.com/embed/x\"></iframe> <img alt=\"bad\"></article>"
+  },
+  "skip": []
+ }
+]

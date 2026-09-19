@@ -1,0 +1,26 @@
+# Build output
+target/
+node_modules/
+dist/
+dist-*/
+packages/engine/src/wasm-gen/
+
+# Test output
+test-results/
+playwright-report/
+blob-report/
+
+# Secrets — never committed
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.p12
+
+# Local and editor junk
+.claude/
+.DS_Store
+*.log
+.vscode/
+.idea/

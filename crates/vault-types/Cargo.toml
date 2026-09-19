@@ -1,0 +1,10 @@
+[package]
+name = "vault-types"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "The shared data shapes: Obsidian's CachedMetadata, positions, and search results, serialised exactly as the plugin API exposes them"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true, features = ["preserve_order"] }

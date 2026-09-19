@@ -1,0 +1,102 @@
+/* Transcribe (core-plugins/transcribe) and clipper prompt variables (companion/interpreter). */
+
+.notice.vault-transcribe-notice {
+  cursor: default;
+  min-width: 280px;
+}
+.vault-transcribe-progress {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-4-1);
+}
+.vault-transcribe-title {
+  font-weight: var(--font-semibold);
+  overflow-wrap: anywhere;
+}
+.vault-transcribe-engine {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+}
+/* Notices keep their own colours in both themes: derive from the notice's text colour. */
+.notice .vault-transcribe-engine,
+.notice .vault-transcribe-status {
+  color: inherit;
+  opacity: 0.8;
+}
+.vault-transcribe-bar {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  border: none;
+  border-radius: var(--radius-s);
+  background-color: color-mix(in srgb, currentColor 22%, transparent);
+  overflow: hidden;
+}
+.vault-transcribe-bar::-webkit-progress-bar {
+  background-color: color-mix(in srgb, currentColor 22%, transparent);
+}
+.vault-transcribe-bar::-webkit-progress-value {
+  background-color: var(--interactive-accent);
+  transition: width 150ms ease;
+}
+.vault-transcribe-bar::-moz-progress-bar {
+  background-color: var(--interactive-accent);
+}
+.vault-transcribe-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-4-2);
+}
+.vault-transcribe-status {
+  font-size: var(--font-ui-smaller);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 0;
+}
+.vault-transcribe-cancel {
+  font-size: var(--font-ui-smaller);
+  padding: var(--size-2-1) var(--size-4-2);
+  height: auto;
+}
+.vault-transcribe-open-settings {
+  margin-top: var(--size-4-2);
+}
+
+.internal-embed.vault-transcribable {
+  position: relative;
+}
+.internal-embed.audio-embed.vault-transcribable {
+  display: flex;
+  align-items: center;
+  gap: var(--size-4-1);
+  max-width: var(--file-line-width, 700px);
+}
+.internal-embed.audio-embed.vault-transcribable audio {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.internal-embed.video-embed.vault-transcribable .vault-transcribe-embed-button {
+  position: absolute;
+  top: var(--size-4-2);
+  right: var(--size-4-2);
+  background-color: var(--background-primary);
+  opacity: 0;
+}
+.internal-embed.video-embed.vault-transcribable:hover .vault-transcribe-embed-button,
+.vault-transcribe-embed-button:focus-visible {
+  opacity: 1;
+}
+.vault-transcribe-embed-button {
+  flex: none;
+}
+
+.vault-transcribe-summary-modal .vault-transcribe-engine {
+  margin-bottom: var(--size-4-2);
+}
+.vault-transcribe-summary {
+  width: 100%;
+  min-height: 14em;
+  font-family: var(--font-text);
+  resize: vertical;
+}

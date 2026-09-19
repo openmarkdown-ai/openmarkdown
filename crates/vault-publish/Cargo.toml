@@ -1,0 +1,13 @@
+[package]
+name = "vault-publish"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Export a note to standalone HTML and a whole vault to a static website with navigation, backlinks, graph and search"
+
+[dependencies]
+vault-types = { workspace = true }
+vault-ofm = { workspace = true }
+vault-index = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

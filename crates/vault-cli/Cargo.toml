@@ -1,0 +1,20 @@
+[package]
+name = "vault-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Command-line access to a vault: search, links, tags, render, export, publish, Bases, clip, import, rename"
+
+[[bin]]
+name = "vault"
+path = "src/main.rs"
+
+[dependencies]
+vault-types = { workspace = true }
+vault-ofm = { workspace = true }
+vault-index = { workspace = true }
+vault-bases = { workspace = true }
+vault-clip = { workspace = true }
+vault-publish = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }

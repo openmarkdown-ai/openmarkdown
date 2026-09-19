@@ -1,0 +1,12 @@
+[package]
+name = "vault-clip"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Web pages into notes: readable-content extraction, HTML to Markdown, the clipper template language, and importers from other note apps"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }
+regex-lite = "0.1"
+miniz_oxide = "0.8"
