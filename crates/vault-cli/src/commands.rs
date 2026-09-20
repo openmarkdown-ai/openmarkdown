@@ -245,7 +245,7 @@ fn graph(args: &Args, out: Out) -> Result<i32, String> {
     let unresolved = g.nodes.iter().filter(|n| n.kind == vault_index::NodeKind::Unresolved).count();
     outln!(out, "{} nodes ({} unresolved), {} links", g.nodes.len(), unresolved, g.links.len());
     let mut top: Vec<&vault_index::GraphNode> = g.nodes.iter().collect();
-    top.sort_by(|a, b| b.weight.cmp(&a.weight));
+    top.sort_by_key(|n| std::cmp::Reverse(n.weight));
     for n in top.iter().take(10) {
         outln!(out, "  {:>4}  {}", n.weight, n.id);
     }
@@ -280,7 +280,7 @@ fn render(args: &Args, out: Out) -> Result<i32, String> {
 }
 
 /// Rendered HTML → readable text: block ends become line breaks.
-fn plain_text(html: &str) -> String {
+pub(crate) fn plain_text(html: &str) -> String {
     let mut s = html.to_string();
     for tag in ["</p>", "</li>", "</h1>", "</h2>", "</h3>", "</h4>", "</h5>", "</h6>", "<br>", "</tr>", "</div>", "</pre>"] {
         s = s.replace(tag, &format!("{tag}\n"));
@@ -299,7 +299,7 @@ fn plain_text(html: &str) -> String {
     out.lines().map(str::trim_end).filter(|l| !l.trim().is_empty()).collect::<Vec<_>>().join("\n")
 }
 
-fn input_note(v: &Vault, path: &str) -> vault_publish::InputFile {
+pub(crate) fn input_note(v: &Vault, path: &str) -> vault_publish::InputFile {
     let f = v.files.iter().find(|f| f.path == path);
     let mut i = vault_publish::InputFile::note(path, v.text(path));
     if let Some(f) = f {
@@ -309,7 +309,7 @@ fn input_note(v: &Vault, path: &str) -> vault_publish::InputFile {
     i
 }
 
-fn input_binary(v: &Vault, path: &str) -> Option<vault_publish::InputFile> {
+pub(crate) fn input_binary(v: &Vault, path: &str) -> Option<vault_publish::InputFile> {
     let bytes = v.read_bytes(path)?;
     let mut i = vault_publish::InputFile::binary(path, bytes);
     if let Some(f) = v.files.iter().find(|f| f.path == path) {
@@ -321,7 +321,7 @@ fn input_binary(v: &Vault, path: &str) -> Option<vault_publish::InputFile> {
 
 /// Attachments (non-notes) that `notes` link to or embed, following note
 /// embeds `depth` levels deep.
-fn referenced_attachments(v: &Vault, notes: &[String], depth: u32) -> BTreeSet<String> {
+pub(crate) fn referenced_attachments(v: &Vault, notes: &[String], depth: u32) -> BTreeSet<String> {
     let resolved = v.index.resolved_links();
     let mut out = BTreeSet::new();
     let mut seen: HashSet<String> = HashSet::new();
@@ -547,7 +547,7 @@ fn write_table(out: Out, headers: &[String], rows: &[Vec<String>]) -> Result<(),
 
 // ---- clip / import / convert --------------------------------------------------------------
 
-const DEFAULT_CLIP_TEMPLATE: &str = r#"{
+pub(crate) const DEFAULT_CLIP_TEMPLATE: &str = r#"{
   "schemaVersion": "0.1.0",
   "name": "Default",
   "behavior": "create",
@@ -567,7 +567,7 @@ const DEFAULT_CLIP_TEMPLATE: &str = r#"{
 
 /// Fetches a URL with the system `curl` (so the binary needs no HTTP or TLS
 /// library).
-fn fetch(url: &str) -> Result<String, String> {
+pub(crate) fn fetch(url: &str) -> Result<String, String> {
     let output = std::process::Command::new("curl")
         .args(["-sSL", "--compressed", "--max-time", "60", "-A", "Mozilla/5.0 (compatible; vault-cli)", url])
         .output()
@@ -634,7 +634,7 @@ fn unique_path(v: &Vault, rel: &str) -> String {
     (1..).map(|n| format!("{stem} {n}{ext}")).find(|p| !v.abs(p).exists()).unwrap_or_else(|| rel.to_string())
 }
 
-fn read_inputs(paths: &[String]) -> Result<Vec<(String, Vec<u8>)>, String> {
+pub(crate) fn read_inputs(paths: &[String]) -> Result<Vec<(String, Vec<u8>)>, String> {
     fn walk(base: &Path, dir: &Path, out: &mut Vec<(String, Vec<u8>)>) -> Result<(), String> {
         let mut entries: Vec<_> = fs::read_dir(dir).map_err(|e| format!("{}: {e}", dir.display()))?.flatten().collect();
         entries.sort_by_key(|e| e.file_name());
@@ -738,19 +738,21 @@ fn import(args: &Args, out: Out) -> Result<i32, String> {
 fn convert_format(args: &Args, out: Out) -> Result<i32, String> {
     let v = open(args)?;
     let all = args.has("all");
-    let mut o = vault_clip::FormatConverterOptions::default();
-    o.markdown_links_to_wikilinks = all || args.has("markdown-links");
-    o.roam_tags = all || args.has("roam");
-    o.roam_highlights = all || args.has("roam");
-    o.roam_todos = all || args.has("roam");
-    o.bear_highlights = all || args.has("bear");
-    o.bear_multi_word_tags = all || args.has("bear");
-    o.properties = all || args.has("properties");
-    o.zettelkasten = match args.get("zettelkasten") {
-        Some("pretty") => vault_clip::import::format_converter::ZettelkastenLinks::Pretty,
-        Some(_) => vault_clip::import::format_converter::ZettelkastenLinks::Full,
-        None if all => vault_clip::import::format_converter::ZettelkastenLinks::Full,
-        None => vault_clip::import::format_converter::ZettelkastenLinks::Off,
+    let mut o = vault_clip::FormatConverterOptions {
+        markdown_links_to_wikilinks: all || args.has("markdown-links"),
+        roam_tags: all || args.has("roam"),
+        roam_highlights: all || args.has("roam"),
+        roam_todos: all || args.has("roam"),
+        bear_highlights: all || args.has("bear"),
+        bear_multi_word_tags: all || args.has("bear"),
+        properties: all || args.has("properties"),
+        zettelkasten: match args.get("zettelkasten") {
+            Some("pretty") => vault_clip::import::format_converter::ZettelkastenLinks::Pretty,
+            Some(_) => vault_clip::import::format_converter::ZettelkastenLinks::Full,
+            None if all => vault_clip::import::format_converter::ZettelkastenLinks::Full,
+            None => vault_clip::import::format_converter::ZettelkastenLinks::Off,
+        },
+        ..Default::default()
     };
     if o == vault_clip::FormatConverterOptions::default() {
         return Err("choose conversions: --all, --markdown-links, --roam, --bear, --zettelkasten[=pretty], --properties".into());

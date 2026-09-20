@@ -3,7 +3,7 @@
 use std::collections::BTreeMap;
 
 use serde_json::{json, Map, Value};
-use vault_index::{RenameOptions, SearchOptions};
+use vault_index::SearchOptions;
 use vault_ofm::SubpathResult;
 use vault_types::LineIndex;
 
@@ -13,28 +13,40 @@ use crate::vault::{self, Vault};
 
 type R = Result<ToolOutput, ToolError>;
 
-/// Tools that never modify the vault, in `tools/list` order.
+use super::{content, ops, replace, visual};
+
+/// Tools in this module that never modify the vault, in `tools/list` order.
 const READ_TOOLS: &[&str] = &["search", "read_note", "list_notes", "backlinks", "outgoing_links", "tags", "properties"];
-/// Tools that modify the vault (hidden by `--read-only`).
+/// Tools in this module that modify the vault (hidden by `--read-only`).
 const WRITE_TOOLS: &[&str] = &["create_note", "edit_note", "append_note", "set_property", "rename_note"];
 /// `daily_note` reads, and — unless read-only — creates and appends.
 const DAILY: &str = "daily_note";
 
+/// Every read tool of the server.
+pub fn read_names() -> Vec<&'static str> {
+    READ_TOOLS.iter().chain(ops::READ).chain(content::READ).chain(visual::READ).copied().collect()
+}
+
+/// Every write tool of the server (hidden by `--read-only`).
+pub fn write_names() -> Vec<&'static str> {
+    WRITE_TOOLS.iter().chain(ops::WRITE).chain(replace::WRITE).chain(content::WRITE).chain(visual::WRITE).copied().collect()
+}
+
 pub fn exists(name: &str) -> bool {
-    READ_TOOLS.contains(&name) || WRITE_TOOLS.contains(&name) || name == DAILY
+    read_names().contains(&name) || write_names().contains(&name) || name == DAILY || name == ops::PERIODIC
 }
 
 pub fn is_write(name: &str) -> bool {
-    WRITE_TOOLS.contains(&name)
+    write_names().contains(&name)
 }
 
-const PATH_DESC: &str = "Vault-relative path with forward slashes, e.g. `Projects/Alpha.md`. `.md` may be omitted; a bare note name is resolved like a [[wikilink]].";
+pub(crate) const PATH_DESC: &str = "Vault-relative path with forward slashes, e.g. `Projects/Alpha.md`. `.md` may be omitted; a bare note name is resolved like a [[wikilink]].";
 
-fn annotations(title: &str, read_only: bool, destructive: bool, idempotent: bool) -> Value {
+pub(crate) fn annotations(title: &str, read_only: bool, destructive: bool, idempotent: bool) -> Value {
     json!({ "title": title, "readOnlyHint": read_only, "destructiveHint": destructive, "idempotentHint": idempotent, "openWorldHint": false })
 }
 
-fn tool(name: &str, title: &str, description: &str, properties: Value, required: &[&str], ann: Value) -> Value {
+pub(crate) fn tool(name: &str, title: &str, description: &str, properties: Value, required: &[&str], ann: Value) -> Value {
     json!({
         "name": name,
         "title": title,
@@ -119,6 +131,9 @@ pub fn definitions(read_only: bool) -> Vec<Value> {
             annotations("Properties", true, false, true),
         ),
     ];
+    out.extend(ops::read_definitions());
+    out.extend(content::read_definitions());
+    out.extend(visual::read_definitions());
     if !read_only {
         out.extend([
             tool(
@@ -184,6 +199,10 @@ pub fn definitions(read_only: bool) -> Vec<Value> {
                 annotations("Rename or move a note", false, false, false),
             ),
         ]);
+        out.extend(ops::write_definitions());
+        out.extend(replace::write_definitions());
+        out.extend(content::write_definitions());
+        out.extend(visual::write_definitions());
     }
     let actions: Value = if read_only { json!(["read"]) } else { json!(["read", "create", "append"]) };
     out.push(tool(
@@ -202,12 +221,13 @@ pub fn definitions(read_only: bool) -> Vec<Value> {
         &[],
         annotations("Daily note", read_only, false, read_only),
     ));
+    out.push(ops::periodic_definition(read_only));
     out
 }
 
 // ---- argument helpers ---------------------------------------------------------------
 
-fn opt_str<'a>(args: &'a Map<String, Value>, key: &str) -> Result<Option<&'a str>, ToolError> {
+pub(crate) fn opt_str<'a>(args: &'a Map<String, Value>, key: &str) -> Result<Option<&'a str>, ToolError> {
     match args.get(key) {
         None | Some(Value::Null) => Ok(None),
         Some(Value::String(s)) => Ok(Some(s)),
@@ -215,11 +235,11 @@ fn opt_str<'a>(args: &'a Map<String, Value>, key: &str) -> Result<Option<&'a str
     }
 }
 
-fn req_str<'a>(args: &'a Map<String, Value>, key: &str) -> Result<&'a str, ToolError> {
+pub(crate) fn req_str<'a>(args: &'a Map<String, Value>, key: &str) -> Result<&'a str, ToolError> {
     opt_str(args, key)?.ok_or_else(|| format!("missing required argument `{key}`").into())
 }
 
-fn opt_bool(args: &Map<String, Value>, key: &str, default: bool) -> Result<bool, ToolError> {
+pub(crate) fn opt_bool(args: &Map<String, Value>, key: &str, default: bool) -> Result<bool, ToolError> {
     match args.get(key) {
         None | Some(Value::Null) => Ok(default),
         Some(Value::Bool(b)) => Ok(*b),
@@ -227,7 +247,7 @@ fn opt_bool(args: &Map<String, Value>, key: &str, default: bool) -> Result<bool,
     }
 }
 
-fn opt_usize(args: &Map<String, Value>, key: &str, default: usize, min: usize, max: usize) -> Result<usize, ToolError> {
+pub(crate) fn opt_usize(args: &Map<String, Value>, key: &str, default: usize, min: usize, max: usize) -> Result<usize, ToolError> {
     match args.get(key) {
         None | Some(Value::Null) => Ok(default),
         Some(v) => match v.as_u64() {
@@ -237,12 +257,12 @@ fn opt_usize(args: &Map<String, Value>, key: &str, default: usize, min: usize, m
     }
 }
 
-fn json_out(v: Value) -> ToolOutput {
-    ToolOutput { text: v.to_string(), structured: Some(v) }
+pub(crate) fn json_out(v: Value) -> ToolOutput {
+    ToolOutput { text: v.to_string(), structured: Some(v), extra: Vec::new() }
 }
 
-fn done(text: String, v: Value) -> ToolOutput {
-    ToolOutput { text, structured: Some(v) }
+pub(crate) fn done(text: String, v: Value) -> ToolOutput {
+    ToolOutput { text, structured: Some(v), extra: Vec::new() }
 }
 
 pub fn call(s: &mut Server, name: &str, args: &Map<String, Value>) -> R {
@@ -260,6 +280,10 @@ pub fn call(s: &mut Server, name: &str, args: &Map<String, Value>) -> R {
         "set_property" => s.t_set_property(args),
         "rename_note" => s.t_rename_note(args),
         DAILY => s.t_daily_note(args),
+        n if ops::READ.contains(&n) || ops::WRITE.contains(&n) || n == ops::PERIODIC => ops::call(s, n, args),
+        n if replace::WRITE.contains(&n) => replace::call(s, n, args),
+        n if content::READ.contains(&n) || content::WRITE.contains(&n) => content::call(s, n, args),
+        n if visual::READ.contains(&n) || visual::WRITE.contains(&n) => visual::call(s, n, args),
         other => Err(ToolError::Unknown(format!("Unknown tool: {other}"))),
     }
 }
@@ -588,7 +612,7 @@ impl Server {
         }
     }
 
-    fn resolve_note(&self, arg: &str) -> Result<String, String> {
+    pub(crate) fn resolve_note(&self, arg: &str) -> Result<String, String> {
         let p = self.resolve_existing(arg)?;
         if !Vault::is_note(&p) {
             return Err(format!("{p} is not a Markdown note"));
@@ -596,11 +620,11 @@ impl Server {
         Ok(p)
     }
 
-    fn read_file(&self, rel: &str) -> Result<TextFile, String> {
+    pub(crate) fn read_file(&self, rel: &str) -> Result<TextFile, String> {
         fsx::read_text(&fsx::confined(&self.root, rel)?, rel)
     }
 
-    fn write_file(&mut self, rel: &str, file: &TextFile) -> Result<(), String> {
+    pub(crate) fn write_file(&mut self, rel: &str, file: &TextFile) -> Result<(), String> {
         let full = fsx::confined(&self.root, rel)?;
         fsx::write_atomic(&full, rel, &file.encode())?;
         self.reindex(&[rel.to_string()]);
@@ -608,7 +632,7 @@ impl Server {
     }
 
     /// A path for a note that is about to be created.
-    fn new_note_path(&self, arg: &str) -> Result<String, String> {
+    pub(crate) fn new_note_path(&self, arg: &str) -> Result<String, String> {
         let mut rel = fsx::clean_rel(arg)?;
         if !rel.to_lowercase().ends_with(".md") {
             rel.push_str(".md");
@@ -679,7 +703,7 @@ impl Server {
             }
             (None, None) => file.text,
         };
-        Ok(ToolOutput { text, structured: None })
+        Ok(ToolOutput::text(text))
     }
 
     fn t_list_notes(&self, args: &Map<String, Value>) -> R {
@@ -915,64 +939,22 @@ impl Server {
     fn t_rename_note(&mut self, args: &Map<String, Value>) -> R {
         let old = self.resolve_existing(req_str(args, "path")?)?;
         let mut new = fsx::clean_rel(req_str(args, "new_path")?)?;
+        // A bare new name keeps the folder …
         if !new.contains('/') {
             if let Some((dir, _)) = old.rsplit_once('/') {
                 new = format!("{dir}/{new}");
             }
         }
+        // … and the extension.
         if let Some((_, ext)) = old.rsplit_once('.').filter(|(stem, _)| !stem.ends_with('/') && !stem.is_empty()) {
             if !new.to_lowercase().ends_with(&format!(".{}", ext.to_lowercase())) {
                 new = format!("{new}.{ext}");
             }
         }
-        if new == old {
-            return Err("the new path is the same as the old one".into());
-        }
-        let new_full = fsx::confined(&self.root, &new)?;
-        let case_only = new.eq_ignore_ascii_case(&old);
-        if !case_only && (new_full.symlink_metadata().is_ok() || self.vault.index.file(&new).is_some()) {
-            return Err(format!("already exists: {new}").into());
-        }
-        let old_full = fsx::confined(&self.root, &old)?;
-        if old_full.symlink_metadata().is_ok_and(|m| m.file_type().is_symlink()) {
-            return Err(format!("{old} is a symlink; refusing to move it").into());
-        }
-        let edits = self.vault.index.rename_edits(&old, &new, &RenameOptions { link_format: self.vault.link_format() });
-        // Check every note to be rewritten before touching anything.
-        let mut writes: Vec<(String, String)> = Vec::new();
-        for e in &edits {
-            let indexed = self.vault.text(&e.original_path);
-            let full = fsx::confined(&self.root, &e.original_path)?;
-            let bytes = std::fs::read(&full).map_err(|err| format!("{}: {err}", e.original_path))?;
-            match std::str::from_utf8(&bytes) {
-                Ok(s) if s == indexed => {}
-                Ok(_) => return Err(format!("{} changed on disk while renaming; nothing was changed, try again", e.original_path).into()),
-                Err(_) => return Err(format!("{} links to {old} but is not valid UTF-8; refusing to rewrite it (nothing was changed)", e.original_path).into()),
-            }
-            writes.push((e.path.clone(), vault_index::apply_edits(indexed, &e.edits)));
-        }
-        if let Some(parent) = new_full.parent() {
-            std::fs::create_dir_all(parent).map_err(|e| format!("{new}: cannot create folder: {e}"))?;
-        }
-        std::fs::rename(&old_full, &new_full).map_err(|e| format!("rename {old} → {new} failed: {e}"))?;
-        let mut failed = Vec::new();
-        for (path, text) in &writes {
-            let full = fsx::confined(&self.root, path)?;
-            if let Err(e) = fsx::write_atomic(&full, path, text.as_bytes()) {
-                failed.push(e);
-            }
-        }
-        let touched: Vec<String> = writes.iter().map(|(p, _)| p.clone()).chain([new.clone()]).collect();
-        self.reindex(&touched);
-        let links: usize = edits.iter().map(|e| e.edits.len()).sum();
-        let updated: Vec<&String> = writes.iter().map(|(p, _)| p).collect();
-        if !failed.is_empty() {
-            return Err(format!("renamed {old} → {new}, but some link updates failed: {}", failed.join("; ")).into());
-        }
-        Ok(done(
-            format!("Renamed {old} → {new}; updated {links} links in {} notes", updated.len()),
-            json!({ "old_path": old, "new_path": new, "links_updated": links, "notes_updated": updated }),
-        ))
+        let r = ops::move_path(self, &old, &new, false)?;
+        let links = r.get("links_updated").and_then(Value::as_u64).unwrap_or(0);
+        let count = r.get("notes_updated").and_then(Value::as_array).map(|a| a.len()).unwrap_or(0);
+        Ok(done(format!("Renamed {old} → {new}; updated {links} links in {count} notes"), r))
     }
 
     fn t_daily_note(&mut self, args: &Map<String, Value>) -> R {
@@ -1002,7 +984,7 @@ impl Server {
                 return Err(format!("the daily note {rel} does not exist yet{}", if self.read_only { "" } else { " (use action `create` or `append`)" }).into());
             }
             let file = self.read_file(&rel)?;
-            return Ok(ToolOutput { text: format!("{rel}\n\n{}", file.text), structured: Some(json!({ "path": rel, "text": file.text })) });
+            return Ok(ToolOutput { text: format!("{rel}\n\n{}", file.text), structured: Some(json!({ "path": rel, "text": file.text })), extra: Vec::new() });
         }
         let append = if action == "append" { Some(fsx::lf(req_str(args, "content")?)) } else { None };
         let mut created = false;
@@ -1031,6 +1013,6 @@ impl Server {
             (false, "append") => "Appended to",
             _ => "Already exists:",
         };
-        Ok(ToolOutput { text: format!("{verb} {rel}\n\n{}", file.text), structured: Some(json!({ "path": rel, "created": created, "text": file.text })) })
+        Ok(ToolOutput { text: format!("{verb} {rel}\n\n{}", file.text), structured: Some(json!({ "path": rel, "created": created, "text": file.text })), extra: Vec::new() })
     }
 }

@@ -52,7 +52,10 @@ COMMANDS
   new <name> [--template path] [--folder f]
                                     create a note (newFileLocation, templates)
   mcp [<vault-folder>] [--read-only]
-                                    Model Context Protocol server over stdio
+                                    Model Context Protocol server over stdio:
+                                    36 tools (20 read-only) covering search,
+                                    links, editing, trash, bases, canvases,
+                                    the graph, publishing and importing
                                     (for Claude Code, Claude Desktop …; docs/mcp.md)
   help                              this text
 ";
