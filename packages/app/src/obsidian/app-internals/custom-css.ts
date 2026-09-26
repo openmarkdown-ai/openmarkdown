@@ -88,6 +88,22 @@ export class CustomCSS extends Events {
     document.body.toggleClass("theme-light", !dark);
     document.documentElement.style.colorScheme = dark ? "dark" : "light";
     this.app.workspace?.trigger("css-change");
+    this.syncThemeColor();
+  }
+
+  /** The installed window paints its title-bar area (behind the window buttons) with theme-color. */
+  syncThemeColor() {
+    let meta = document.head.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+    if (!meta) {
+      meta = document.createElement("meta");
+      meta.name = "theme-color";
+      document.head.appendChild(meta);
+    }
+    // Custom properties read back unresolved ("var(--color-base-20)"), so resolve through a real property.
+    const probe = document.body.createDiv({ attr: { style: "position:absolute;visibility:hidden;background-color:var(--background-secondary)" } });
+    const bg = getComputedStyle(probe).backgroundColor;
+    probe.remove();
+    meta.content = bg && bg !== "rgba(0, 0, 0, 0)" ? bg : this.isDarkMode() ? "#262626" : "#ffffff";
   }
 
   applyAppearance() {
@@ -110,6 +126,7 @@ export class CustomCSS extends Events {
     this.variablesEl.textContent = rules.length ? `body { ${rules.join(" ")} }` : "";
     document.body.toggleClass("is-translucent", !!v.getConfig("translucency"));
     this.app.workspace?.trigger("css-change");
+    this.syncThemeColor();
   }
 
   setAccentColor(hex: string) {
@@ -149,6 +166,7 @@ export class CustomCSS extends Events {
     }
     this.trigger("theme-change");
     this.app.workspace?.trigger("css-change");
+    this.syncThemeColor();
   }
 
   async setCssTheme(name: string) {
@@ -219,6 +237,7 @@ export class CustomCSS extends Events {
       }
     }
     this.app.workspace?.trigger("css-change");
+    this.syncThemeColor();
   }
 
   setCssEnabledStatus(name: string, enabled: boolean) {
