@@ -29,7 +29,7 @@ apps/
   web/                        Vite static PWA (dev/e2e port 5200)
   clipper/                    MV3 browser extension: clip a page into the vault
 e2e/                          Playwright against the built apps
-docs/research/                what the design is based on
+docs/                         architecture, MCP server, plugin compatibility, quick capture
 ```
 
 ## Rules every crate follows
@@ -191,7 +191,7 @@ packages/app/src/
 
 - **Vanilla DOM + the Obsidian helpers.** No UI framework: the DOM *is* the
   compatibility surface for themes, and plugins call `createDiv` on our nodes.
-- **Class names are Obsidian's** (see docs/research/dom-and-css.md). Our own
+- **Class names are Obsidian's** (as themes and plugins expect them). Our own
   additions use the `vault-` prefix so they never collide with a theme's rules.
 - **Colours only through CSS variables** (`--background-primary`,
   `--text-normal`, `--interactive-accent` …); never a literal in a component.
@@ -205,7 +205,7 @@ packages/app/src/
 
 Every built-in feature is a `CorePluginDefinition` registered on `app.internalPlugins` (`core-plugins/index.ts`), but there are two kinds:
 
-- **Core plugins** are Obsidian's own (research doc §3.0: backlinks, bases, bookmarks, canvas, daily notes, graph, templates, slides, web viewer, word count …) plus hidden, always-on app internals (`markdown`, `media-views`, `external-embeds`, `note-titles`, `link-tabs`, `export-pdf`). Settings → Core plugins lists the non-hidden ones; state is `.obsidian/core-plugins.json`, which never contains hidden or pre-installed ids (older builds' entries are stripped on load).
+- **Core plugins** are Obsidian's own (backlinks, bases, bookmarks, canvas, daily notes, graph, templates, slides, web viewer, word count …) plus hidden, always-on app internals (`markdown`, `media-views`, `external-embeds`, `note-titles`, `link-tabs`, `export-pdf`). Settings → Core plugins lists the non-hidden ones; state is `.obsidian/core-plugins.json`, which never contains hidden or pre-installed ids (older builds' entries are stripped on load).
 - **Pre-installed plugins** are what OpenMarkdown adds: `formatting-toolbar`, `writing-focus`, `grammar`, `natural-dates`, `periodic-notes`, `calendar`, `trash`, `smart-paste`, `media`, `local-images`, `export`, `citations`, `quick-capture`, `importer`, `ocr`, `voice`, `ai-tools`, `reminders`, `backup`, `opensync`, `semantic`, `vault-chat`, `ai-suggest`, `ai-query`, `ai-review`, `transcribe`. `core-plugins/preinstalled.ts` marks their definitions (`definition.preinstalled`: author = product, version = `APP_VERSION`, `replaces` = community plugin ids they step aside for, `removes` = words for the uninstall confirmation, `onUninstall(app)` clean-up, and for Sync a separately confirmed `disconnect`). Ids, command ids and `.obsidian/<id>.json` options are unchanged. Per-vault state is `.obsidian/openmarkdown-plugins.json` `{ "uninstalled": [...], "enabled": {...} }`; the first load without it carries over their entries from `core-plugins.json`. Settings → Community plugins lists them ("Pre-installed plugins", unaffected by restricted mode) with toggle, gear, hotkeys and Uninstall, and "Removed pre-installed plugins" with Reinstall; their setting tabs sit under the sidebar's Community plugins heading (`AppSetting.isPreinstalledTab`).
 - `internalPlugins.setEnabled(id, on)` works for both kinds and writes the right file. `internalPlugins.uninstall(id, {disconnect?})` closes the plugin's views, unloads it (commands, ribbon, status bar, setting tabs go with it), deletes `.obsidian/<id>.json`, runs `onUninstall`, and moves the wrapper from `plugins` to `removed`, so `getPluginById`/`getEnabledPluginById` return null; `reinstall(id)` puts a fresh wrapper back (default options, default enabled state) without a reload. Events: `plugin-uninstalled`, `plugin-installed`, `plugin-state-change`. Code that uses another plugin goes through `getEnabledPluginById(...)?.` and must cope with null (e.g. `ai-suggest` without `semantic`, Chat with vault's notice, Editor settings' toolbar manager).
 

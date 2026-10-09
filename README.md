@@ -125,8 +125,7 @@ apps/
 
 The `obsidian` module *is* the application: every core feature is a plugin
 written against the same `App`/`Vault`/`Workspace` objects a community plugin
-receives. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and the research
-behind the design in [docs/research/](docs/research/).
+receives. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
 ## Build from source
 
@@ -177,6 +176,13 @@ is pushed. It can also be started from Actions → Release → Run workflow with
 
 Issues and pull requests are welcome.
 
+Where the code lives: the maintainers' GitLab repository is the source of truth, and
+this GitHub repository mirrors its app code. After a change lands on GitLab `main`,
+the maintainers run the mirror script, which publishes it here as one sync commit
+naming the GitLab commit; it never force-pushes.
+Pull requests opened here are ported to GitLab first. Releases are built here by GitHub
+Actions from the mirrored tree (`.github/workflows/`).
+
 - Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) first. The `obsidian` module *is*
   the application: a feature is a plugin written against the same
   `App`/`Vault`/`Workspace` objects a community plugin receives. Parsing, indexing and
@@ -186,8 +192,8 @@ Issues and pull requests are welcome.
   [docs/plugin-compatibility.md](docs/plugin-compatibility.md) needs a very good reason.
 - **No material from the Obsidian app.** Do not copy, decompile or reverse-engineer
   Obsidian's application code or styles. Work only from its public API, documentation
-  and observable behaviour. The provenance rules are in
-  [docs/research/dom-and-css.md](docs/research/dom-and-css.md).
+  and observable behaviour, and say in the change which public source a behaviour
+  comes from.
 - Add a test with the change. Rust tests go next to the crate. App behaviour goes in a
   Playwright spec under `e2e/`. Run `cargo test --workspace`, `npm run typecheck` and
   the relevant e2e suite before opening a pull request.
@@ -214,5 +220,6 @@ Licensed under either of
 at your option.
 
 Bundled third-party files keep their own licences. For example, the CSL citation
-styles in `packages/app/src/core-plugins/citations/csl/` are CC BY-SA 3.0, and
-`docs/research/obsidian.d.ts` is from the MIT-licensed `obsidianmd/obsidian-api`.
+styles in `packages/app/src/core-plugins/citations/csl/` are CC BY-SA 3.0. The
+`obsidian` type definitions come from the MIT-licensed `obsidianmd/obsidian-api`
+package on npm.
